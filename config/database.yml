@@ -20,6 +20,7 @@ test:
   database: PolyFYPman_test
 
 production:
+  encoding: utf8mb4
   # <<: *default
   # adapter: postgresql
   # url: <%= ENV['DATABASE_URL'] %>
