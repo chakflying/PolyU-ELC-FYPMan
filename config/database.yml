@@ -20,5 +20,7 @@ test:
   database: PolyFYPman_test
 
 production:
-  <<: *default
+  # <<: *default
+  adapter: postgresql
+  url: <%= ENV['DATABASE_URL'] %>
   database: PolyFYPman_pd
