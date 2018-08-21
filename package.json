@@ -1,0 +1,15 @@
+{
+  "name": "PolyFYPman",
+  "private": true,
+  "dependencies": {
+    "@rails/webpacker": "3.5",
+    "css-loader": "^1.0.0",
+    "vue": "^2.5.17",
+    "vue-loader": "14.2.2",
+    "vue-template-compiler": "^2.5.17",
+    "vue-turbolinks": "^2.0.3"
+  },
+  "devDependencies": {
+    "webpack-dev-server": "2.11.2"
+  }
+}
