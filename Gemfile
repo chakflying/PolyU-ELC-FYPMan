@@ -7,6 +7,7 @@ ruby '2.5.1'
 gem 'rails', '~> 5.2.1'
 # Use MySQL as the database for Active Record
 gem 'mysql2'
+# postgresql added for Heroku compatibility
 gem 'pg'
 
 # Use Puma as the app server
@@ -64,3 +65,7 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+# adding bootstrap for looks
+gem 'bootstrap'
+gem 'jquery-rails'

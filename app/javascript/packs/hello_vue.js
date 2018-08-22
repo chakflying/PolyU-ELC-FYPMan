@@ -11,15 +11,27 @@ import App from '../app.vue'
 
 Vue.use(TurbolinksAdapter)
 
-document.addEventListener('DOMContentLoaded', () => {
-  const el = document.body.appendChild(document.createElement('hello'))
-  const app = new Vue({
-    el,
-    render: h => h(App)
-  })
+// document.addEventListener('DOMContentLoaded', () => {
+//   const el = document.body.appendChild(document.createElement('hello'))
+//   const app = new Vue({
+//     el,
+//     render: h => h(App)
+//   })
 
-  console.log(app)
-})
+//   console.log(app)
+// })
+
+document.addEventListener('turbolinks:load', () => {
+  var element = document.getElementById("hello")
+  if (element != null) {
+    const el = document.body.appendChild(document.createElement('hello'))
+    const app = new Vue({
+      el,
+      render: h => h(App)
+    })
+  }
+  // console.log("turbolinks fired")
+});
 
 
 // The above code uses Vue without the compiler, which means you cannot
