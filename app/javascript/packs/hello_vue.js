@@ -8,8 +8,10 @@
 import TurbolinksAdapter from 'vue-turbolinks';
 import Vue from 'vue'
 import App from '../app.vue'
+import VueResource from 'vue-resource'
 
 Vue.use(TurbolinksAdapter)
+Vue.use(VueResource)
 
 // document.addEventListener('DOMContentLoaded', () => {
 //   const el = document.body.appendChild(document.createElement('hello'))
