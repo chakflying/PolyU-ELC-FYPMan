@@ -26,7 +26,7 @@ Vue.use(VueResource)
 document.addEventListener('turbolinks:load', () => {
   var element = document.getElementById("hello")
   if (element != null) {
-    const el = document.body.appendChild(document.createElement('hello'))
+    const el = element
     const app = new Vue({
       el,
       render: h => h(App)

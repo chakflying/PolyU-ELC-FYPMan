@@ -69,3 +69,5 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 # adding bootstrap for looks
 gem 'bootstrap'
 gem 'jquery-rails'
+
+gem 'bcrypt'

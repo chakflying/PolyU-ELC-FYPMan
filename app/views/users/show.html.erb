@@ -1,0 +1,8 @@
+<% provide(:title, @user.username + " - PolyU FYP Management") %>
+<div class="container">
+    <p>
+    <%= gravatar_for @user %><br>
+    <%= @user.username %>,<br>
+    <%= @user.email %>
+    </p>
+</div>
