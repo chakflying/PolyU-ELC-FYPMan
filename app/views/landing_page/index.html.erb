@@ -8,8 +8,8 @@
   <div class="col-md-6">
     <%= form_for(:session, url: login_path) do |f| %>
       <div class="form-group">
-      <%= f.label :email %>
-      <%= f.email_field :email, class: 'form-control', placeholder: "Enter email" %>
+      <%= f.label "Username or email" %>
+      <%= f.text_field :username, class: 'form-control', placeholder: "Enter username or email" %>
       </div>
       
       <div class="form-group">
