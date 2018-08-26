@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'students/index'
   get 'landing_page/index'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root to: "landing_page#index"
@@ -8,4 +9,7 @@ Rails.application.routes.draw do
   post   '/login',   to: 'sessions#create'
   delete '/logout',  to: 'sessions#destroy'
   resources :users
+  resources :students
+  resources :supervisors
+  get    '/students',to: 'students#index'
 end

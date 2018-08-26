@@ -1,0 +1,27 @@
+<div class="container">
+    <h2 class="display-2" style="margin:1em 0 0.5em 0">Manage Students</h2>
+    <table class="table">
+        <thead>
+            <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">NetID</th>
+            <th scope="col">Supervisors</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% @students.each do |student| %>
+                <tr>
+                    <th scope="row"><%= student.id %></th>
+                    <td><%= student.name %></td>
+                    <td><%= student.netID %></td>
+                    <td>
+                    <% student.supervisors.each do |supervisor| %>
+                        <%= supervisor.name %>
+                    <% end %>
+                    </td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+</div>
