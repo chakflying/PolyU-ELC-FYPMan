@@ -1,0 +1,46 @@
+<% provide(:title, 'Manage Supervisors - PolyU FYP Management') %>
+<div class="container">
+    <h2 class="display-2" style="margin:1em 0 0.5em 0">Manage supervisors</h2>
+    <%= form_for(@supervisor, url: supervisors_path) do |f| %>
+        <%= render 'shared/error_messages', obj: @supervisor %>
+        <p>Add new supervisor:</p>
+        <div class="row">
+            <div class="form-group col-md-4">
+            <%= f.text_field :name, class: "form-control", placeholder: "enter supervisor name" %>
+            </div>
+            <div class="form-group col-md-4">
+            <%= f.text_field :netID, class: "form-control", placeholder: "enter supervisor netID" %>
+            </div>
+            <div class="form-group col-md-4">
+            <%= f.text_field :department, class: "form-control", placeholder: "enter supervisor department" %>
+            </div>
+        </div>
+        <%= f.submit "Create supervisor", class: "btn btn-primary" %>
+        <% end %>
+    <br>
+    <br>
+    <table class="table">
+        <thead>
+            <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">NetID</th>
+            <th scope="col">Students</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% @supervisors.each do |supervisor| %>
+                <tr>
+                    <th scope="row"><%= supervisor.id %></th>
+                    <td><%= supervisor.name %></td>
+                    <td><%= supervisor.netID %></td>
+                    <td>
+                    <% supervisor.students.each do |student| %>
+                        <%= student.name %>
+                    <% end %>
+                    </td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+</div>

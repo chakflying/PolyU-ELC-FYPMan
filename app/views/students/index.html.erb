@@ -1,5 +1,24 @@
+<% provide(:title, 'Manage Students - PolyU FYP Management') %>
 <div class="container">
     <h2 class="display-2" style="margin:1em 0 0.5em 0">Manage Students</h2>
+    <%= form_for(@student, url: students_path) do |f| %>
+        <%= render 'shared/error_messages', obj: @student %>
+        <p>Add new Student:</p>
+        <div class="row">
+            <div class="form-group col-md-4">
+            <%= f.text_field :name, class: "form-control", placeholder: "enter student name" %>
+            </div>
+            <div class="form-group col-md-4">
+            <%= f.text_field :netID, class: "form-control", placeholder: "enter student netID" %>
+            </div>
+            <div class="form-group col-md-4">
+            <%= f.text_field :department, class: "form-control", placeholder: "enter student department" %>
+            </div>
+        </div>
+        <%= f.submit "Create student", class: "btn btn-primary" %>
+        <% end %>
+    <br>
+    <br>
     <table class="table">
         <thead>
             <tr>

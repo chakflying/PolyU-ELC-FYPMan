@@ -1,8 +1,9 @@
 <% provide(:title, @user.username + " - PolyU FYP Management") %>
 <div class="container">
+    <h2 class="display-2" style="margin:1em 0 0.5em 0">My Profile</h2>
     <p>
-    <%= gravatar_for @user %><br>
-    <%= @user.username %>,<br>
-    <%= @user.email %>
+    <%= gravatar_for @user %><br><br>
+    Username: <%= @user.username %><br><br>
+    Email: <%= @user.email %>
     </p>
 </div>

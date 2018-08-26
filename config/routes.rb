@@ -9,7 +9,10 @@ Rails.application.routes.draw do
   post   '/login',   to: 'sessions#create'
   delete '/logout',  to: 'sessions#destroy'
   resources :users
-  resources :students
-  resources :supervisors
   get    '/students',to: 'students#index'
+  post   '/students', to: 'students#create'
+  resources :students
+  get    '/supervisors',to: 'supervisors#index'
+  post   '/supervisors', to: 'supervisors#create'
+  resources :supervisors
 end

@@ -1,6 +1,5 @@
-class Student < ApplicationRecord
+class Supervisor < ApplicationRecord
     validates :name, presence: true, length: { maximum: 255 }
     validates :netID, presence: true, length: { maximum: 255 }, uniqueness: { case_sensitive: false }
-    has_and_belongs_to_many :supervisors
-
+    has_and_belongs_to_many :students
 end
