@@ -1,0 +1,13 @@
+<% provide(:title, 'Assign Students - PolyU FYP Management') %>
+<div class="container">
+    <h2 class="display-2" style="margin:1em 0 0.5em 0">Assign Students</h2>
+
+    <%= content_tag :div,
+    id: 'assign-form-vue',
+    data: {
+        student: @student.to_json(),
+    } do %>
+
+    <% end %>
+
+</div>

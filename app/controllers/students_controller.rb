@@ -24,4 +24,8 @@ class StudentsController < ApplicationController
   def student_params
       params.require(:student).permit(:name, :netID, :department)
   end
+
+  def assign
+    @student = Student.new
+  end
 end

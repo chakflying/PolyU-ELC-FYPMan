@@ -8,6 +8,7 @@
 import TurbolinksAdapter from 'vue-turbolinks';
 import Vue from 'vue'
 import App from '../app.vue'
+import Assign from '../assign.vue'
 import VueResource from 'vue-resource'
 
 Vue.use(TurbolinksAdapter)
@@ -32,7 +33,21 @@ document.addEventListener('turbolinks:load', () => {
       render: h => h(App)
     })
   }
-  // console.log("turbolinks fired")
+});
+
+document.addEventListener('turbolinks:load', () => {
+  var element = document.getElementById("assign-form-vue")
+  if (element != null) {
+    var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+    const el = element
+    const app = new Vue({
+      el,
+      data: {
+        csrfToken: csrfToken
+      },
+      render: h => h(Assign)
+    })
+  }
 });
 
 

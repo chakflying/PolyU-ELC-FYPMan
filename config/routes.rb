@@ -15,4 +15,6 @@ Rails.application.routes.draw do
   get    '/supervisors',to: 'supervisors#index'
   post   '/supervisors', to: 'supervisors#create'
   resources :supervisors
+  get   '/assign',  to: 'students#assign'
+  post   '/assign',  to: 'students#assign'
 end
