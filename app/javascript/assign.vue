@@ -20,6 +20,7 @@
         <button v-on:click="submit()" class="btn btn-primary">Submit</button>
     </div>
     <div class="col-sm-3"></div>
+    <p>Remark: Backend not working yet</p>
     <!-- <input class="" v-model="message" placeholder="edit me"> -->
   </div>
 </template>
