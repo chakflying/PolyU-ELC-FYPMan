@@ -38,13 +38,9 @@ document.addEventListener('turbolinks:load', () => {
 document.addEventListener('turbolinks:load', () => {
   var element = document.getElementById("assign-form-vue")
   if (element != null) {
-    var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
     const el = element
     const app = new Vue({
       el,
-      data: {
-        csrfToken: csrfToken
-      },
       render: h => h(Assign)
     })
   }

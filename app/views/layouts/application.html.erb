@@ -22,7 +22,12 @@
   <body>
     <%= render 'layouts/header' %>
     <% flash.each do |message_type, message| %>
-      <div class="site-alert text-center alert alert-<%= message_type %>"><%= message %></div>
+      <div class="text-center site-alert alert alert-<%= message_type %> alert-dismissible fade show">
+      <%= message %>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      </div>
     <% end %>
     <%= yield %>
     <%= debug(params) if Rails.env.development? && true %>
