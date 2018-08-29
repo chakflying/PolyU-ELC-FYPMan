@@ -23,4 +23,16 @@ class SupervisorsController < ApplicationController
     def supervisor_params
         params.require(:supervisor).permit(:name, :netID, :department)
     end
+
+    def getSupervisorName
+        if request.post?
+            sup_id = request.params[:netID]
+            sup = Supervisor.find_by(netID: sup_id)
+            if !sup
+                render plain: "Supervisor not found"
+            else
+                render plain: sup.name
+            end
+        end
+    end
   end

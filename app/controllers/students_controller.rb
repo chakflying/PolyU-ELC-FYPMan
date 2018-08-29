@@ -48,4 +48,16 @@ class StudentsController < ApplicationController
         render plain: "submitted"
     end
   end
+
+  def getStudentName
+    if request.post?
+        stu_id = request.params[:netID]
+        stu = Student.find_by(netID: stu_id)
+        if !stu
+            render plain: "Student not found"
+        else
+            render plain: stu.name
+        end
+    end
+  end
 end
