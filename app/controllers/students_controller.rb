@@ -60,4 +60,23 @@ class StudentsController < ApplicationController
         end
     end
   end
+
+  def removeSupervisor
+    sup_id = request.params[:sup_netID]
+    stu_id = request.params[:stu_netID]
+    @students = Student.all
+    @student = Student.find_by(netID: stu_id)
+    sup = Supervisor.find_by(netID: sup_id)
+    if !@student
+        flash[:danger] = "Student not found"
+        redirect_to '/students'
+    elsif !sup
+        flash[:danger] = "Supervisor not found"
+        redirect_to '/students'
+    else
+        @student.supervisors.delete(sup)
+        flash[:success] = "Supervisor removed successfully."
+        redirect_to '/students'
+    end
+  end
 end

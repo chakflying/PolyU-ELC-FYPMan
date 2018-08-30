@@ -35,9 +35,18 @@
                     <td><%= student.name %></td>
                     <td><%= student.netID %></td>
                     <td>
+                    <div class="row">
                     <% student.supervisors.each do |supervisor| %>
-                        <%= supervisor.name %>
+                        <div class="col-md-4">
+                        <%= form_for @student, :url => {:action => "removeSupervisor"} do |f| %>
+                            <%= hidden_field_tag :stu_netID, student.netID %>
+                            <%= hidden_field_tag :sup_netID, supervisor.netID %>
+                            <%= supervisor.name %>
+                            <%= f.submit "remove", class: "btn btn-sm btn-white", style: "padding-top:0.1em;border-radius:0.5rem" %>
+                        <% end %>
+                        </div>
                     <% end %>
+                    </div>
                     </td>
                 </tr>
             <% end %>

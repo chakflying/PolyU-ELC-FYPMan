@@ -19,4 +19,6 @@ Rails.application.routes.draw do
   post   '/assign',  to: 'students#assign'
   post   '/getStudentName', to: 'students#getStudentName'
   post   '/getSupervisorName', to: 'supervisors#getSupervisorName'
+  post   '/removeStudent', to: 'supervisors#removeStudent'
+  post   '/removeSupervisor', to: 'students#removeSupervisor'
 end
