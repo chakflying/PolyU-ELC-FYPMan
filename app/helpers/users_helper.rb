@@ -14,4 +14,8 @@ module UsersHelper
       end
       return @current_user.admin
     end
+
+    def set_last_seen_at
+      current_user.update_column(:last_seen_at, Time.now)
+    end
   end

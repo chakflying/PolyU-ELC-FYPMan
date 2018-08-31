@@ -3,4 +3,6 @@ class ApplicationController < ActionController::Base
     include SessionsHelper
     include UsersHelper
 
+    before_action :set_last_seen_at, if: proc { logged_in? && (current_user.last_seen_at.nil? || current_user.last_seen_at < 15.minutes.ago) }
+
 end
