@@ -3,6 +3,7 @@ class SupervisorsController < ApplicationController
     def index
         if is_admin?
             @supervisors = Supervisor.all
+            @departments_list = get_departments_list
         else
             @supervisors = Supervisor.where(department: current_user.department)
         end

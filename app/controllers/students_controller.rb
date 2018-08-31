@@ -3,6 +3,7 @@ class StudentsController < ApplicationController
   def index
     if is_admin?
         @students = Student.all
+        @departments_list = get_departments_list
     else
         @students = Student.where(department: current_user.department)
     end
