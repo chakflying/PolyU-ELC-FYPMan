@@ -5,9 +5,9 @@
     <%= content_tag :div,
     id: 'assign-form-vue',
     data: {
-        student: @student.to_json(),
-    } do %>
-
+        students: @students,
+        supervisors: @supervisors,
+    }.to_json() do %>
     <% end %>
 
 </div>

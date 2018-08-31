@@ -30,19 +30,24 @@ document.addEventListener('turbolinks:load', () => {
     const el = element
     const app = new Vue({
       el,
-      render: h => h(App)
-    })
+      render: h => h(App),
+      mixins: [TurbolinksAdapter],
+    });
   }
 });
 
 document.addEventListener('turbolinks:load', () => {
   var element = document.getElementById("assign-form-vue")
-  if (element != null) {
+  if (element == null) {
+    return;
+  }
+  const props = JSON.parse(element.getAttribute('data'))
+  if (element != null && props != null) {
     const el = element
     const app = new Vue({
       el,
-      render: h => h(Assign)
-    })
+      render: h => h(Assign, { props }),
+    });
   }
 });
 

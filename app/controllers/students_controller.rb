@@ -39,7 +39,13 @@ class StudentsController < ApplicationController
   end
 
   def assign
-    @student = Student.new
+    if is_admin?
+        @students = Student.all
+        @supervisors = Supervisor.all
+    else
+        @students = Student.where(department: current_user.department)
+        @supervisors = Supervisor.where(department: current_user.department)
+    end
     if request.post?
         stu_ids = request.params[:student_netID].values
         sup_id = (request.params[:supervisor_netID].values)[0].to_s

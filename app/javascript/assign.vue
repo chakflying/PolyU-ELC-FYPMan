@@ -26,6 +26,7 @@
 
 <script>
 export default {
+    props: ['students', 'supervisors'], 
     data: function () {
         return {
         message: "Vue.js is working.",
