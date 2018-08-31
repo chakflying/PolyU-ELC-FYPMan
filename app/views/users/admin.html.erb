@@ -1,0 +1,25 @@
+<% provide(:title, 'Admin - PolyU FYP Management') %>
+<div class="container">
+    <h2 class="display-2" style="margin:1em 0 0.5em 0">Manage Users</h2>
+    <br>
+    <table class="table manage-table">
+        <thead>
+            <tr>
+            <th scope="col">#</th>
+            <th scope="col">Username</th>
+            <th scope="col">Email</th>
+            <th scope="col">Department</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% @users.each do |user| %>
+                <tr>
+                    <th scope="row"><%= user.id %></th>
+                    <td><%= user.username %></td>
+                    <td><%= user.email %></td>
+                    <td><%= user.department %></td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+</div>

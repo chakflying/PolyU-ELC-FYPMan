@@ -3,6 +3,14 @@ class StudentsController < ApplicationController
   def index
     @students = Student.all
     @student = Student.new
+    @fyp_year_list = [
+        [Time.now.year.to_s + '-' + (Time.now.year + 1).to_s, Time.now.year.to_s + '-' + (Time.now.year + 1).to_s],
+        [(Time.now.year + 1).to_s + '-' + (Time.now.year + 2).to_s, (Time.now.year + 1).to_s + '-' + (Time.now.year + 2).to_s],
+        [(Time.now.year + 2).to_s + '-' + (Time.now.year + 3).to_s, (Time.now.year + 2).to_s + '-' + (Time.now.year + 3).to_s],
+        [(Time.now.year + 3).to_s + '-' + (Time.now.year + 4).to_s, (Time.now.year + 3).to_s + '-' + (Time.now.year + 4).to_s],
+        [(Time.now.year + 4).to_s + '-' + (Time.now.year + 5).to_s, (Time.now.year + 4).to_s + '-' + (Time.now.year + 5).to_s],
+        [(Time.now.year + 5).to_s + '-' + (Time.now.year + 6).to_s, (Time.now.year + 5).to_s + '-' + (Time.now.year + 6).to_s],
+    ]
   end
 
   def new
@@ -22,7 +30,7 @@ class StudentsController < ApplicationController
   end
 
   def student_params
-      params.require(:student).permit(:name, :netID, :department)
+      params.require(:student).permit(:name, :netID, :department, :fyp_year)
   end
 
   def assign

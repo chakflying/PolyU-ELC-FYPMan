@@ -5,4 +5,13 @@ module UsersHelper
       gravatar_url = "https://secure.gravatar.com/avatar/#{gravatar_id}?s=#{size}"
       image_tag(gravatar_url, alt: user.username, class: "gravatar")
     end
+
+    def is_admin?
+      if session[:user_id]
+        @current_user ||= User.find_by(id: session[:user_id])
+      else
+        return false
+      end
+      return @current_user.admin
+    end
   end

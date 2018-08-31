@@ -2,8 +2,10 @@
 <div class="container">
     <h2 class="display-2" style="margin:1em 0 0.5em 0">My Profile</h2>
     <p>
-    <%= gravatar_for @user %><br><br>
+    <%= gravatar_for @user %><br>
+    Manage your Avatar in <%= link_to "Gravatar", "https://www.gravatar.com" %><br><br>
     Username: <%= @user.username %><br><br>
-    Email: <%= @user.email %>
+    My Email: <%= @user.email %><br><br>
+    My Department: <%= @user.department %>
     </p>
 </div>
