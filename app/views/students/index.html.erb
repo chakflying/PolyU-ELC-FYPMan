@@ -38,6 +38,7 @@
             <th scope="col">#</th>
             <th scope="col">Name</th>
             <th scope="col">NetID</th>
+            <th scope="col">FYP Year</th>
             <th scope="col">Supervisors</th>
             </tr>
         </thead>
@@ -47,14 +48,17 @@
                     <th scope="row"><%= student.id %></th>
                     <td><%= student.name %></td>
                     <td><%= student.netID %></td>
+                    <td><%= student.fyp_year %></td>
                     <td>
-                    <div class="row">
+                    <div class="col-sm-7">
                     <% student.supervisors.each do |supervisor| %>
-                        <div class="col-md-4">
-                        <%= form_for @student, :url => {:action => "removeSupervisor"} do |f| %>
+                        <div class="row" style="margin-bottom:0.3em">
+                        <div class="col-sm-9">
+                            <%= supervisor.name %>
+                        </div>
+                        <%= form_for @student, :url => {:action => "removeSupervisor"}, html: {class: "col-sm-3"} do |f| %>
                             <%= hidden_field_tag :stu_netID, student.netID %>
                             <%= hidden_field_tag :sup_netID, supervisor.netID %>
-                            <%= supervisor.name %>
                             <%= f.submit "remove", class: "btn btn-sm btn-white", style: "padding-top:0.1em;border-radius:0.5rem" %>
                         <% end %>
                         </div>
