@@ -1,7 +1,11 @@
 class SupervisorsController < ApplicationController
     before_action :authenticate_user!
     def index
-      @supervisors = Supervisor.all
+        if is_admin?
+            @supervisors = Supervisor.all
+        else
+            @supervisors = Supervisor.where(department: current_user.department)
+        end
       @supervisor = Supervisor.new
     end
   

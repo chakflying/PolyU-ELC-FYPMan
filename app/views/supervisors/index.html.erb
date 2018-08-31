@@ -1,6 +1,12 @@
 <% provide(:title, 'Manage Supervisors - PolyU FYP Management') %>
 <div class="container">
-    <h2 class="display-2" style="margin:1em 0 0.5em 0">Manage supervisors</h2>
+    <h2 class="display-2" style="margin:1em 0 0.4em 0">Manage Supervisors</h2>
+    <% if is_admin? %>
+    <h5 class="display-5">You are viewing all supervisors.</h5>
+    <% else %>
+    <h5 class="display-5">You are viewing supervisors from <%= current_user.department %>.</h5>
+    <% end %>
+    <br>
     <%= form_for(@supervisor, url: supervisors_path) do |f| %>
         <%= render 'shared/error_messages', obj: @supervisor %>
         <p>Add new supervisor:</p>
@@ -11,9 +17,7 @@
             <div class="form-group col-md-4">
             <%= f.text_field :netID, class: "form-control", placeholder: "enter supervisor netID" %>
             </div>
-            <div class="form-group col-md-4">
-            <%= f.text_field :department, class: "form-control", placeholder: "enter supervisor department" %>
-            </div>
+            <%= f.hidden_field :department, value: current_user.department %>
         </div>
         <%= f.submit "Create supervisor", class: "btn btn-primary" %>
         <% end %>
