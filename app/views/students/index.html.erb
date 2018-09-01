@@ -29,16 +29,19 @@
             <% end %>
         </div>
         <%= f.submit "Create student", class: "btn btn-primary" %>
-        <%= button_to "Batch Import", {action: "batch_import"}, {class: "btn btn-secondary"} %>
+        <%= link_to "Batch Import", {action: "batch_import"}, {class: "btn btn-secondary"} %>
         <% end %>
     <br>
     <br>
-    <table class="table manage-table">
+    <table class="table manage-table" style="font-size:14px">
         <thead>
             <tr>
             <th scope="col">#</th>
             <th scope="col">Name</th>
             <th scope="col">NetID</th>
+            <% if is_admin? %>
+            <th scope="col">Department</th>
+            <% end %>
             <th scope="col">FYP Year</th>
             <th scope="col">Supervisors</th>
             </tr>
@@ -49,6 +52,9 @@
                     <th scope="row"><%= student.id %></th>
                     <td><%= student.name %></td>
                     <td><%= student.netID %></td>
+                    <% if is_admin? %>
+                    <td><%= student.department %></td>
+                    <% end %>
                     <td><%= student.fyp_year %></td>
                     <td>
                     <div class="col-sm-7">

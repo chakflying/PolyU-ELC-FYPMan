@@ -29,7 +29,7 @@
         <% end %>
     <br>
     <br>
-    <table class="table manage-table">
+    <table class="table manage-table" style="font-size:14px">
         <thead>
             <tr>
             <th scope="col">#</th>
@@ -48,8 +48,10 @@
                     <div class="col-sm-7">
                     <% supervisor.students.each do |student| %>
                         <div class="row" style="margin-bottom:0.3em">
-                        <div class="col-sm-9">
-                        <%= student.name %>
+                        <div class="col-sm-4">
+                        <%= student.netID %>
+                        </div>
+                        <div class="col-sm-4">
                         <%= student.fyp_year %>
                         </div>
                         <%= form_for @supervisor, :url => {:action => "removeStudent"}, html: {class: "col-sm-3"} do |f| %>
