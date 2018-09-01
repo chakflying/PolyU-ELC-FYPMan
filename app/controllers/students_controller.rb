@@ -8,14 +8,7 @@ class StudentsController < ApplicationController
         @students = Student.where(department: current_user.department)
     end
     @student = Student.new
-    @fyp_year_list = [
-        [Time.now.year.to_s + '-' + (Time.now.year + 1).to_s, Time.now.year.to_s + '-' + (Time.now.year + 1).to_s],
-        [(Time.now.year + 1).to_s + '-' + (Time.now.year + 2).to_s, (Time.now.year + 1).to_s + '-' + (Time.now.year + 2).to_s],
-        [(Time.now.year + 2).to_s + '-' + (Time.now.year + 3).to_s, (Time.now.year + 2).to_s + '-' + (Time.now.year + 3).to_s],
-        [(Time.now.year + 3).to_s + '-' + (Time.now.year + 4).to_s, (Time.now.year + 3).to_s + '-' + (Time.now.year + 4).to_s],
-        [(Time.now.year + 4).to_s + '-' + (Time.now.year + 5).to_s, (Time.now.year + 4).to_s + '-' + (Time.now.year + 5).to_s],
-        [(Time.now.year + 5).to_s + '-' + (Time.now.year + 6).to_s, (Time.now.year + 5).to_s + '-' + (Time.now.year + 6).to_s],
-    ]
+    @fyp_year_list = get_fyp_years_list
   end
 
   def new
@@ -100,6 +93,36 @@ class StudentsController < ApplicationController
   end
 
   def batch_import
-    pass
+    @student = Student.new
+    @fyp_year_list = get_fyp_years_list
+    if is_admin?
+        @departments_list = get_departments_list
+    end
+
+    if request.post?
+        netID_list = request.params[:student_list][:netID_list].lines.each {|x| x.strip!}
+        name_list = request.params[:student_list][:name_list].lines.each {|x| x.strip!}
+        department = request.params[:student_list][:department]
+        fyp_year = request.params[:student_list][:fyp_year]
+        if name_list.length != netID_list.length
+            flash[:danger] = "Length of NetIDs does not match length of names. Press Enter to skip line if name isn't available."
+            redirect_back(fallback_location: batch_import_path)
+        end
+        if name_list.length > netID_list.length
+            flash[:danger] = "Every student must have a netID."
+            redirect_back(fallback_location: batch_import_path)
+        end
+        netID_list.zip(name_list).each do |netID, name|
+            print "Student " + netID.to_s + " " + name.to_s + "\n"
+            @student = Student.new(department: department, fyp_year: fyp_year, netID: netID, name: name)  
+            if !@student.save
+                flash[:danger] = "Error when saving student " + netID.to_s
+                redirect_back(fallback_location: batch_import_path)
+            end
+        end
+        flash[:success] = "All students successfully created."
+        redirect_to '/students'
+    end
   end
+
 end
