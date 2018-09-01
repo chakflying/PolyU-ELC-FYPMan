@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+    before_action :correct_user,   only: [:edit, :update]
+    before_action :authenticate_user!,   only: [:edit, :update]
 
     def show
         @user = User.find(params[:id])
@@ -9,6 +11,19 @@ class UsersController < ApplicationController
             redirect_to :root
         end
         @users = User.all
+    end
+
+    def edit
+        @departments_list = get_departments_list
+    end
+
+    def update
+        if @user.update_attributes(user_params)
+            flash[:success] = "Profile updated"
+            redirect_to @user
+          else
+            render 'edit'
+          end
     end
   
     def new
@@ -31,4 +46,8 @@ class UsersController < ApplicationController
         params.require(:user).permit(:username, :email, :password, :password_confirmation, :department)
     end
 
+    def correct_user
+        @user = User.find(params[:id])
+        redirect_to(root_url) unless (@user == current_user) or is_admin?
+      end
   end
