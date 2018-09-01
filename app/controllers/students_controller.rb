@@ -98,4 +98,8 @@ class StudentsController < ApplicationController
         redirect_to '/students'
     end
   end
+
+  def batch_import
+    pass
+  end
 end
