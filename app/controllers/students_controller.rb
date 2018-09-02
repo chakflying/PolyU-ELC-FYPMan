@@ -53,11 +53,11 @@ class StudentsController < ApplicationController
 
   def assign
     if is_admin?
-        @students = Student.all
-        @supervisors = Supervisor.all
+        @students = Student.all.select(:netID, :name).to_a
+        @supervisors = Supervisor.all.select(:netID, :name).to_a
     else
-        @students = Student.where(department: current_user.department)
-        @supervisors = Supervisor.where(department: current_user.department)
+        @students = Student.where(department: current_user.department).select(:netID, :name).to_a
+        @supervisors = Supervisor.where(department: current_user.department).select(:netID, :name).to_a
     end
     if request.post?
         stu_ids = request.params[:student_netID].values

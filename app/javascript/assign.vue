@@ -7,6 +7,11 @@
             <div class="row form-group">
                 <input v-model="student_netID_response[student_item]" v-on:input="checkStudentName($event, student_item)" type="text" class="form-control col-sm-7" placeholder="Student netID">
                 <div class="col-sm-5" style="padding-top: 0.3em">{{ student_name[student_item] }}</div>
+            <select v-model="student_netID_response[student_item]" class="form-control col-sm-7">
+                <template v-for="student in students">
+                    <option :value="student">{{ student }}</option>
+                </template>
+            </select>
             </div>
         </template>
         <button v-on:click="add_student_field()" class="btn btn-secondary">Add another student</button>
@@ -16,6 +21,11 @@
         <div class="row form-group">
             <input v-model="supervisor_netID_response[1]" v-on:input="checkSupervisorName($event)" type="text" class="form-control col-sm-7" placeholder="Supervisor netID" id="assign_sup_field">
         <div class="col-sm-5" style="padding-top: 0.3em">{{ supervisor_name }}</div>
+        <select v-model="supervisor_netID_response[1]" class="form-control col-sm-7">
+            <template v-for="supervisor in supervisors">
+                <option :value="supervisor">{{ supervisor }}</option>
+            </template>
+        </select>
         </div>
         <button v-on:click="submit()" class="btn btn-primary" id="assign_submit_btn">Submit</button>
     </div>
