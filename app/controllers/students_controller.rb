@@ -31,6 +31,26 @@ class StudentsController < ApplicationController
       params.require(:student).permit(:name, :netID, :department, :fyp_year)
   end
 
+  def update
+    @student = Student.find(params[:id])
+    @departments_list = get_departments_list
+    @fyp_year_list = get_fyp_years_list
+    if request.patch?
+        if @student.update_attributes(student_params)
+            flash[:success] = "Student updated."
+            redirect_to '/students'
+        else
+            render 'update'
+        end
+    end
+  end
+
+  def destroy
+    Student.find(params[:id]).destroy
+    flash[:success] = "Student deleted."
+    redirect_to '/students'
+  end
+
   def assign
     if is_admin?
         @students = Student.all

@@ -29,6 +29,12 @@ class SupervisorsController < ApplicationController
         params.require(:supervisor).permit(:name, :netID, :department)
     end
 
+    def destroy
+        Supervisor.find(params[:id]).destroy
+        flash[:success] = "Supervisor deleted."
+        redirect_to '/supervisors'
+    end
+
     def getSupervisorName
         if request.post?
             sup_id = request.params[:netID]

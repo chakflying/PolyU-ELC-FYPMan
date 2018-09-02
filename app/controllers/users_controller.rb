@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-    before_action :correct_user,   only: [:edit, :update]
-    before_action :authenticate_user!,   only: [:edit, :update]
+    before_action :correct_user,   only: [:edit, :update, :destroy]
+    before_action :authenticate_user!,   only: [:edit, :update, :destroy]
 
     def show
         @user = User.find(params[:id])
@@ -19,7 +19,7 @@ class UsersController < ApplicationController
 
     def update
         if @user.update_attributes(user_params)
-            flash[:success] = "Profile updated"
+            flash[:success] = "Profile updated."
             redirect_to @user
           else
             render 'edit'
@@ -40,6 +40,15 @@ class UsersController < ApplicationController
             # flash[:danger] = "test"
             render 'new'
         end
+    end
+
+    def destroy
+        f = User.find(params[:id])
+        name = f.username
+        if f.destroy
+            flash[:success] = "User " + name + " deleted."
+        end
+        redirect_to '/admin'
     end
 
     def user_params

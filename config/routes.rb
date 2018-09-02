@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   resources :users
   get    '/students',to: 'students#index'
   post   '/students', to: 'students#create'
+  get    '/students/:id', to: 'students#update'
   get    '/batch_import', to: 'students#batch_import'
   post   '/batch_import', to: 'students#batch_import'
   resources :students
