@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   resources :students
   get    '/supervisors',to: 'supervisors#index'
   post   '/supervisors', to: 'supervisors#create'
+  get    '/supervisors/:id', to: 'supervisors#update'
   resources :supervisors
   get   '/assign',  to: 'students#assign'
   post   '/assign',  to: 'students#assign'

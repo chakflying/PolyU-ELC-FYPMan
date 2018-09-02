@@ -29,6 +29,20 @@ class SupervisorsController < ApplicationController
         params.require(:supervisor).permit(:name, :netID, :department)
     end
 
+    def update
+        @supervisor = Supervisor.find(params[:id])
+        @departments_list = get_departments_list
+        @fyp_year_list = get_fyp_years_list
+        if request.patch?
+            if @supervisor.update_attributes(supervisor_params)
+                flash[:success] = "Supervisor updated."
+                redirect_to '/supervisors'
+            else
+                render 'update'
+            end
+        end
+      end
+
     def destroy
         Supervisor.find(params[:id]).destroy
         flash[:success] = "Supervisor deleted."
