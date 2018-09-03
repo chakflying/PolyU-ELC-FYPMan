@@ -33,7 +33,7 @@
         <% end %>
     <br>
     <br>
-    <table class="table manage-table" style="font-size:14px">
+    <table class="table manage-table" style="font-size:14px; width:100%">
         <thead>
             <tr>
             <th scope="col">#</th>
@@ -58,16 +58,16 @@
                     <% end %>
                     <td><%= student.fyp_year %></td>
                     <td>
-                    <div class="col-sm-7">
+                    <div class="col-sm-12">
                     <% student.supervisors.each do |supervisor| %>
-                        <div class="row" style="margin-bottom:0.3em">
+                        <div class="row" style="margin-bottom:0.3em;margin-right:5px">
                         <div class="col-sm-9">
                             <%= supervisor.name %>
                         </div>
                         <%= form_for @student, :url => {:action => "removeSupervisor"}, html: {class: "col-sm-3"} do |f| %>
                             <%= hidden_field_tag :stu_netID, student.netID %>
                             <%= hidden_field_tag :sup_netID, supervisor.netID %>
-                            <%= f.submit "remove", class: "btn btn-sm btn-white", style: "padding-top:0.1em;border-radius:0.5rem" %>
+                            <%= f.submit "remove", class: "row btn btn-sm btn-white", style: "padding-top:0.1em;border-radius:0.5rem" %>
                         <% end %>
                         </div>
                     <% end %>
@@ -75,11 +75,11 @@
                     </td>
                     <td>
                         <%= link_to student, method: :get, data: {} do %>
-                            <button class="btn btn-sm btn-info" style="width:35px"><i class="fas fa-user-edit"></i></button>
+                            <button class="btn btn-sm btn-info" style="width:35px;margin-bottom:5px"><i class="fas fa-user-edit"></i></button>
                         <% end %>
                         <%= link_to student, method: :delete,
                                   data: { confirm: "Do you want to delete this student?" } do %>
-                            <button class="btn btn-sm btn-danger" style="width:35px"><i class="fas fa-trash"></i></button>
+                            <button class="btn btn-sm btn-danger" style="width:35px;margin-bottom:5px"><i class="fas fa-trash"></i></button>
                         <% end %>
                     </td>
                 </tr>

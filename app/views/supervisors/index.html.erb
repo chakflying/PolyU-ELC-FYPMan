@@ -29,12 +29,15 @@
         <% end %>
     <br>
     <br>
-    <table class="table manage-table" style="font-size:14px">
+    <table class="table manage-table" style="font-size:14px; width:100%">
         <thead>
             <tr>
             <th scope="col">#</th>
             <th scope="col">Name</th>
             <th scope="col">NetID</th>
+            <% if is_admin? %>
+            <th scope="col">Department</th>
+            <% end %>
             <th scope="col">Students</th>
             <th scope="col"></th>
             </tr>
@@ -45,10 +48,13 @@
                     <th scope="row"><%= supervisor.id %></th>
                     <td><%= supervisor.name %></td>
                     <td><%= supervisor.netID %></td>
+                    <% if is_admin? %>
+                    <td><%= supervisor.department %></td>
+                    <% end %>
                     <td>
-                    <div class="col-sm-7">
+                    <div class="col-sm-12">
                     <% supervisor.students.each do |student| %>
-                        <div class="row" style="margin-bottom:0.3em">
+                        <div class="row" style="margin-bottom:0.3em;margin-right:5px">
                         <div class="col-sm-4">
                         <%= student.netID %>
                         </div>
