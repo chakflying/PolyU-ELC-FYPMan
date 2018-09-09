@@ -53,8 +53,8 @@ document.addEventListener('turbolinks:load', () => {
   for (i = 0; i < supervisor_netIDs.length; i += 1) {
     supervisor_dropdown_list.push(supervisor_netIDs[i]);
   }
-  console.log("Logggggg");
-  console.log(student_dropdown_list);
+  // console.log("Logggggg");
+  // console.log(student_dropdown_list);
   const props = {students: student_dropdown_list, supervisors: supervisor_dropdown_list}
 
   if (element != null && props != null) {
