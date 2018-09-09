@@ -1,9 +1,7 @@
-import TurbolinksAdapter from 'vue-turbolinks';
 import Vue from 'vue'
 import VueResource from 'vue-resource'
 import Timeline from '../timeline.vue'
 
-Vue.use(TurbolinksAdapter)
 Vue.use(VueResource)
 
 document.addEventListener('turbolinks:load', () => {
