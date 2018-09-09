@@ -29,7 +29,6 @@ document.addEventListener('turbolinks:load', () => {
     const app = new Vue({
       el,
       render: h => h(App),
-      mixins: [TurbolinksAdapter],
     });
   }
 });
