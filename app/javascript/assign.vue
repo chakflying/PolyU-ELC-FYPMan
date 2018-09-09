@@ -5,9 +5,11 @@
         <label for="student_netID">Assign student(s):</label>
         <template v-for="student_item in student_set">
             <div class="form-group">
-                <input v-model="student_netID_response[student_item]" v-on:input="checkStudentName($event, student_item)" type="text" class="form-control col-sm-7" placeholder="Student netID">
-                <div class="col-sm-5" style="padding-top: 0.3em">{{ student_name[student_item] }}</div>
-            <select v-model="student_netID_response[student_item]" class="form-control col-sm-7">
+                <div class="row" style="margin:0">
+                    <input v-model="student_netID_response[student_item]" v-on:input="checkStudentName($event, student_item)" type="text" class="form-control col-sm-7" placeholder="Student netID">
+                    <div class="col-sm-5" style="padding-top: 0.3em">{{ student_name[student_item] }}</div>
+                </div>
+            <select v-model="student_netID_response[student_item]" v-on:input="checkStudentName($event, student_item)" class="form-control col-sm-7">
                 <template v-for="student in students">
                     <option :value="student">{{ student }}</option>
                 </template>
@@ -19,9 +21,11 @@
         <br>
         <label for="student_netID">to supervisor:</label>
         <div class="form-group">
-            <input v-model="supervisor_netID_response[1]" v-on:input="checkSupervisorName($event)" type="text" class="form-control col-sm-7" placeholder="Supervisor netID" id="assign_sup_field">
-        <div class="col-sm-5" style="padding-top: 0.3em">{{ supervisor_name }}</div>
-        <select v-model="supervisor_netID_response[1]" class="form-control col-sm-7">
+            <div class="row" style="margin:0">
+                <input v-model="supervisor_netID_response[1]" v-on:input="checkSupervisorName($event)" type="text" class="form-control col-sm-7" placeholder="Supervisor netID" id="assign_sup_field">
+                <div class="col-sm-5" style="padding-top: 0.3em">{{ supervisor_name }}</div>
+            </div>
+        <select v-model="supervisor_netID_response[1]" v-on:input="checkSupervisorName($event)" class="form-control col-sm-7">
             <template v-for="supervisor in supervisors">
                 <option :value="supervisor">{{ supervisor }}</option>
             </template>
