@@ -58,7 +58,7 @@
                 
                 a {
                   color: #999;
-                  font-size: 11px;
+                  font-size: 15px;
                   padding: 0 5px;
                   
                   &:hover {
@@ -71,6 +71,9 @@
               
               .controls + .timestamp {
                 padding-left: 5px;
+                padding-right: 10px;
+                padding-top: 12px;
+                font-size: 150%;
               }
             }
           }
@@ -80,16 +83,16 @@
             background-color: #999;
             border-radius: 50%;
             color: #fff;
-            font-size: 1.4em;
+            font-size: 1em;
             height: 50px;
             left: 50px;
-            line-height: 52px;
+            line-height: 49px;
             margin-left: -25px;
             position: absolute;
             text-align: center;
             top: 16px;
             width: 50px;
-            z-index: 100;
+            z-index: 1;
         }
 
         .timeline-badge + .timeline-panel {
@@ -149,7 +152,7 @@
   color: inherit;
 }
 
-.timeline-body {
+.timeline-description {
     > p,
     > ul {
         margin-bottom: 0;

@@ -13,11 +13,11 @@
                             </a>
                         </div>
                         <div class="timestamp">
-                            <small class="text-muted">{{ item.created }}</small>
+                            <span class="text-muted">{{ item.eta }}</span>
                         </div>
                     </div>
                 </div>
-                <div class="timeline-body" v-html="item.body"></div>
+                <div class="timeline-description" v-html="item.description"></div>
             </div>
         </div>
     </li>
@@ -33,12 +33,33 @@ export default {
     props: ['item'],
         
     methods: {
-        delete: function() {
-            this.$dispatch('timeline-delete-item', this.item.id)
+        delete: function(event) {
+            // this.$dispatch('timeline-delete-item', this.item.id)
+            var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            console.log(this);
+            this.$http.delete('/todos', {body: {id: this.item.id}, headers: {'X-CSRF-Token': csrfToken}}).then(response => {
+                // get status
+            response.status;
+            if(response.body == "submitted") {
+                Turbolinks.visit(window.location);
+            }
+
+            // get status text
+            response.statusText;
+
+            // get 'Expires' header
+            response.headers.get('Expires');
+
+            // get body data
+            // console.log(response.body);
+
+            }, response => {
+                // error callback
+            });
         },
         
-        edit: function() {
-            
+        edit: function(event) {
+            Turbolinks.visit('/todos/' + this.item.id);
         }
     },
     

@@ -16,7 +16,7 @@
         <li class="nav-item"><%= link_to "Manage Supervisors", '/supervisors', class: "nav-link"  %></li>
         <li class="nav-item"><%= link_to "Assign Students", '/assign', class: "nav-link"  %></li>
         <li class="nav-item"><%= link_to "Edit My Profile", edit_user_path(current_user), class: "nav-link" %></li>
-        <li class="nav-item"><%= link_to "Todo List", '/todo', class: "nav-link"  %></li>
+        <li class="nav-item"><%= link_to "Todo List", '/todos', class: "nav-link"  %></li>
         <li class="nav-item"><%= link_to "Log out", logout_path, method: :delete, class: "nav-link"  %></li>
         <% else %>
         <li class="nav-item"><%= link_to "Log in", '/', class: "nav-link" %></li>

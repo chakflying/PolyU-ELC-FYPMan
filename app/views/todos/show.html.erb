@@ -1,0 +1,37 @@
+<% provide(:title, 'Todo List - PolyU FYP Management') %>
+<div class="container">
+    <h2 class="display-2" style="margin:1em 0 0.5em 0">Todo List</h2>
+    <%= form_for(@todo, url: todos_path) do |f| %>
+        <%= render 'shared/error_messages', obj: @todo %>
+        <p>Add new todo item:</p>
+        <div class="form-row">
+            <div class="form-group col-md-8">
+            <%= f.text_field :title, class: "form-control", placeholder: "Enter title", required: true %>
+            </div>
+            <div class="form-group col-md-4 form-row" style="margin:0;">
+            <%= f.date_select :eta, {order: [:month, :day, :year], prompt: { day: 'Select day', month: 'Select month', year: 'Select year' }, start_year: Date.today.year, end_year: Date.today.year + 2, use_short_month: true, selected: 1.days.from_now}, {class: "form-control col-md-4", required: true} %>
+            </div>
+        </div>
+        <div class="form-row">
+            <% if is_admin? %>
+            <div class="form-group col-md-12">
+            <%= f.select :department, @departments_list, {prompt: "Select Department:"}, {class: "form-control"} %>
+            </div>
+            <% else %>
+            <%= f.hidden_field :department, value: current_user.department %>
+            <% end %>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-12">
+            <%= f.text_area :description, {placeholder: "Enter description (Optional)", rows: 3, class: "form-control"} %>
+            </div>
+        </div>
+        <%= f.submit "Add to Todo List", class: "btn btn-primary" %>
+    <% end %>
+    <%= content_tag :div,
+    id: 'todo',
+    data: {
+        items2: @todolist,
+    }.to_json() do %>
+    <% end %>
+</div>

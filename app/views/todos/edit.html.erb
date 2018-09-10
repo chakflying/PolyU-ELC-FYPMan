@@ -1,0 +1,37 @@
+<% provide(:title, "Edit Todo Item - PolyU FYP Management") %>
+<div class="container">
+    <h2 class="display-2" style="margin:1em 0 0.5em 0">Edit Todo Item</h2>
+
+    <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <%= form_for(@todo) do |f| %>
+        <%= render 'shared/error_messages', obj: @todo %>
+
+        <div class="form-group">
+        <%= f.label :title %>
+        <%= f.text_field :title, class: 'form-control', required: true %>
+        </div>
+
+        <div class="form-group">
+        <%= f.label "Date" %>
+        <div class="form-row" style="margin:0;">
+            <%= f.date_select :eta, {order: [:month, :day, :year], prompt: { day: 'Select day', month: 'Select month', year: 'Select year' }, start_year: Date.today.year, end_year: Date.today.year + 2, use_short_month: true, selected: 1.days.from_now}, {class: "form-control col-md-4", required: true} %>
+        </div>
+        </div>
+
+        <div class="form-group">
+        <%= f.label :department %>
+        <%= f.select :department, @departments_list, {}, {class: "form-control", disabled: !is_admin?} %>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-12">
+            <%= f.text_area :description, {placeholder: "Enter description (Optional)", rows: 3, class: "form-control"} %>
+            </div>
+        </div>
+        <br>
+        <%= f.submit "Save changes", class: "btn btn-primary" %>
+        <% end %>
+    </div>
+    </div>
+</div>

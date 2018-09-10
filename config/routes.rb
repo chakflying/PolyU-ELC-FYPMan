@@ -26,7 +26,9 @@ Rails.application.routes.draw do
   post   '/getSupervisorName', to: 'supervisors#getSupervisorName'
   post   '/removeStudent', to: 'supervisors#removeStudent'
   post   '/removeSupervisor', to: 'students#removeSupervisor'
-  get    '/todo',       to: 'todo#show'
-  post   '/todo',       to: 'todo#create'
-  delete '/todo',       to: 'todo#destroy'
+  get    '/todos',       to: 'todos#show'
+  post   '/todos',       to: 'todos#create'
+  get    '/todos/:id',   to: 'todos#edit'
+  delete '/todos',       to: 'todos#destroy'
+  resources :todos
 end
