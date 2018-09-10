@@ -3,7 +3,7 @@ class TodosController < ApplicationController
         if is_admin?
             @todolist = Todo.all.order("eta ASC").to_a
         else
-            @todolist = Todo.where(department: current_user.department).order("eta ASC").to_a
+            @todolist = Todo.where(department: current_user.department).or(Todo.where(department: "")).order("eta ASC").to_a
         end
         @todo = Todo.new
         @departments_list = get_departments_list
