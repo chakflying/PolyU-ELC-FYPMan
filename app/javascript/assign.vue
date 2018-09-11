@@ -22,7 +22,7 @@
         <label for="student_netID">to supervisor:</label>
         <div class="form-group">
             <div class="row" style="margin:0">
-                <input v-model="supervisor_netID_response[1]" v-on:input="checkSupervisorName($event)" type="text" class="form-control col-sm-7" placeholder="Supervisor netID" id="assign_sup_field">
+                <input v-model="supervisor_netID_response[1]" v-on:input="checkSupervisorName($event)" type="text" class="form-control col-sm-7" placeholder="Supervisor netID" required="true" id="assign_sup_field">
                 <div class="col-sm-5" style="padding-top: 0.3em">{{ supervisor_name }}</div>
             </div>
         <select v-model="supervisor_netID_response[1]" v-on:input="checkSupervisorName($event)" class="form-control col-sm-7">

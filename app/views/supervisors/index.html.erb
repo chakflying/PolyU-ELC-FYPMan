@@ -15,7 +15,7 @@
             <%= f.text_field :name, class: "form-control", placeholder: "enter supervisor name" %>
             </div>
             <div class="form-group col-md-4">
-            <%= f.text_field :netID, class: "form-control", placeholder: "enter supervisor netID" %>
+            <%= f.text_field :netID, class: "form-control", placeholder: "enter supervisor netID", required: true %>
             </div>
             <% if is_admin? %>
             <div class="form-group col-md-12">

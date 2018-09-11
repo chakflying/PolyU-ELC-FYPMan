@@ -15,7 +15,11 @@ class TodosController < ApplicationController
             flash[:success] = "Todo item successfully added!"
             redirect_to '/todos'
         else
-            # flash[:danger] = "test"
+            if request.params[:eta].nil?
+                flash[:danger] = "Todo date cannot be empty. Please set date."
+            else
+                flash[:danger] = "Create todo item unsuccessful."
+            end
             @todolist = Todo.all
             @todo = Todo.new
             @departments_list = get_departments_list

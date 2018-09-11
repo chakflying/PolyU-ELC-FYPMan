@@ -15,10 +15,10 @@
             <%= f.text_field :name, class: "form-control", placeholder: "enter student name" %>
             </div>
             <div class="form-group col-md-4">
-            <%= f.text_field :netID, class: "form-control", placeholder: "enter student netID" %>
+            <%= f.text_field :netID, class: "form-control", placeholder: "enter student netID", required: true %>
             </div>
             <div class="form-group col-md-4">
-            <%= f.select :fyp_year, @fyp_year_list, {prompt: "Select FYP Year:"}, {class: "form-control"} %>
+            <%= f.select :fyp_year, @fyp_year_list, {prompt: "Select FYP Year:"}, {class: "form-control", required: true} %>
             </div>
             <% if is_admin? %>
             <div class="form-group col-md-12">
