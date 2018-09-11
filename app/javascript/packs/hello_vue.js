@@ -6,21 +6,12 @@
 // All it does is render <div>Hello Vue</div> at the bottom of the page.
 
 import Vue from 'vue'
+import VueResource from 'vue-resource'
 import App from '../app.vue'
 import Assign from '../assign.vue'
-import VueResource from 'vue-resource'
+import Timeline from '../timeline.vue'
 
 Vue.use(VueResource)
-
-// document.addEventListener('DOMContentLoaded', () => {
-//   const el = document.body.appendChild(document.createElement('hello'))
-//   const app = new Vue({
-//     el,
-//     render: h => h(App)
-//   })
-
-//   console.log(app)
-// })
 
 document.addEventListener('turbolinks:load', () => {
   var element = document.getElementById("hello")
@@ -52,8 +43,6 @@ document.addEventListener('turbolinks:load', () => {
   for (i = 0; i < supervisor_netIDs.length; i += 1) {
     supervisor_dropdown_list.push(supervisor_netIDs[i]);
   }
-  // console.log("Logggggg");
-  // console.log(student_dropdown_list);
   const props = {students: student_dropdown_list, supervisors: supervisor_dropdown_list}
 
   if (element != null && props != null) {
@@ -65,54 +54,63 @@ document.addEventListener('turbolinks:load', () => {
   }
 });
 
+document.addEventListener('turbolinks:load', () => {
+  var element = document.getElementById("todo")
+  if (element != null) {
+    const el = element
+    var parsed_props = JSON.parse(element.getAttribute('data'))
+    parsed_props.items2.map((obj) => {
+      obj.icon_class = 'fas fa-book';
+      obj.icon_status = 'warning';
+      obj.eta = obj.eta.replace(/\T(.*)/, "");
+      obj.controls = [
+          { 
+              method: 'edit', 
+              icon_class: 'fas fa-pen' 
+          },
+          { 
+              method: 'delete', 
+              icon_class: 'fas fa-trash' 
+          }
+      ];
+      return obj;
+    })
+    const props = {
+      items: parsed_props.items2,
+    }
+    
+      new Vue({
+          el,
 
-// The above code uses Vue without the compiler, which means you cannot
-// use Vue to target elements in your existing html templates. You would
-// need to always use single file components.
-// To be able to target elements in your existing html/erb templates,
-// comment out the above code and uncomment the below
-// Add <%= javascript_pack_tag 'hello_vue' %> to your layout
-// Then add this markup to your html template:
-//
-// <div id='hello'>
-//   {{message}}
-//   <app></app>
-// </div>
-
-
-// import Vue from 'vue/dist/vue.esm'
-// import App from '../app.vue'
-//
-// document.addEventListener('DOMContentLoaded', () => {
-//   const app = new Vue({
-//     el: '#hello',
-//     data: {
-//       message: "Can you say hello?"
-//     },
-//     components: { App }
-//   })
-// })
-//
-//
-//
-// If the using turbolinks, install 'vue-turbolinks':
-//
-// yarn add 'vue-turbolinks'
-//
-// Then uncomment the code block below:
-//
-// import TurbolinksAdapter from 'vue-turbolinks'
-// import Vue from 'vue/dist/vue.esm'
-// import App from '../app.vue'
-//
-// Vue.use(TurbolinksAdapter)
-//
-// document.addEventListener('turbolinks:load', () => {
-//   const app = new Vue({
-//     el: '#hello',
-//     data: {
-//       message: "Can you say hello?"
-//     },
-//     components: { App }
-//   })
-// })
+          render: h => h(Timeline, { props }),
+              
+          events: {
+              'timeline-delete-item': function(id) {
+                  // this.timeline = _.remove(this.timeline, function(item) { 
+                  //     return item.id != id 
+                  // });
+                  var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                  this.$http.post('/todos', {id: id}, {method: "DELETE", headers: {'X-CSRF-Token': csrfToken}}).then(response => {
+                      // get status
+                  response.status;
+                  if(response.body == "submitted") {
+                      Turbolinks.visit(window.location);
+                  }
+      
+                  // get status text
+                  response.statusText;
+      
+                  // get 'Expires' header
+                  response.headers.get('Expires');
+      
+                  // get body data
+                  // console.log(response.body);
+      
+                  }, response => {
+                      // error callback
+                  });
+              }
+          }
+      })
+  }
+});

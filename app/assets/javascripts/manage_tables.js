@@ -1,8 +1,8 @@
-var dataTable = null
+var user_dataTable = null
 
 document.addEventListener("turbolinks:load", function() {
     if ( ! $.fn.DataTable.isDataTable( '.manage-table' ) ) {
-        $('.manage-table').dataTable({
+        user_dataTable = $('.manage-table').dataTable({
             stateSave: true,
             responsive: true,
             columnDefs: [
@@ -18,6 +18,8 @@ document.addEventListener("turbolinks:load", function() {
     }
 });
 
-// $(function(){
-//     $('.manage-table').DataTable({stateSave: true});
-// });
+document.addEventListener("turbolinks:before-cache", function() {
+    if ($.fn.DataTable.isDataTable( '.manage-table' )) {
+        user_dataTable.dataTable().fnDestroy();
+    }
+});
