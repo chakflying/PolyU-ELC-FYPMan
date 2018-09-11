@@ -61,8 +61,8 @@ export default {
             this.student_count++;
             // console.log("count is  " + this.student_netID_count);
             // this.student_netID_set[this.student_netID_count] = this.student_netID_count;
-            this.student_set.push(this.student_netID_count);
-            this.student_name.push(this.student_netID_count);
+            this.student_set.push(this.student_count);
+            this.student_name.push(null);
             // this.student_netID_set.pop();
             // console.log(this.student_netID_set);
         },
