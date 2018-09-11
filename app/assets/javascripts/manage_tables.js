@@ -12,7 +12,7 @@ document.addEventListener("turbolinks:load", function() {
                 {'width': '17%', 'targets': 1},
                 {'width': '10%', 'targets': 2},
                 {'width': '35%', 'targets': -2},
-                {'width': '57px', 'targets': -1},
+                {'width': '70px', 'targets': -1},
             ]
         });
     }
