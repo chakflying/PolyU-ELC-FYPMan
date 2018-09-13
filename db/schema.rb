@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_09_070857) do
+ActiveRecord::Schema.define(version: 2018_09_13_183516) do
 
   create_table "students", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "name"
@@ -50,6 +50,8 @@ ActiveRecord::Schema.define(version: 2018_09_09_070857) do
     t.boolean "admin", default: false
     t.string "department"
     t.datetime "last_seen_at"
+    t.string "reset_digest"
+    t.datetime "reset_sent_at"
   end
 
 end

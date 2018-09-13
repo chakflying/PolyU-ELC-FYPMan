@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'password_resets/new'
+  get 'password_resets/edit'
   get 'students/index'
   get 'landing_page/index'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
@@ -31,4 +33,5 @@ Rails.application.routes.draw do
   get    '/todos/:id',   to: 'todos#edit'
   delete '/todos',       to: 'todos#destroy'
   resources :todos
+  resources :password_resets,     only: [:new, :create, :edit, :update]
 end
