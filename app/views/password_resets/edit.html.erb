@@ -9,14 +9,15 @@
 
             <%= hidden_field_tag :email, @user.email %>
             <div class="form-group">
-            <%= f.label :password %>
+            <%= f.label :password, "New Password" %>
             <%= f.password_field :password, class: 'form-control' %>
             </div>
 
             <div class="form-group">
-            <%= f.label :password_confirmation, "Confirmation" %>
+            <%= f.label :password_confirmation, "Password Confirmation" %>
             <%= f.password_field :password_confirmation, class: 'form-control' %>
             </div>
+            <br>
 
             <%= f.submit "Change password", class: "btn btn-primary" %>
             <% end %>
