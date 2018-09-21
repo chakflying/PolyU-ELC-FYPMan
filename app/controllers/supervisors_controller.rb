@@ -15,13 +15,13 @@ class SupervisorsController < ApplicationController
     end
   
     def create
-        @supervisor = Supervisor.new(supervisor_params)    # Not the final implementation!
+        @supervisor = Supervisor.new(supervisor_params)
         if @supervisor.save
-            flash[:success] = "supervisor successfully added!"
+            flash[:success] = "Supervisor successfully added!"
             redirect_to '/supervisors'
         else
-            # flash[:danger] = "test"
-            render 'index'
+            flash[:danger] = "Supervisor cannot be created."
+            redirect_to '/supervisors'
         end
     end
   
