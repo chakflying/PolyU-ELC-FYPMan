@@ -17,6 +17,11 @@ class StudentsController < ApplicationController
 
   def create
     @student = Student.new(student_params)  # Not the final implementation!
+    if Student.find_by(netID: params[:netID])
+        flash[:alert] = "Student with this netID already exist."
+        redirect_to '/students'
+        return
+    end
     if @student.save
         flash[:success] = "Student successfully added!"
         redirect_to '/students'
@@ -127,10 +132,12 @@ class StudentsController < ApplicationController
         if name_list.length != netID_list.length
             flash[:danger] = "Length of NetIDs does not match length of names. Press Enter to skip line if name isn't available."
             redirect_back(fallback_location: batch_import_path)
+            return
         end
         if name_list.length > netID_list.length
             flash[:danger] = "Every student must have a netID."
             redirect_back(fallback_location: batch_import_path)
+            return
         end
         netID_list.zip(name_list).each do |netID, name|
             print "Student " + netID.to_s + " " + name.to_s + "\n"
@@ -138,6 +145,7 @@ class StudentsController < ApplicationController
             if !@student.save
                 flash[:danger] = "Error when saving student " + netID.to_s
                 redirect_back(fallback_location: batch_import_path)
+                return
             end
         end
         flash[:success] = "All students successfully created."
