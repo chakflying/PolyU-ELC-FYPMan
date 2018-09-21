@@ -21,7 +21,7 @@
 
         <div class="form-group">
         <%= f.label :department %>
-        <%= f.select :department, @departments_list, {}, {class: "form-control", disabled: !is_admin?} %>
+        <%= f.select :department, @departments_list, {include_blank: true}, {class: "form-control", disabled: !is_admin?} %>
         </div>
 
         <div class="form-row">
