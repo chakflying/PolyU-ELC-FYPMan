@@ -139,6 +139,16 @@ class StudentsController < ApplicationController
             redirect_back(fallback_location: batch_import_path)
             return
         end
+        if fyp_year == ""
+            flash[:danger] = "Please select FYP year of the student(s)."
+            redirect_back(fallback_location: batch_import_path)
+            return
+        end
+        if department == ""
+            flash[:danger] = "Please select the Department of the student(s)."
+            redirect_back(fallback_location: batch_import_path)
+            return
+        end
         netID_list.zip(name_list).each do |netID, name|
             print "Student " + netID.to_s + " " + name.to_s + "\n"
             @student = Student.new(department: department, fyp_year: fyp_year, netID: netID, name: name)  
