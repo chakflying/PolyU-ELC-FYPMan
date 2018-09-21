@@ -20,7 +20,11 @@ class SupervisorsController < ApplicationController
             flash[:success] = "Supervisor successfully added!"
             redirect_to '/supervisors'
         else
-            flash[:danger] = "Supervisor cannot be created."
+            if params[:department] == ""
+                flash[:danger] = "Please select the supervisor's department."
+            else
+                flash[:danger] = "Supervisor cannot be created."
+            end
             redirect_to '/supervisors'
         end
     end
