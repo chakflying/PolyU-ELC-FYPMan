@@ -5,15 +5,8 @@
         <label for="student_netID">Assign student(s):</label>
         <template v-for="student_item in student_set">
             <div class="form-group">
-                <div class="row" style="margin:0">
-                    <input v-model="student_netID_response[student_item]" v-on:input="checkStudentName($event, student_item)" type="text" class="form-control col-sm-7" placeholder="Student netID">
-                    <div class="col-sm-5" style="padding-top: 0.3em">{{ student_name[student_item] }}</div>
-                </div>
-            <select v-model="student_netID_response[student_item]" v-on:input="checkStudentName($event, student_item)" class="form-control col-sm-7">
-                <template v-for="student in students">
-                    <option :value="student">{{ student }}</option>
-                </template>
-            </select>
+                <AssignSelect2 :options="students" v-model="student_netID_response[student_item]">
+                </AssignSelect2>
             </div>
         </template>
         <button v-on:click="add_student_field()" class="btn btn-secondary">Add another student</button>
@@ -21,15 +14,8 @@
         <br>
         <label for="student_netID">to supervisor:</label>
         <div class="form-group">
-            <div class="row" style="margin:0">
-                <input v-model="supervisor_netID_response[1]" v-on:input="checkSupervisorName($event)" type="text" class="form-control col-sm-7" placeholder="Supervisor netID" required="true" id="assign_sup_field">
-                <div class="col-sm-5" style="padding-top: 0.3em">{{ supervisor_name }}</div>
-            </div>
-        <select v-model="supervisor_netID_response[1]" v-on:input="checkSupervisorName($event)" class="form-control col-sm-7">
-            <template v-for="supervisor in supervisors">
-                <option :value="supervisor">{{ supervisor }}</option>
-            </template>
-        </select>
+            <AssignSelect2 :options="supervisors" v-model="supervisor_netID_response[1]">
+            </AssignSelect2>
         </div>
         <button v-on:click="submit()" class="btn btn-primary" id="assign_submit_btn">Submit</button>
     </div>
@@ -39,7 +25,11 @@
 </template>
 
 <script>
+import AssignSelect2 from './assign-select2.vue'
 export default {
+    components: {
+        AssignSelect2
+    },
     props: ['students', 'supervisors'], 
     data: function () {
         return {

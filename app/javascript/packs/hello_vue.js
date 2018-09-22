@@ -38,10 +38,10 @@ document.addEventListener('turbolinks:load', () => {
   var supervisor_dropdown_list = []
   var i;
   for (i = 0; i < student_netIDs.length; i += 1) {
-    student_dropdown_list.push(student_netIDs[i]);
+    student_dropdown_list.push({id: student_netIDs[i], text: student_netIDs[i] + " " + student_names[i]});
   }
   for (i = 0; i < supervisor_netIDs.length; i += 1) {
-    supervisor_dropdown_list.push(supervisor_netIDs[i]);
+    supervisor_dropdown_list.push({id: supervisor_netIDs[i], text: supervisor_netIDs[i] + " " + supervisor_names[i]});
   }
   const props = {students: student_dropdown_list, supervisors: supervisor_dropdown_list}
 
