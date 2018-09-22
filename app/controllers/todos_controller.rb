@@ -1,4 +1,5 @@
 class TodosController < ApplicationController
+    before_action :authenticate_user!
     def show
         if is_admin?
             @todolist = Todo.all.order("eta ASC").to_a
