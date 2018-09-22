@@ -77,6 +77,8 @@ class StudentsController < ApplicationController
             stu = Student.find_by(netID: stu_id)
             if !stu
                 flash[:danger] = "Student with netID " + stu_id + " not found."
+            elsif stu.supervisors.find_by(netID: sup_id)
+                flash[:info] = "Student with netID " + stu_id + " already assigned."
             else
                 stu.supervisors << sup
                 flash[:success] = "Student with netID " + stu_id + " assigned successfully."
