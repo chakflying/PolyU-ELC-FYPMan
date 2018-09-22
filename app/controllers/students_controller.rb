@@ -149,6 +149,11 @@ class StudentsController < ApplicationController
             redirect_back(fallback_location: students_batch_import_path)
             return
         end
+        if netID_list.length == 0
+            flash[:danger] = "Please enter student(s) info."
+            redirect_back(fallback_location: students_batch_import_path)
+            return
+        end
         netID_list.zip(name_list).each do |netID, name|
             # print "Student " + netID.to_s + " " + name.to_s + "\n"
             @student = Student.new(department: department, fyp_year: fyp_year, netID: netID, name: name)  

@@ -109,6 +109,11 @@ class SupervisorsController < ApplicationController
                 redirect_back(fallback_location: supervisors_batch_import_path)
                 return
             end
+            if netID_list.length == 0
+                flash[:danger] = "Please enter supervisor(s) info."
+                redirect_back(fallback_location: supervisors_batch_import_path)
+                return
+            end
             netID_list.zip(name_list).each do |netID, name|
                 # print "Supervisor " + netID.to_s + " " + name.to_s + "\n"
                 @supervisor = Supervisor.new(department: department, netID: netID, name: name)  
