@@ -124,6 +124,8 @@ GEM
     popper_js (1.14.3)
     public_suffix (3.0.3)
     rack (2.0.5)
+    rack-attack (5.4.0)
+      rack (>= 1.0, < 3)
     rack-proxy (0.6.4)
       rack
     rack-test (1.1.0)
@@ -226,6 +228,7 @@ DEPENDENCIES
   mysql2
   passenger
   pg
+  rack-attack
   rails (~> 5.2.1)
   sass-rails (~> 5.0)
   selenium-webdriver

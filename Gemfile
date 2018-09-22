@@ -74,3 +74,6 @@ gem 'bootstrap'
 gem 'jquery-rails'
 
 gem 'bcrypt'
+
+# Rack Attack to throttle requests and provide better security
+gem 'rack-attack'
