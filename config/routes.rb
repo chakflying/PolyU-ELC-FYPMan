@@ -15,12 +15,14 @@ Rails.application.routes.draw do
   get    '/students',to: 'students#index'
   post   '/students', to: 'students#create'
   get    '/students/:id', to: 'students#update'
-  get    '/batch_import', to: 'students#batch_import'
-  post   '/batch_import', to: 'students#batch_import'
+  get    '/students_batch_import', to: 'students#batch_import'
+  post   '/students_batch_import', to: 'students#batch_import'
   resources :students
   get    '/supervisors',to: 'supervisors#index'
   post   '/supervisors', to: 'supervisors#create'
   get    '/supervisors/:id', to: 'supervisors#update'
+  get    '/supervisors_batch_import', to: 'supervisors#batch_import'
+  post   '/supervisors_batch_import', to: 'supervisors#batch_import'
   resources :supervisors
   get   '/assign',  to: 'students#assign'
   post   '/assign',  to: 'students#assign'

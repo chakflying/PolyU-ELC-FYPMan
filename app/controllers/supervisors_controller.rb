@@ -83,4 +83,43 @@ class SupervisorsController < ApplicationController
             redirect_to '/supervisors'
         end
     end
+
+    def batch_import
+        @supervisor = Supervisor.new
+        if is_admin?
+            @departments_list = get_departments_list
+        end
+    
+        if request.post?
+            netID_list = request.params[:supervisors_list][:netID_list].lines.each {|x| x.strip!}
+            name_list = request.params[:supervisors_list][:name_list].lines.each {|x| x.strip!}
+            department = request.params[:supervisors_list][:department]
+            if name_list.length != netID_list.length
+                flash[:danger] = "Length of NetIDs does not match length of names. Press Enter to skip line if name isn't available."
+                redirect_back(fallback_location: supervisors_batch_import_path)
+                return
+            end
+            if name_list.length > netID_list.length
+                flash[:danger] = "Every supervisor must have a netID."
+                redirect_back(fallback_location: supervisors_batch_import_path)
+                return
+            end
+            if department == ""
+                flash[:danger] = "Please select the Department of the supervisor(s)."
+                redirect_back(fallback_location: supervisors_batch_import_path)
+                return
+            end
+            netID_list.zip(name_list).each do |netID, name|
+                # print "Supervisor " + netID.to_s + " " + name.to_s + "\n"
+                @supervisor = Supervisor.new(department: department, netID: netID, name: name)  
+                if !@supervisor.save
+                    flash[:danger] = "Error when saving supervisor " + netID.to_s
+                    redirect_back(fallback_location: supervisors_batch_import_path)
+                    return
+                end
+            end
+            flash[:success] = "All supervisors successfully created."
+            redirect_to '/supervisors'
+        end
+    end
   end

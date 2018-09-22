@@ -1,19 +1,16 @@
-<% provide(:title, 'Batch Import Students - PolyU FYP Management') %>
+<% provide(:title, 'Batch Import Supervisors - PolyU FYP Management') %>
 <div class="container">
-    <h2 class="display-2" style="margin:1em 0 0.5em 0">Batch Import Students</h2>
-    <%= form_for :students_list, url: students_batch_import_path do |f| %>
+    <h2 class="display-2" style="margin:1em 0 0.5em 0">Batch Import Supervisors</h2>
+    <%= form_for :supervisors_list, url: supervisors_batch_import_path do |f| %>
     <% if is_admin? %>
     <div class="form-group">
-    <%= f.label :department, "Adding Students to Department:" %>
+    <%= f.label :department, "Adding Supervisors to Department:" %>
     <%= f.select :department, @departments_list, {prompt: "Select Department:"}, {class: "form-control"} %>
     </div>
     <% else %>
     <%= f.hidden_field :department, value: current_user.department %>
     <% end %>
-    <div class="form-group">
-    <%= f.label :fyp_year, "Select Students FYP Year:" %>
-    <%= f.select :fyp_year, @fyp_year_list, {prompt: "Select FYP Year:"}, {class: "form-control"} %>
-    </div>
+
     <div class="row">
         <div class="form-group col-md-6">
         <%= f.label :netID_list, "List of netIDs:" %>
@@ -25,6 +22,6 @@
         </div>
     </div>
     <br>
-    <%= f.submit "Create students", class: "btn btn-primary" %>
+    <%= f.submit "Create Supervisors", class: "btn btn-primary" %>
     <% end %>
 </div>

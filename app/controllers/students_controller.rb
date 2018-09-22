@@ -125,36 +125,36 @@ class StudentsController < ApplicationController
     end
 
     if request.post?
-        netID_list = request.params[:student_list][:netID_list].lines.each {|x| x.strip!}
-        name_list = request.params[:student_list][:name_list].lines.each {|x| x.strip!}
-        department = request.params[:student_list][:department]
-        fyp_year = request.params[:student_list][:fyp_year]
+        netID_list = request.params[:students_list][:netID_list].lines.each {|x| x.strip!}
+        name_list = request.params[:students_list][:name_list].lines.each {|x| x.strip!}
+        department = request.params[:students_list][:department]
+        fyp_year = request.params[:students_list][:fyp_year]
         if name_list.length != netID_list.length
             flash[:danger] = "Length of NetIDs does not match length of names. Press Enter to skip line if name isn't available."
-            redirect_back(fallback_location: batch_import_path)
+            redirect_back(fallback_location: students_batch_import_path)
             return
         end
         if name_list.length > netID_list.length
             flash[:danger] = "Every student must have a netID."
-            redirect_back(fallback_location: batch_import_path)
+            redirect_back(fallback_location: students_batch_import_path)
             return
         end
         if fyp_year == ""
             flash[:danger] = "Please select FYP year of the student(s)."
-            redirect_back(fallback_location: batch_import_path)
+            redirect_back(fallback_location: students_batch_import_path)
             return
         end
         if department == ""
             flash[:danger] = "Please select the Department of the student(s)."
-            redirect_back(fallback_location: batch_import_path)
+            redirect_back(fallback_location: students_batch_import_path)
             return
         end
         netID_list.zip(name_list).each do |netID, name|
-            print "Student " + netID.to_s + " " + name.to_s + "\n"
+            # print "Student " + netID.to_s + " " + name.to_s + "\n"
             @student = Student.new(department: department, fyp_year: fyp_year, netID: netID, name: name)  
             if !@student.save
                 flash[:danger] = "Error when saving student " + netID.to_s
-                redirect_back(fallback_location: batch_import_path)
+                redirect_back(fallback_location: students_batch_import_path)
                 return
             end
         end
