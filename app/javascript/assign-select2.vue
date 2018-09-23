@@ -1,5 +1,5 @@
 <template>
-<select class="form-control">
+<select class="form-control select2-input">
     <slot></slot>
 </select>
 </template>
@@ -17,7 +17,14 @@ export default {
         // emit event on change.
         .on('change', function () {
             vm.$emit('input', this.value)
-        })
+        });
+        $(document).on("turbolinks:before-cache", function() {
+        $('.select2-hidden-accessible').select2('destroy');
+        });
+
+        $(document).on('turbolinks:load', function() {
+        $('.select2-input').select2({ data: this.options, placeholder: "Select...", width: "75%", theme: "bootstrap"});
+        });
     },
     watch: {
         value: function (value) {
