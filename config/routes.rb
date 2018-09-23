@@ -24,8 +24,10 @@ Rails.application.routes.draw do
   get    '/supervisors_batch_import', to: 'supervisors#batch_import'
   post   '/supervisors_batch_import', to: 'supervisors#batch_import'
   resources :supervisors
-  get   '/assign',  to: 'students#assign'
+  get    '/assign',  to: 'students#assign'
   post   '/assign',  to: 'students#assign'
+  get    '/batch_assign', to: 'students#batch_assign'
+  post   '/batch_assign', to: 'students#batch_assign'
   post   '/getStudentName', to: 'students#getStudentName'
   post   '/getSupervisorName', to: 'supervisors#getSupervisorName'
   post   '/removeStudent', to: 'supervisors#removeStudent'

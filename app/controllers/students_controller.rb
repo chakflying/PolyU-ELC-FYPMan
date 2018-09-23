@@ -88,6 +88,42 @@ class StudentsController < ApplicationController
     end
   end
 
+  def batch_assign
+    if request.post?
+        students_netID_list = request.params[:lists][:students_list].lines.each {|x| x.strip!}
+        supervisors_netID_list = request.params[:lists][:supervisors_list].lines.each {|x| x.strip!}
+        students_netID_list.each do |stu_id|
+            stu = Student.find_by(netID: stu_id)
+            if !stu
+                flash[:danger] = "Student with netID " + stu_id + " not found."
+                render 'batch_assign'
+                return
+            end
+        end
+        supervisors_netID_list.each do |sup_id|
+            sup = Supervisor.find_by(netID: sup_id)
+            if !sup
+                flash[:danger] = "Supervisor with netID " + sup_id + " not found."
+                render 'batch_assign'
+                return
+            end
+        end
+        students_netID_list.each do |stu_id|
+            supervisors_netID_list.each do |sup_id|
+                stu = Student.find_by(netID: stu_id)
+                sup = Supervisor.find_by(netID: sup_id)
+                if stu.supervisors.find_by(netID: sup_id)
+                    flash[:info] = "Student with netID " + stu_id + " already assigned."
+                else
+                    stu.supervisors << sup
+                    flash[:success] = "Student with netID " + stu_id + " assigned successfully."
+                end
+            end
+        end
+        redirect_to '/students'
+    end
+  end
+
   def getStudentName
     if request.post?
         stu_id = request.params[:netID]
