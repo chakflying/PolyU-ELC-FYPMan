@@ -120,7 +120,11 @@ class SupervisorsController < ApplicationController
                 # print "Supervisor " + netID.to_s + " " + name.to_s + "\n"
                 @supervisor = Supervisor.new(department: department, netID: netID, name: name)  
                 if !@supervisor.save
-                    flash[:danger] = Array(flash[:danger]).push("Error when saving supervisor " + netID.to_s)
+                    if name == ""
+                        flash[:danger] = Array(flash[:danger]).push("Supervisor "+ netID.to_s + " must have a name.")
+                    else
+                        flash[:danger] = Array(flash[:danger]).push("Error when saving supervisor " + netID.to_s)
+                    end
                     redirect_back(fallback_location: supervisors_batch_import_path)
                     return
                 end
