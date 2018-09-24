@@ -13,13 +13,13 @@ class TodosController < ApplicationController
     def create
         @todo = Todo.new(todo_params)  # Not the final implementation!
         if @todo.save
-            flash[:success] = "Todo item successfully added!"
+            flash[:success] = Array(flash[:success]).push("Todo item successfully added!")
             redirect_to '/todos'
         else
             if request.params[:eta].nil?
-                flash[:danger] = "Todo date cannot be empty. Please set date."
+                flash[:danger] = Array(flash[:danger]).push("Todo date cannot be empty. Please set date.")
             else
-                flash[:danger] = "Create todo item unsuccessful."
+                flash[:danger] = Array(flash[:danger]).push("Create todo item unsuccessful.")
             end
             @todolist = Todo.all
             @todo = Todo.new
@@ -38,7 +38,7 @@ class TodosController < ApplicationController
         @departments_list = get_departments_list
         if request.patch?
             if @todo.update_attributes(todo_params)
-                flash[:success] = "Todo item updated."
+                flash[:success] = Array(flash[:success]).push("Todo item updated.")
                 redirect_to '/todos'
             else
                 render 'update'
@@ -52,7 +52,7 @@ class TodosController < ApplicationController
 
     def destroy
         if Todo.find(params[:id]).destroy
-            flash[:success] = "Todo item deleted."
+            flash[:success] = Array(flash[:success]).push("Todo item deleted.")
             render plain: "submitted"
         else
             flash[:alert] = "No todo item deleted."

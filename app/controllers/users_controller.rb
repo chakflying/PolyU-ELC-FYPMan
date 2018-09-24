@@ -19,7 +19,7 @@ class UsersController < ApplicationController
 
     def update
         if @user.update_attributes(user_params)
-            flash[:success] = "Profile updated."
+            flash[:success] = Array(flash[:success]).push("Profile updated.")
             redirect_to @user
           else
             render 'edit'
@@ -34,10 +34,10 @@ class UsersController < ApplicationController
     def create
         @user = User.new(user_params)    # Not the final implementation!
         if @user.save
-            flash[:success] = "Sign Up successful!"
+            flash[:success] = Array(flash[:success]).push("Sign Up successful!")
             redirect_to @user
         else
-            # flash[:danger] = "test"
+            flash[:danger] = Array(flash[:danger]).push("Error when creating user.")
             render 'new'
         end
     end
@@ -46,7 +46,7 @@ class UsersController < ApplicationController
         f = User.find(params[:id])
         name = f.username
         if f.destroy
-            flash[:success] = "User " + name + " deleted."
+            flash[:success] = Array(flash[:success]).push("User " + name + " deleted.")
         end
         redirect_to '/admin'
     end

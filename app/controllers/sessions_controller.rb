@@ -13,7 +13,7 @@ class SessionsController < ApplicationController
           redirect_back_or '/students'
         else
           # Create an error message.
-          flash[:danger] = 'Invalid email/password combination'
+          flash[:danger] = Array(flash[:danger]).push('Invalid email/password combination') 
           redirect_to root_url
         end
     end

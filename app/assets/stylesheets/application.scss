@@ -42,10 +42,16 @@
     @include box_sizing;
 }
 
-.site-alert {
-    width:100%;
+.alert-wrapper {
+    width: 100%;
     position: fixed;
     bottom: 0; left: 0;
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+}
+.site-alert {
+    width: 100%;
     margin: auto;
     padding-top:0.9em;
     padding-bottom: 1em;

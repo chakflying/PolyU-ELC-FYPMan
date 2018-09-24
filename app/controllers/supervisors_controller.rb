@@ -17,13 +17,13 @@ class SupervisorsController < ApplicationController
     def create
         @supervisor = Supervisor.new(supervisor_params)
         if @supervisor.save
-            flash[:success] = "Supervisor successfully added!"
+            flash[:success] = Array(flash[:success]).push("Supervisor successfully added!")
             redirect_to '/supervisors'
         else
             if params[:department] == ""
-                flash[:danger] = "Please select the supervisor's department."
+                flash[:danger] = Array(flash[:danger]).push("Please select the supervisor's department.")
             else
-                flash[:danger] = "Supervisor cannot be created."
+                flash[:danger] = Array(flash[:danger]).push("Supervisor cannot be created.")
             end
             redirect_to '/supervisors'
         end
@@ -39,7 +39,7 @@ class SupervisorsController < ApplicationController
         @fyp_year_list = get_fyp_years_list
         if request.patch?
             if @supervisor.update_attributes(supervisor_params)
-                flash[:success] = "Supervisor updated."
+                flash[:success] = Array(flash[:success]).push("Supervisor updated.")
                 redirect_to '/supervisors'
             else
                 render 'update'
@@ -49,7 +49,7 @@ class SupervisorsController < ApplicationController
 
     def destroy
         Supervisor.find(params[:id]).destroy
-        flash[:success] = "Supervisor deleted."
+        flash[:success] = Array(flash[:success]).push("Supervisor deleted.")
         redirect_to '/supervisors'
     end
 
@@ -72,14 +72,14 @@ class SupervisorsController < ApplicationController
         @supervisor = Supervisor.find_by(netID: sup_id)
         stu = Student.find_by(netID: stu_id)
         if !@supervisor
-            flash[:danger] = "Supervisor not found"
+            flash[:danger] = Array(flash[:danger]).push("Supervisor not found.")
             redirect_to '/supervisors'
         elsif !stu
-            flash[:danger] = "Student not found"
+            flash[:danger] = Array(flash[:danger]).push("Student not found.")
             redirect_to '/supervisors'
         else
             @supervisor.students.delete(stu)
-            flash[:success] = "Student unassigned successfully."
+            flash[:success] = Array(flash[:success]).push("Student unassigned successfully.")
             redirect_to '/supervisors'
         end
     end
@@ -95,22 +95,22 @@ class SupervisorsController < ApplicationController
             name_list = request.params[:supervisors_list][:name_list].lines.each {|x| x.strip!}
             department = request.params[:supervisors_list][:department]
             if name_list.length != netID_list.length
-                flash[:danger] = "Length of NetIDs does not match length of names. Press Enter to skip line if name isn't available."
+                flash[:danger] = Array(flash[:danger]).push("Length of NetIDs does not match length of names. Press Enter to skip line if name isn't available.")
                 redirect_back(fallback_location: supervisors_batch_import_path)
                 return
             end
             if name_list.length > netID_list.length
-                flash[:danger] = "Every supervisor must have a netID."
+                flash[:danger] = Array(flash[:danger]).push("Every supervisor must have a netID.")
                 redirect_back(fallback_location: supervisors_batch_import_path)
                 return
             end
             if department == ""
-                flash[:danger] = "Please select the Department of the supervisor(s)."
+                flash[:danger] = Array(flash[:danger]).push("Please select the Department of the supervisor(s).")
                 redirect_back(fallback_location: supervisors_batch_import_path)
                 return
             end
             if netID_list.length == 0
-                flash[:danger] = "Please enter supervisor(s) info."
+                flash[:danger] = Array(flash[:danger]).push("Please enter supervisor(s) info.")
                 redirect_back(fallback_location: supervisors_batch_import_path)
                 return
             end
@@ -118,12 +118,12 @@ class SupervisorsController < ApplicationController
                 # print "Supervisor " + netID.to_s + " " + name.to_s + "\n"
                 @supervisor = Supervisor.new(department: department, netID: netID, name: name)  
                 if !@supervisor.save
-                    flash[:danger] = "Error when saving supervisor " + netID.to_s
+                    flash[:danger] = Array(flash[:danger]).push("Error when saving supervisor " + netID.to_s)
                     redirect_back(fallback_location: supervisors_batch_import_path)
                     return
                 end
             end
-            flash[:success] = "All supervisors successfully created."
+            flash[:success] = Array(flash[:success]).push("All supervisors successfully created.")
             redirect_to '/supervisors'
         end
     end

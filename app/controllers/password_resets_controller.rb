@@ -10,16 +10,16 @@ class PasswordResetsController < ApplicationController
     @user = User.find_by(email: params[:password_reset][:email].downcase)
     if @user
       if @user.reset_sent_at && @user.reset_sent_at > 5.minutes.ago
-        flash[:danger] = "You can only send a password reset email every 5 minutes."
+        flash[:danger] = Array(flash[:danger]).push("You can only send a password reset email every 5 minutes.")
         redirect_to root_url
         return
       end
       @user.create_reset_digest
       @user.send_password_reset_email
-      flash[:success] = "Email sent with password reset instructions."
+      flash[:success] = Array(flash[:success]).push("Email sent with password reset instructions.")
       redirect_to root_url
     else
-      flash.now[:danger] = "Email address not found."
+      flash.now[:danger] = Array(flash.now[:danger]).push("Email address not found.")
       render 'new'
     end
   end
@@ -34,7 +34,7 @@ class PasswordResetsController < ApplicationController
     elsif @user.update_attributes(user_params)          # Case (4)
       log_in @user
       @user.update_attribute(:reset_digest, nil)
-      flash[:success] = "Password has been reset."
+      flash[:success] = Array(flash[:success]).push("Password has been reset.")
       redirect_to @user
     else
       render 'edit'                                     # Case (2)
@@ -60,7 +60,7 @@ class PasswordResetsController < ApplicationController
 
     def check_expiration
       if @user.password_reset_expired?
-        flash[:danger] = "Password reset has expired."
+        flash[:danger] = Array(flash[:danger]).push("Password reset has expired.")
         redirect_to new_password_reset_url
       end
     end

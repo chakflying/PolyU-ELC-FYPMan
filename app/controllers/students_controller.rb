@@ -16,17 +16,17 @@ class StudentsController < ApplicationController
   end
 
   def create
-    @student = Student.new(student_params)  # Not the final implementation!
+    @student = Student.new(student_params)
     if Student.find_by(netID: params[:netID])
-        flash[:alert] = "Student with this netID already exist."
+        flash[:danger] = Array(flash[:danger]).push("Student with this netID already exist.")
         redirect_to '/students'
         return
     end
     if @student.save
-        flash[:success] = "Student successfully added!"
+        flash[:success] = Array(flash[:success]).push("Student successfully added!")
         redirect_to '/students'
     else
-        # flash[:danger] = "test"
+        flash[:danger] = Array(flash[:danger]).push("Error when creating student.")
         @students = Student.all
         render 'index'
     end
@@ -42,7 +42,7 @@ class StudentsController < ApplicationController
     @fyp_year_list = get_fyp_years_list
     if request.patch?
         if @student.update_attributes(student_params)
-            flash[:success] = "Student updated."
+            flash[:success] = Array(flash[:success]).push("Student updated.")
             redirect_to '/students'
         else
             render 'update'
@@ -52,7 +52,7 @@ class StudentsController < ApplicationController
 
   def destroy
     Student.find(params[:id]).destroy
-    flash[:success] = "Student deleted."
+    flash[:success] = Array(flash[:success]).push("Student deleted.")
     redirect_to '/students'
   end
 
@@ -69,19 +69,19 @@ class StudentsController < ApplicationController
         sup_id = (request.params[:supervisor_netID].values)[0].to_s
         sup = Supervisor.find_by(netID: sup_id)
         if !sup
-            flash[:danger] = "Supervisor with netID " + sup_id + " not found."
+            flash[:danger] = Array(flash[:danger]).push("Supervisor with netID " + sup_id + " not found.")
             render plain: "submitted"
             return
         end
         stu_ids.each do |stu_id|
             stu = Student.find_by(netID: stu_id)
             if !stu
-                flash[:danger] = "Student with netID " + stu_id + " not found."
+                flash[:danger] = Array(flash[:danger]).push("Student with netID " + stu_id + " not found.")
             elsif stu.supervisors.find_by(netID: sup_id)
-                flash[:info] = "Student with netID " + stu_id + " already assigned."
+                flash[:info] = Array(flash[:info]).push("Student with netID " + stu_id + " already assigned.")
             else
                 stu.supervisors << sup
-                flash[:success] = "Student with netID " + stu_id + " assigned successfully."
+                flash[:success] = Array(flash[:success]).push("Student with netID " + stu_id + " assigned successfully.")
             end
         end
         render plain: "submitted"
@@ -95,7 +95,7 @@ class StudentsController < ApplicationController
         students_netID_list.each do |stu_id|
             stu = Student.find_by(netID: stu_id)
             if !stu
-                flash[:danger] = "Student with netID " + stu_id + " not found."
+                flash[:danger] = Array(flash[:danger]).push("Student with netID " + stu_id + " not found.")
                 render 'batch_assign'
                 return
             end
@@ -103,7 +103,7 @@ class StudentsController < ApplicationController
         supervisors_netID_list.each do |sup_id|
             sup = Supervisor.find_by(netID: sup_id)
             if !sup
-                flash[:danger] = "Supervisor with netID " + sup_id + " not found."
+                flash[:danger] = Array(flash[:danger]).push("Supervisor with netID " + sup_id + " not found.")
                 render 'batch_assign'
                 return
             end
@@ -113,13 +113,13 @@ class StudentsController < ApplicationController
                 stu = Student.find_by(netID: stu_id)
                 sup = Supervisor.find_by(netID: sup_id)
                 if stu.supervisors.find_by(netID: sup_id)
-                    flash[:info] = "Student with netID " + stu_id + " already assigned."
+                    flash[:info] = Array(flash[:info]).push("Student with netID " + stu_id + " already assigned.")
                 else
                     stu.supervisors << sup
-                    flash[:success] = "Student with netID " + stu_id + " assigned successfully."
                 end
             end
         end
+        flash[:success] = Array(flash[:success]).push("All students assigned successfully.")
         redirect_to '/students'
     end
   end
@@ -143,14 +143,14 @@ class StudentsController < ApplicationController
     @student = Student.find_by(netID: stu_id)
     sup = Supervisor.find_by(netID: sup_id)
     if !@student
-        flash[:danger] = "Student not found"
+        flash[:danger] = Array(flash[:danger]).push("Student not found")
         redirect_to '/students'
     elsif !sup
-        flash[:danger] = "Supervisor not found"
+        flash[:danger] = Array(flash[:danger]).push("Supervisor not found")
         redirect_to '/students'
     else
         @student.supervisors.delete(sup)
-        flash[:success] = "Supervisor removed successfully."
+        flash[:success] = Array(flash[:success]).push("Supervisor removed successfully.")
         redirect_to '/students'
     end
   end
@@ -168,27 +168,27 @@ class StudentsController < ApplicationController
         department = request.params[:students_list][:department]
         fyp_year = request.params[:students_list][:fyp_year]
         if name_list.length != netID_list.length
-            flash[:danger] = "Length of NetIDs does not match length of names. Press Enter to skip line if name isn't available."
+            flash[:danger] = Array(flash[:danger]).push("Length of NetIDs does not match length of names. Press Enter to skip line if name isn't available.")
             redirect_back(fallback_location: students_batch_import_path)
             return
         end
         if name_list.length > netID_list.length
-            flash[:danger] = "Every student must have a netID."
+            flash[:danger] = Array(flash[:danger]).push("Every student must have a netID.")
             redirect_back(fallback_location: students_batch_import_path)
             return
         end
         if fyp_year == ""
-            flash[:danger] = "Please select FYP year of the student(s)."
+            flash[:danger] = Array(flash[:danger]).push("Please select FYP year of the student(s).")
             redirect_back(fallback_location: students_batch_import_path)
             return
         end
         if department == ""
-            flash[:danger] = "Please select the Department of the student(s)."
+            flash[:danger] = Array(flash[:danger]).push("Please select the Department of the student(s).")
             redirect_back(fallback_location: students_batch_import_path)
             return
         end
         if netID_list.length == 0
-            flash[:danger] = "Please enter student(s) info."
+            flash[:danger] = Array(flash[:danger]).push("Please enter student(s) info.")
             redirect_back(fallback_location: students_batch_import_path)
             return
         end
@@ -196,12 +196,12 @@ class StudentsController < ApplicationController
             # print "Student " + netID.to_s + " " + name.to_s + "\n"
             @student = Student.new(department: department, fyp_year: fyp_year, netID: netID, name: name)  
             if !@student.save
-                flash[:danger] = "Error when saving student " + netID.to_s
+                flash[:danger] = Array(flash[:danger]).push("Error when saving student " + netID.to_s)
                 redirect_back(fallback_location: students_batch_import_path)
                 return
             end
         end
-        flash[:success] = "All students successfully created."
+        flash[:success] = Array(flash[:success]).push("All students successfully created.")
         redirect_to '/students'
     end
   end
