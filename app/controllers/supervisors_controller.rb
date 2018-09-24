@@ -22,6 +22,8 @@ class SupervisorsController < ApplicationController
         else
             if params[:department] == ""
                 flash[:danger] = Array(flash[:danger]).push("Please select the supervisor's department.")
+            elsif params[:name] == ""
+                flash[:danger] = Array(flash[:danger]).push("Supervisor must have a name.")
             else
                 flash[:danger] = Array(flash[:danger]).push("Supervisor cannot be created.")
             end
@@ -94,8 +96,8 @@ class SupervisorsController < ApplicationController
             netID_list = request.params[:supervisors_list][:netID_list].lines.each {|x| x.strip!}
             name_list = request.params[:supervisors_list][:name_list].lines.each {|x| x.strip!}
             department = request.params[:supervisors_list][:department]
-            if name_list.length != netID_list.length
-                flash[:danger] = Array(flash[:danger]).push("Length of NetIDs does not match length of names. Press Enter to skip line if name isn't available.")
+            if name_list.length < netID_list.length
+                flash[:danger] = Array(flash[:danger]).push("Every supervisor must have a name.")
                 redirect_back(fallback_location: supervisors_batch_import_path)
                 return
             end
