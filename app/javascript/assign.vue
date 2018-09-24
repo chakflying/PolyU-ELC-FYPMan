@@ -33,7 +33,6 @@ export default {
     props: ['students', 'supervisors'], 
     data: function () {
         return {
-        message: "Vue.js is working.",
         student_set: [1],
         student_name: [null],
         supervisor_name: "",

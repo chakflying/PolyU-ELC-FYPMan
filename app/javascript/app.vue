@@ -8,7 +8,7 @@
 export default {
   data: function () {
     return {
-      message: "Vue.js is working."
+      message: ""
     }
   }
 }
