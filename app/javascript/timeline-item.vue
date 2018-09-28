@@ -17,7 +17,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="timeline-description">{{ item.description }}</div>
+                <div class="timeline-description" style="white-space: pre-wrap">{{ item.description }}</div>
             </div>
         </div>
     </li>
