@@ -10,14 +10,16 @@ import VueResource from 'vue-resource'
 import App from '../app.vue'
 import Assign from '../assign.vue'
 import Timeline from '../timeline.vue'
+import TurbolinksAdapter from 'vue-turbolinks';
 
+Vue.use(TurbolinksAdapter)
 Vue.use(VueResource)
 
 document.addEventListener('turbolinks:load', () => {
   var element = document.getElementById("hello")
   if (element != null) {
     const el = element
-    const app = new Vue({
+    new Vue({
       el,
       render: h => h(App),
     });
@@ -47,7 +49,7 @@ document.addEventListener('turbolinks:load', () => {
 
   if (element != null && props != null) {
     const el = element
-    const app = new Vue({
+    new Vue({
       el,
       render: h => h(Assign, { props }),
     });
