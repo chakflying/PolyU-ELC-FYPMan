@@ -61,7 +61,7 @@ document.addEventListener('turbolinks:load', () => {
     var parsed_props = JSON.parse(element.getAttribute('data'))
     parsed_props.items2.map((obj) => {
       obj.icon_class = 'fas fa-book';
-      obj.icon_status = 'warning';
+      obj.icon_status = 'danger';
       obj.eta = obj.eta.replace(/\T(.*)/, "");
       obj.controls = [
           { 

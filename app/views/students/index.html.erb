@@ -28,8 +28,10 @@
             <%= f.hidden_field :department, value: current_user.department %>
             <% end %>
         </div>
-        <%= f.submit "Create student", class: "btn btn-primary" %>
-        <%= link_to "Batch Import", {action: "batch_import"}, {class: "btn btn-secondary"} %>
+        <%= button_tag(type: 'submit', class: "btn btn-primary") do %>
+             <i class='fas fa-plus' style='font-size:79%'></i>&nbsp; Create Student
+        <% end %>
+        <%= link_to "Batch Import&nbsp; <i class='fas fa-arrow-right' style='font-size:80%'></i>".html_safe, {action: "batch_import"}, {class: "btn btn-secondary"} %>
         <% end %>
     <br>
     <br>

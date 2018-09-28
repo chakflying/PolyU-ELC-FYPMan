@@ -1,6 +1,14 @@
 <% provide(:title, 'Assign Students - PolyU FYP Management') %>
 <div class="container">
     <h2 class="display-2" style="margin:1em 0 0.5em 0">Assign Students</h2>
+    <div class="row" style="margin-top:1em;">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+        <%= link_to "Batch Assign&nbsp; <i class='fas fa-arrow-right' style='font-size:80%'></i>".html_safe, {action: "batch_assign"}, {class: "btn btn-secondary"} %>
+    </div>
+    <div class="col-md-3"></div>
+    </div>
+    <br>
 
     <%= content_tag :div,
     id: 'assign-form-vue',
@@ -9,12 +17,5 @@
         supervisors: @supervisors,
     }.to_json() do %>
     <% end %>
-    <div class="row" style="margin-top:1em;">
-    <div class="col-md-3"></div>
-    <div class="col-md-6">
-        <%= link_to "Batch Assign", {action: "batch_assign"}, {class: "btn btn-secondary"} %>
-    </div>
-    <div class="col-md-3"></div>
-    </div>
 
 </div>
