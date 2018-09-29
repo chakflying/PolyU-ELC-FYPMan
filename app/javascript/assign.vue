@@ -93,7 +93,6 @@ export default {
         submit: function () {
             document.getElementById("assign_submit_btn").classList.add('disabled');
             if(!(this.supervisor_netID_response[1])) {
-                document.getElementById("assign_sup_field").classList.add('is-invalid');
                 document.getElementById("assign_submit_btn").classList.remove('disabled');
                 return 0;
             }

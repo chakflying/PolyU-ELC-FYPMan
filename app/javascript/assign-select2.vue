@@ -1,5 +1,5 @@
 <template>
-<select class="form-control select2-input">
+<select class="form-control select2-input" required>
     <slot></slot>
 </select>
 </template>
