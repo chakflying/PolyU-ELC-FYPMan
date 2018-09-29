@@ -69,7 +69,7 @@
                         <%= form_for @student, :url => {:action => "removeSupervisor"}, html: {class: "col-sm-3"} do |f| %>
                             <%= hidden_field_tag :stu_netID, student.netID %>
                             <%= hidden_field_tag :sup_netID, supervisor.netID %>
-                            <%= f.submit "remove", class: "row btn btn-sm btn-white", style: "padding-top:0.1em;border-radius:0.5rem" %>
+                            <%= f.submit "remove", class: "row btn btn-sm btn-light", style: "padding-top:0.1em;border-radius:0.5rem" %>
                         <% end %>
                         </div>
                     <% end %>
