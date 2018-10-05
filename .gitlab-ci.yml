@@ -1,5 +1,10 @@
-production:
+staging:
   type: deploy
+  environment:
+    name: staging
+    url: https://polyu-fyp-man.herokuapp.com/
+  only:
+  - master
   script:
   - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/polyu-fyp-man.git
   - git push -q -f heroku master
