@@ -1,0 +1,5 @@
+production:
+  type: deploy
+  script:
+  - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/polyu-fyp-man.git
+  - git push -q -f heroku master
