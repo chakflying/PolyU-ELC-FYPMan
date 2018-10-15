@@ -24,7 +24,7 @@ production:
   encoding: utf8mb4
   username: directus
   password: VT&%m75F
-  host: localhost
+  host: <%= ENV.fetch("MYSQL_HOST") %>
   port: 3306
   database: directus
   # encoding: utf8mb4
