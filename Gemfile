@@ -6,7 +6,7 @@ ruby '2.5.1'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.1'
 # Use MySQL as the database for Active Record
-gem 'mysql2'
+gem 'mysql2', '~> 0.5.2'
 # postgresql added for Heroku compatibility
 # gem 'pg'
 
