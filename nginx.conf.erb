@@ -72,9 +72,9 @@ http {
         # Learn more at:
         # https://www.phusionpassenger.com/library/config/standalone/intro.html#nginx-configuration-template
 
-        listen 443 ssl http2;
-        listen [::]:443 ssl http2;
-        
+        listen 3000 ssl http2;
+        listen [::]:3000 ssl http2;
+
         ### END your own configuration options ###
     }
     passenger_pre_start <%= listen_url(app) %>;
