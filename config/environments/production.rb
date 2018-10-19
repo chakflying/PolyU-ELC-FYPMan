@@ -75,8 +75,8 @@ Rails.application.configure do
     :address        => 'smtp.sendgrid.net',
     :port           => '587',
     :authentication => :plain,
-    :user_name      => Rails.application.credentials.mailer.user_name,
-    :password       => Rails.application.credentials.mailer.password,
+    :user_name      => Rails.application.credentials.mailer[:user_name],
+    :password       => Rails.application.credentials.mailer[:password],
     :domain         => 'polyu.edu.hk',
     :enable_starttls_auto => true
   }
