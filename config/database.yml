@@ -19,16 +19,25 @@ test:
   <<: *default
   database: PolyFYPman_test
 
-production:
+polyUServer: &polyUServer
   adapter: mysql2
   encoding: utf8mb4
   username: <%= Rails.application.credentials.mysql[:username] %>
   password: <%= Rails.application.credentials.mysql[:password] %>
   host: localhost
   port: 3306
+
+production:
+  <<: *polyUServer
   database: directus2
-  # encoding: utf8mb4
-  # <<: *default
-  # adapter: postgresql
-  # url: <%= ENV['DATABASE_URL'] %>
-  # database: PolyFYPman_pd
+
+production_old:
+  <<: *polyUServer
+  database: directus
+  pool: 1
+
+# production_heroku:
+#   encoding: utf8mb4
+#   adapter: postgresql
+#   url: <%= ENV['DATABASE_URL'] %>
+#   database: PolyFYPman_pd
