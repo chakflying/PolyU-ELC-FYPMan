@@ -19,20 +19,22 @@ test:
   <<: *default
   database: PolyFYPman_test
 
-polyuserver: &polyuserver
+production:
   adapter: mysql2
   encoding: utf8mb4
   username: <%= Rails.application.credentials.mysql[:username] %>
   password: <%= Rails.application.credentials.mysql[:password] %>
   host: localhost
   port: 3306
-
-production:
-  <<: *polyuserver
   database: directus2
 
 production_old:
-  <<: *polyuserver
+  adapter: mysql2
+  encoding: utf8mb4
+  username: <%= Rails.application.credentials.mysql[:username] %>
+  password: <%= Rails.application.credentials.mysql[:password] %>
+  host: localhost
+  port: 3306
   database: directus
   pool: 1
 
