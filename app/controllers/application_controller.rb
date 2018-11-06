@@ -10,8 +10,8 @@ class ApplicationController < ActionController::Base
 
     def acmeauth 
         file = Pathname.new('/home/michaelchan/.acme-challenges').join(params[:file])
-        render text: File.read(file) and return if File.exist?(file)
-        render text:""
+        render plain: File.read(file) and return if File.exist?(file)
+        render plain: "" and return
     end
 
 end
