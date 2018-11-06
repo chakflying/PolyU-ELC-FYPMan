@@ -38,4 +38,7 @@ Rails.application.routes.draw do
   delete '/todos',       to: 'todos#destroy'
   resources :todos
   resources :password_resets,     only: [:new, :create, :edit, :update]
+
+  get ".well-known/acme-challenge/:file" => "application#acmeauth"
+
 end

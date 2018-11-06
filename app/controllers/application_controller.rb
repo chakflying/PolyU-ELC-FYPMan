@@ -7,4 +7,11 @@ class ApplicationController < ActionController::Base
 
     before_action :set_last_seen_at, if: proc { logged_in? && (current_user.last_seen_at.nil? || current_user.last_seen_at < 15.minutes.ago) }
     before_action :reset_hsts
+
+    def acmeauth 
+        file = Pathname.new('/home/michaelchan/.acme-challenges').join(params[:file])
+        render text: File.read(file) and return if File.exist?(file)
+        render text:""
+    end
+
 end
