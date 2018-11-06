@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
     before_action :reset_hsts
 
     def acmeauth 
-        file = Pathname.new('/home/michaelchan/.acme-challenges').join(params[:file])
+        file = Pathname.new(Dir.pwd).join('.acme-challenges').join(params[:file])
         render plain: File.read(file) and return if File.exist?(file)
         render plain: ""
         render nothing: true
