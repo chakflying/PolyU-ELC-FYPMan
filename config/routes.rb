@@ -39,6 +39,6 @@ Rails.application.routes.draw do
   resources :todos
   resources :password_resets,     only: [:new, :create, :edit, :update]
 
-  get ".well-known/acme-challenge/:file" => "application#acmeauth"
+  get '.well-known/acme-challenge/:file', to: 'application#acmeauth'
 
 end
