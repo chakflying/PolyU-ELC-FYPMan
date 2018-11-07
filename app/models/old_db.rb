@@ -3,7 +3,7 @@ class OldDb < ActiveRecord::Base
     establish_connection "production_old".to_sym
 
     def self.sync
-        OldDb.all.each do |record|
+        User.all.each do |record|
             print record
             # OldDb.create(:email => record.email)
         end
