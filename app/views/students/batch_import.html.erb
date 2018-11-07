@@ -1,6 +1,17 @@
 <% provide(:title, 'Batch Import Students - PolyU FYP Management') %>
 <div class="container">
     <h2 class="display-2" style="margin:1em 0 0.5em 0">Batch Import Students</h2>
+    <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#batchimporthelp" aria-expanded="false" aria-controls="batchimporthelp">
+        <i class="fas fa-info" style='font-size:77%;position:relative;top:-1px'></i>&ensp; Need Help?
+    </button>
+    <div class="collapse" id="batchimporthelp">
+        <br>
+        <div class="card card-body">
+            <p style="color:darkslategrey">First, select the FYP Year for all the students that will be imported. <br>On each line, input the corresponding netID and name of each student. <br>Press Enter to skip a line if name is not avaliable. <br>Press "Create Students" when you are done.</p>
+        </div>
+    </div>
+    <br>
+    <br>
     <%= form_for :students_list, url: students_batch_import_path do |f| %>
     <% if is_admin? %>
     <div class="form-group">
@@ -17,11 +28,11 @@
     <div class="row">
         <div class="form-group col-md-6">
         <%= f.label :netID_list, "List of netIDs:" %>
-        <%= f.text_area :netID_list, {rows: 15, class: "form-control"} %>
+        <%= f.text_area :netID_list, {rows: 15, class: "form-control batch-import-box"} %>
         </div>
         <div class="form-group col-md-6">
         <%= f.label :name_list, "List of names:" %>
-        <%= f.text_area :name_list, {rows: 15, class: "form-control"} %>
+        <%= f.text_area :name_list, {rows: 15, class: "form-control batch-import-box"} %>
         </div>
     </div>
     <br>
