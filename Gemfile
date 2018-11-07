@@ -77,3 +77,8 @@ gem 'bcrypt'
 
 # Rack Attack to throttle requests and provide better security
 gem 'rack-attack'
+
+# Paper Trail for tracking changes to models
+gem 'paper_trail'
+# Delay Job for async actions
+gem 'delayed_job_active_record'
