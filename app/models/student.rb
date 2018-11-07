@@ -3,5 +3,6 @@ class Student < ApplicationRecord
     validates :netID, presence: true, length: { maximum: 255 }, uniqueness: { case_sensitive: false }
     validates :fyp_year, presence: true, length: { maximum: 9 }
     has_and_belongs_to_many :supervisors
-
+    has_paper_trail
+    
 end
