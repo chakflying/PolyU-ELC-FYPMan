@@ -17,7 +17,7 @@
             <AssignSelect2 :options="supervisors" v-model="supervisor_netID_response[1]">
             </AssignSelect2>
         </div>
-        <button v-on:click="submit()" class="btn btn-primary" id="assign_submit_btn">Submit</button>
+        <button v-on:click="submit()" class="btn btn-primary" id="assign_submit_btn" aria-label="Submit">Submit</button>
     </div>
     <div class="col-md-3"></div>
     <!-- <input class="" v-model="message" placeholder="edit me"> -->

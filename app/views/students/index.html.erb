@@ -12,17 +12,17 @@
         <p>Add new Student:</p>
         <div class="row">
             <div class="form-group col-md-4">
-            <%= f.text_field :name, class: "form-control", placeholder: "enter student name" %>
+            <%= f.text_field :name, class: "form-control", placeholder: "enter student name", 'aria-label': "New student name" %>
             </div>
             <div class="form-group col-md-4">
-            <%= f.text_field :netID, class: "form-control", placeholder: "enter student netID", required: true %>
+            <%= f.text_field :netID, class: "form-control", placeholder: "enter student netID", required: true, 'aria-label': "New student netID" %>
             </div>
             <div class="form-group col-md-4">
-            <%= f.select :fyp_year, @fyp_year_list, {prompt: "Select FYP Year:"}, {class: "form-control", required: true} %>
+            <%= f.select :fyp_year, @fyp_year_list, {prompt: "Select FYP Year:"}, {class: "form-control", required: true, 'aria-label': "New student FYP Year"} %>
             </div>
             <% if is_admin? %>
             <div class="form-group col-md-12">
-            <%= f.select :department, @departments_list, {prompt: "Select Department:"}, {class: "form-control"} %>
+            <%= f.select :department, @departments_list, {prompt: "Select Department:"}, {class: "form-control", 'aria-label': "New student Department"} %>
             </div>
             <% else %>
             <%= f.hidden_field :department, value: current_user.department %>
@@ -77,11 +77,11 @@
                     </td>
                     <td>
                         <%= link_to student, method: :get, data: {} do %>
-                            <button class="btn btn-sm btn-outline-info" style="width:35px;margin-bottom:5px"><i class="fas fa-user-edit"></i></button>
+                            <button class="btn btn-sm btn-outline-info" style="width:35px;margin-bottom:5px" aria-label="Edit Student"><i class="fas fa-user-edit"></i></button>
                         <% end %>
                         <%= link_to student, method: :delete,
                                   data: { confirm: "Do you want to delete this student?" } do %>
-                            <button class="btn btn-sm btn-danger" style="width:35px;margin-bottom:5px"><i class="fas fa-trash"></i></button>
+                            <button class="btn btn-sm btn-danger" style="width:35px;margin-bottom:5px" aria-label="Delete Student"><i class="fas fa-trash"></i></button>
                         <% end %>
                     </td>
                 </tr>

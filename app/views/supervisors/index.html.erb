@@ -12,14 +12,14 @@
         <p>Add new supervisor:</p>
         <div class="row">
             <div class="form-group col-md-4">
-            <%= f.text_field :name, class: "form-control", placeholder: "enter supervisor name" %>
+            <%= f.text_field :name, class: "form-control", placeholder: "enter supervisor name", 'aria-label': "New supervisor name" %>
             </div>
             <div class="form-group col-md-4">
-            <%= f.text_field :netID, class: "form-control", placeholder: "enter supervisor netID", required: true %>
+            <%= f.text_field :netID, class: "form-control", placeholder: "enter supervisor netID", required: true, 'aria-label': "New supervisor netID" %>
             </div>
             <% if is_admin? %>
             <div class="form-group col-md-12">
-            <%= f.select :department, @departments_list, {prompt: "Select Department:"}, {class: "form-control"} %>
+            <%= f.select :department, @departments_list, {prompt: "Select Department:"}, {class: "form-control", 'aria-label': "New supervisor department"} %>
             </div>
             <% else %>
             <%= f.hidden_field :department, value: current_user.department %>
@@ -75,11 +75,11 @@
                     </td>
                     <td>
                         <%= link_to supervisor, method: :get, data: {} do %>
-                            <button class="btn btn-sm btn-outline-info" style="width:35px"><i class="fas fa-user-edit"></i></button>
+                            <button class="btn btn-sm btn-outline-info" style="width:35px" aria-label="Edit Supervisor"><i class="fas fa-user-edit"></i></button>
                         <% end %>
                         <%= link_to supervisor, method: :delete,
                                     data: { confirm: "Do you want to delete this supervisor?" } do %>
-                            <button class="btn btn-sm btn-danger" style="width:35px"><i class="fas fa-trash"></i></button>
+                            <button class="btn btn-sm btn-danger" style="width:35px" aria-label="Delete Supervisor"><i class="fas fa-trash"></i></button>
                         <% end %>
                     </td>
                 </tr>

@@ -9,7 +9,7 @@
     <%= form_for(:session, url: login_path) do |f| %>
       <div class="form-group">
       <%= f.label "Username or email" %>
-      <%= f.text_field :username, class: 'form-control', placeholder: "Enter username or email" %>
+      <%= f.text_field :username, class: 'form-control', placeholder: "Enter username or email", 'aria-label': "Login username or email" %>
       </div>
       
       <div class="form-group">
