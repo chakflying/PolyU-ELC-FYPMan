@@ -1,11 +1,24 @@
 <% provide(:title, @user.username + " - PolyU FYP Management") %>
 <div class="container">
     <h2 class="display-2" style="margin:1em 0 0.5em 0">User Profile</h2>
-    <p>
-    <%= gravatar_for @user %><br><br>
-    Manage Avatar in <%= link_to "Gravatar", "https://www.gravatar.com" %><br><br>
-    Username: &nbsp;&nbsp;&nbsp;&nbsp; <%= @user.username %><br><br>
-    Email: &nbsp;&nbsp;&nbsp;&nbsp; <%= @user.email %><br><br>
-    Department: &nbsp;&nbsp;&nbsp;&nbsp; <%= @user.department %>
-    </p>
+    <div class="card" style="max-width: 38rem;">
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+            <%= gravatar_for(@user,size: 200) %><br>
+            <small>Manage Avatar in <%= link_to "Gravatar", "https://www.gravatar.com" %></small>
+        </li>
+        <li class="list-group-item">
+            Username: &nbsp;&nbsp;&nbsp;&nbsp; <%= @user.username %>
+        </li>
+        <li class="list-group-item">
+            User ID: &nbsp;&nbsp;&nbsp;&nbsp; <%= @user.id %>
+        </li>
+        <li class="list-group-item">
+            Email: &nbsp;&nbsp;&nbsp;&nbsp; <%= @user.email %>
+        </li>
+        <li class="list-group-item">
+            Department: &nbsp;&nbsp;&nbsp;&nbsp; <%= @user.department %>
+        </li>
+    </ul>
+    </div>
 </div>
