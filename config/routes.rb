@@ -10,7 +10,6 @@ Rails.application.routes.draw do
   get    '/login',   to: 'sessions#new'
   post   '/login',   to: 'sessions#create'
   delete '/logout',  to: 'sessions#destroy'
-  get    '/admin',   to: 'users#admin'
   resources :users
   get    '/students',to: 'students#index'
   post   '/students', to: 'students#create'
@@ -38,7 +37,9 @@ Rails.application.routes.draw do
   delete '/todos',       to: 'todos#destroy'
   resources :todos
   resources :password_resets,     only: [:new, :create, :edit, :update]
-
+  get    '/admin/',        to: 'admin#index'
+  get    '/admin/users',   to: 'admin#users'
+  
   get '.well-known/acme-challenge/:file', to: 'application#acmeauth'
-
+  
 end

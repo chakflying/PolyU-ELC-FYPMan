@@ -11,8 +11,17 @@ document.addEventListener("turbolinks:load", function () {
                 { 'width': '5%', 'targets': 0 },
                 { 'width': '17%', 'targets': 1 },
                 { 'width': '10%', 'targets': 2 },
-                { 'width': '35%', 'targets': -2 },
-                { 'width': '70px', 'targets': -1 },
+                { 'width': '150px', 'targets': -2 },
+                { 'width': '72px', 'targets': -1 },
+            ]
+        });
+    }
+    if (!$.fn.DataTable.isDataTable('.admin-activity-table')) {
+        user_dataTable = $('.admin-activity-table').dataTable({
+            stateSave: true,
+            responsive: true,
+            columnDefs: [
+                { responsivePriority: 10001, targets: -1 },
             ]
         });
     }

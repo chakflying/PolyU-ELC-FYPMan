@@ -6,14 +6,6 @@ class UsersController < ApplicationController
         @user = User.find(params[:id])
     end
 
-    def admin
-        if not is_admin?
-            redirect_to :root
-            return
-        end
-        @users = User.all
-    end
-
     def edit
         @departments_list = get_departments_list
     end

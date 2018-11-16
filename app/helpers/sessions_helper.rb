@@ -19,6 +19,10 @@ module SessionsHelper
         @current_user = nil
     end
 
+    def authenticate_admin!
+        redirect_to :root if current_user.nil? or !current_user.admin
+    end
+
     def authenticate_user!
     redirect_to :root if current_user.nil?
     end

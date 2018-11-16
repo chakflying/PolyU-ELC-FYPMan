@@ -1,0 +1,44 @@
+<% provide(:title, 'Admin - PolyU FYP Management') %>
+<div class="container">
+    <h2 class="display-2" style="margin:1em 0 0.5em 0">Database Activity</h2>
+    <br>
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link <%= (!params[:students] and !params[:supervisors] and !params[:users]) ? 'active' : '' %>" href="/admin">All Activities</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link <%= params[:students] ? 'active' : '' %>" href="/admin?students=">Students</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link <%= params[:supervisors] ? 'active' : '' %>" href="/admin?supervisors=">Supervisors</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link <%= params[:users] ? 'active' : '' %>" href="/admin?users=">Users</a>
+        </li>
+    </ul>
+    <br>
+    <table class="table admin-activity-table" style="font-size:14px; width:100%">
+        <thead>
+            <tr>
+            <th scope="col">#</th>
+            <th scope="col">Type</th>
+            <th scope="col">Event</th>
+            <th scope="col">By Who</th>
+            <th scope="col">Time</th>
+            <th scope="col">Changes</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% @versions.each do |version| %>
+                <tr>
+                    <th scope="row"><%= version.id %></th>
+                    <td><%= version.item_type %></td>
+                    <td><%= version.event %></td>
+                    <td><%= version.whodunnit ? User.find(version.whodunnit).username : "" %></td>
+                    <td><%= version.created_at.in_time_zone("Hong Kong") %></td>
+                    <td><%= version.changeset.except(:updated_at, :created_at) %></td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+</div>
