@@ -40,7 +40,7 @@ Node.js should be installed, perferably with at least the latest version of 8.X.
 * Modify ```database.yml``` for platform specific settings
 * Make sure the database is updated to the latest schema with ``` rails db:migrate ```
 * Make sure the assets are compiled by running ``` rails assets:precompile ```
-* Check that the precompiled assets in ``` public/assets ``` have the correct permission for the server to access ``` chmod 755 ```
+* Check that the precompiled assets in ``` /public/ ``` have the correct permission for the server to access ``` chmod 755 ```
 * Run server with ``` rails s --environment=production ``` with other options if necessary.
 
 ## Database initialization
