@@ -3,7 +3,7 @@
         <div :class="'timeline-badge ' + item.icon_status"><i :class="item.icon_class"></i></div>
             <div class="timeline-panel">
                 <div class="timeline-heading">
-                    <h4 class="timeline-title">{{ item.title }}</h4>
+                    <h4 class="timeline-title col-lg-9 col-sm-8 col-xs-12">{{ item.title }}</h4>
                     <div class="timeline-panel-controls">
                         <div class="controls">
                             <a 

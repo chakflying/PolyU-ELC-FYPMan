@@ -47,7 +47,7 @@ class TodosController < ApplicationController
     end
 
     def todo_params
-        params.require(:todo).permit(:department, :title, :description, :eta)
+        params.require(:todo).permit(:department, :title, :description, :eta, :sync_id)
     end
 
     def destroy

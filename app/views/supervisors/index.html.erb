@@ -58,10 +58,10 @@
                     <div class="col-md-12">
                     <% supervisor.students.each do |student| %>
                         <div class="row" style="margin-bottom:0.3em;margin-right:5px">
-                        <div class="col-lg-4 col-md-6" style="max-width:50%">
+                        <div class="col-lg-5 col-md-6" style="overflow:hidden;">
                         <%= student.netID %>
                         </div>
-                        <div class="col-lg-4 col-md-6" style="max-width:50%">
+                        <div class="col-lg-4 col-md-6">
                         <%= student.fyp_year %>
                         </div>
                         <%= form_for @supervisor, :url => {:action => "removeStudent"}, html: {class: "col-md-3"} do |f| %>
