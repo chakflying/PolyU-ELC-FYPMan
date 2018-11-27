@@ -82,3 +82,5 @@ gem 'rack-attack'
 gem 'paper_trail'
 # Delay Job for async actions
 gem 'delayed_job_active_record'
+gem 'delayed_job_recurring'
+gem 'daemons'

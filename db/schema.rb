@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_07_134030) do
+ActiveRecord::Schema.define(version: 2018_11_27_044113) do
 
   create_table "delayed_jobs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.integer "priority", default: 0, null: false
@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(version: 2018_11_07_134030) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "fyp_year"
+    t.integer "sync_id"
   end
 
   create_table "students_supervisors", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
@@ -47,6 +48,7 @@ ActiveRecord::Schema.define(version: 2018_11_07_134030) do
     t.string "department"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "sync_id"
   end
 
   create_table "todos", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
@@ -54,6 +56,7 @@ ActiveRecord::Schema.define(version: 2018_11_07_134030) do
     t.string "title"
     t.text "description"
     t.datetime "eta"
+    t.integer "sync_id"
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|

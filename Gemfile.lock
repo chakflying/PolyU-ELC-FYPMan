@@ -80,11 +80,15 @@ GEM
     coffee-script-source (1.12.2)
     concurrent-ruby (1.0.5)
     crass (1.0.4)
+    daemons (1.2.6)
     delayed_job (4.1.5)
       activesupport (>= 3.0, < 5.3)
     delayed_job_active_record (4.1.3)
       activerecord (>= 3.0, < 5.3)
       delayed_job (>= 3.0, < 5)
+    delayed_job_recurring (0.3.8)
+      delayed_job (>= 3.0)
+      delayed_job_active_record
     erubi (1.7.1)
     execjs (2.7.0)
     ffi (1.9.25)
@@ -231,7 +235,9 @@ DEPENDENCIES
   capybara (>= 2.15)
   chromedriver-helper
   coffee-rails (~> 4.2)
+  daemons
   delayed_job_active_record
+  delayed_job_recurring
   jbuilder (~> 2.5)
   jquery-rails
   listen (>= 3.0.5, < 3.2)
