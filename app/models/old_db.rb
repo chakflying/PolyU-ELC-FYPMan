@@ -18,7 +18,7 @@ class OldDb < ActiveRecord::Base
         todos = self.connection.select_all("SELECT * from todos")
         entries.each do |entry|
             next if entry['status'] == 0
-            if entry['FYPyear'] == nil
+            if entry['FYPyear'] == nil or entry['FYPyear'] == ""
                 @fyp_year = Time.now.year.to_s + '-' + (Time.now.year + 1).to_s
             else
                 @fyp_year = entry['FYPyear']
@@ -49,7 +49,7 @@ class OldDb < ActiveRecord::Base
             else
                 student.department = ( stu['department'] ? departments.detect{|x| x['id'] == stu['department']}['name'] : "" )
                 student.name = stu['common_name']
-                student.fyp_year = ( stu['FYPyear'] ? stu['FYPyear'] : Time.now.year.to_s + '-' + (Time.now.year + 1).to_s )
+                student.fyp_year = ( ( !stu['FYPyear'] or entry['FYPyear'] == "" ) ? Time.now.year.to_s + '-' + (Time.now.year + 1).to_s : stu['FYPyear'])
                 student.netID = stu['net_id']
                 student.save!
             end
