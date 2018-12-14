@@ -33,7 +33,9 @@
         </div>
     </div>
     <br>
-    <%= f.submit "Create Supervisors", class: "btn btn-primary" %>
-    <%= link_to "Back", '/supervisors', {class: "btn btn-secondary"} %>
+    <%= button_tag(type: 'submit', class: "btn btn-primary") do %>
+             <i class='fas fa-plus' style='font-size:79%'></i>&nbsp; Create Supervisors
+    <% end %>
+    <%= link_to "Back&nbsp; <i class='fas fa-undo' style='font-size:79%'></i>".html_safe, '/supervisors', {class: "btn btn-secondary"} %>
     <% end %>
 </div>
