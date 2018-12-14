@@ -67,4 +67,8 @@ Rails.application.configure do
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   PaperTrail.config.version_limit = 10
+
+  # Setup The Old Database connection using Sequel
+  Old_DB = Sequel.connect((Rails.configuration.database_configuration)["development_old"])
+
 end

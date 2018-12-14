@@ -109,4 +109,8 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   PaperTrail.config.version_limit = 100
+
+  # Setup The Old Database connection using Sequel
+  Old_DB = Sequel.connect((Rails.configuration.database_configuration)["production_old"])
+
 end
