@@ -23,6 +23,7 @@ class StudentsController < ApplicationController
         return
     end
     if @student.save
+        olddb_student_create(student_params)
         flash[:success] = Array(flash[:success]).push("Student successfully added!")
         redirect_to '/students'
     else
@@ -42,6 +43,7 @@ class StudentsController < ApplicationController
     @fyp_year_list = get_fyp_years_list
     if request.patch?
         if @student.update_attributes(student_params)
+            olddb_student_update(student_params)
             flash[:success] = Array(flash[:success]).push("Student updated.")
             redirect_to '/students'
         else
@@ -51,77 +53,13 @@ class StudentsController < ApplicationController
   end
 
   def destroy
-    Student.find(params[:id]).destroy
-    flash[:success] = Array(flash[:success]).push("Student deleted.")
-    redirect_to '/students'
-  end
-
-  def assign
-    if is_admin?
-        @students = Student.all.select(:netID, :name).to_a
-        @supervisors = Supervisor.all.select(:netID, :name).to_a
+    if Student.find(params[:id]).destroy
+        olddb_student_destroy(params)
+        flash[:success] = Array(flash[:success]).push("Student deleted.")
     else
-        @students = Student.where(department: current_user.department).select(:netID, :name).to_a
-        @supervisors = Supervisor.where(department: current_user.department).select(:netID, :name).to_a
+        flash[:danger] = Array(flash[:danger]).push("Error deleting student.")
     end
-    if request.post?
-        stu_ids = request.params[:student_netID].values
-        sup_id = (request.params[:supervisor_netID].values)[0].to_s
-        sup = Supervisor.find_by(netID: sup_id)
-        if !sup
-            flash[:danger] = Array(flash[:danger]).push("Supervisor with netID " + sup_id + " not found.")
-            render plain: "submitted"
-            return
-        end
-        stu_ids.each do |stu_id|
-            stu = Student.find_by(netID: stu_id)
-            if !stu
-                flash[:danger] = Array(flash[:danger]).push("Student with netID " + stu_id + " not found.")
-            elsif stu.supervisors.find_by(netID: sup_id)
-                flash[:info] = Array(flash[:info]).push("Student with netID " + stu_id + " already assigned.")
-            else
-                stu.supervisors << sup
-                flash[:success] = Array(flash[:success]).push("Student with netID " + stu_id + " assigned successfully.")
-            end
-        end
-        render plain: "submitted"
-    end
-  end
-
-  def batch_assign
-    if request.post?
-        students_netID_list = request.params[:lists][:students_list].lines.each {|x| x.strip!}
-        supervisors_netID_list = request.params[:lists][:supervisors_list].lines.each {|x| x.strip!}
-        students_netID_list.each do |stu_id|
-            stu = Student.find_by(netID: stu_id)
-            if !stu
-                flash[:danger] = Array(flash[:danger]).push("Student with netID " + stu_id + " not found.")
-                render 'batch_assign'
-                return
-            end
-        end
-        supervisors_netID_list.each do |sup_id|
-            sup = Supervisor.find_by(netID: sup_id)
-            if !sup
-                flash[:danger] = Array(flash[:danger]).push("Supervisor with netID " + sup_id + " not found.")
-                render 'batch_assign'
-                return
-            end
-        end
-        students_netID_list.each do |stu_id|
-            supervisors_netID_list.each do |sup_id|
-                stu = Student.find_by(netID: stu_id)
-                sup = Supervisor.find_by(netID: sup_id)
-                if stu.supervisors.find_by(netID: sup_id)
-                    flash[:info] = Array(flash[:info]).push("Student with netID " + stu_id + " already assigned.")
-                else
-                    stu.supervisors << sup
-                end
-            end
-        end
-        flash[:success] = Array(flash[:success]).push("All students assigned successfully.")
-        redirect_to '/students'
-    end
+    redirect_to '/students'
   end
 
   def getStudentName
@@ -139,7 +77,6 @@ class StudentsController < ApplicationController
   def removeSupervisor
     sup_id = request.params[:sup_netID]
     stu_id = request.params[:stu_netID]
-    @students = Student.all
     @student = Student.find_by(netID: stu_id)
     sup = Supervisor.find_by(netID: sup_id)
     if !@student
@@ -150,6 +87,7 @@ class StudentsController < ApplicationController
         redirect_to '/students'
     else
         @student.supervisors.delete(sup)
+        olddb_student_removeSupervisor(stu_id, sup_id)
         flash[:success] = Array(flash[:success]).push("Supervisor removed successfully.")
         redirect_to '/students'
     end
@@ -199,6 +137,8 @@ class StudentsController < ApplicationController
                 flash[:danger] = Array(flash[:danger]).push("Error when saving student " + netID.to_s)
                 redirect_back(fallback_location: students_batch_import_path)
                 return
+            else
+                olddb_student_create({department: department, fyp_year: fyp_year, netID: netID, name: name})
             end
         end
         flash[:success] = Array(flash[:success]).push("All students successfully created.")

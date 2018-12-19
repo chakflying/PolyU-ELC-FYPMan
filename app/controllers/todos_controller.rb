@@ -2,9 +2,9 @@ class TodosController < ApplicationController
     before_action :authenticate_user!
     def show
         if is_admin?
-            @todolist = Todo.all.order("eta ASC").to_a
+            @todo_list = Todo.all.order("eta ASC").to_a
         else
-            @todolist = Todo.where(department: current_user.department).or(Todo.where(department: "")).order("eta ASC").to_a
+            @todo_list = Todo.where(department: current_user.department).or(Todo.where(department: "")).order("eta ASC").to_a
         end
         @todo = Todo.new
         @departments_list = get_departments_list
@@ -13,6 +13,9 @@ class TodosController < ApplicationController
     def create
         @todo = Todo.new(todo_params)  # Not the final implementation!
         if @todo.save
+            sync_id = olddb_todo_create(todo_params)
+            @todo.sync_id = sync_id
+            @todo.save
             flash[:success] = Array(flash[:success]).push("Todo item successfully added!")
             redirect_to '/todos'
         else
@@ -38,6 +41,7 @@ class TodosController < ApplicationController
         @departments_list = get_departments_list
         if request.patch?
             if @todo.update_attributes(todo_params)
+                olddb_todo_update(todo_params, @todo.sync_id)
                 flash[:success] = Array(flash[:success]).push("Todo item updated.")
                 redirect_to '/todos'
             else
@@ -47,11 +51,13 @@ class TodosController < ApplicationController
     end
 
     def todo_params
-        params.require(:todo).permit(:department, :title, :description, :eta, :sync_id)
+        params.require(:todo).permit(:department, :title, :description, :eta)
     end
 
     def destroy
+        sync_id = Todo.find(params[:id]).sync_id
         if Todo.find(params[:id]).destroy
+            olddb_todo_destroy(sync_id)
             flash[:success] = Array(flash[:success]).push("Todo item deleted.")
             render plain: "submitted"
         else

@@ -17,6 +17,7 @@ class SupervisorsController < ApplicationController
     def create
         @supervisor = Supervisor.new(supervisor_params)
         if @supervisor.save
+            olddb_supervisor_create(supervisor_params)
             flash[:success] = Array(flash[:success]).push("Supervisor successfully added!")
             redirect_to '/supervisors'
         else
@@ -41,6 +42,7 @@ class SupervisorsController < ApplicationController
         @fyp_year_list = get_fyp_years_list
         if request.patch?
             if @supervisor.update_attributes(supervisor_params)
+                olddb_supervisor_update(supervisor_params)
                 flash[:success] = Array(flash[:success]).push("Supervisor updated.")
                 redirect_to '/supervisors'
             else
@@ -50,8 +52,12 @@ class SupervisorsController < ApplicationController
       end
 
     def destroy
-        Supervisor.find(params[:id]).destroy
-        flash[:success] = Array(flash[:success]).push("Supervisor deleted.")
+        if Supervisor.find(params[:id]).destroy
+            olddb_supervisor_destroy(params)
+            flash[:success] = Array(flash[:success]).push("Supervisor deleted.")
+        else
+            flash[:danger] = Array(flash[:danger]).push("Error deleting supervisor.")
+        end
         redirect_to '/supervisors'
     end
 
@@ -81,6 +87,7 @@ class SupervisorsController < ApplicationController
             redirect_to '/supervisors'
         else
             @supervisor.students.delete(stu)
+            olddb_supervisor_removeStudent(stu_id, sup_id)
             flash[:success] = Array(flash[:success]).push("Student unassigned successfully.")
             redirect_to '/supervisors'
         end
@@ -127,6 +134,8 @@ class SupervisorsController < ApplicationController
                     end
                     redirect_back(fallback_location: supervisors_batch_import_path)
                     return
+                else
+                    olddb_supervisor_create({department: department, netID: netID, name: name})
                 end
             end
             flash[:success] = Array(flash[:success]).push("All supervisors successfully created.")

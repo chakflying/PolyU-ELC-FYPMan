@@ -1,9 +1,4 @@
-class OldUsers < Sequel::Model(Old_DB[:users]); end
-class OldDepartments < Sequel::Model(Old_DB[:departments]); end
-class OldRelations < Sequel::Model(Old_DB[:supervises]); end
-class OldTodos < Sequel::Model(Old_DB[:todos]); end
-
-class OldDb < ActiveRecord::Base  
+class OldDb < ActiveRecord::Base
     # Simple old database sync
     def self.sync
         OldUsers.each do |entry|
