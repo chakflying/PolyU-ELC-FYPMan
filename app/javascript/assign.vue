@@ -9,7 +9,7 @@
                 </AssignSelect2>
             </div>
         </template>
-        <button v-on:click="add_student_field()" class="btn btn-secondary">Add another student</button>
+        <button v-on:click="add_student_field()" class="btn btn-secondary"><i class='fas fa-plus' style='font-size:79%'></i>&nbsp;Add another student</button>
         <br>
         <br>
         <label for="student_netID">to supervisor:</label>
