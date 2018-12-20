@@ -22,7 +22,8 @@ document.addEventListener("turbolinks:load", function () {
             responsive: true,
             columnDefs: [
                 { responsivePriority: 10001, targets: -1 },
-            ]
+            ],
+            order: [[ 4, "desc" ]]
         });
     }
 
