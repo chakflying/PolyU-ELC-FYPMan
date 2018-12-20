@@ -20,8 +20,8 @@ module StudentsHelper
         @old_student.update(common_name: params[:name], net_id: params[:netID], FYPyear: params[:fyp_year], department: check_old_department(params[:department]))
     end
 
-    def olddb_student_destroy(params)
-        @old_student = OldUsers.first(net_id: Student.find(params[:id]).netID)
+    def olddb_student_destroy(sync_id)
+        @old_student = OldUsers[sync_id]
         @old_student.destroy
     end
 

@@ -9,8 +9,8 @@ module SupervisorsHelper
         @old_supervisor.update(common_name: params[:name], net_id: params[:netID], department: check_old_department(params[:department]))
     end
 
-    def olddb_supervisor_destroy(params)
-        @old_supervisor = OldUsers.first(net_id: Superivsor.find(params[:id]).netID)
+    def olddb_supervisor_destroy(sync_id)
+        @old_supervisor = OldUsers[sync_id]
         @old_supervisor.destroy
     end
 

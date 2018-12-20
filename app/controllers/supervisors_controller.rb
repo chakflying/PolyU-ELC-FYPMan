@@ -54,8 +54,9 @@ class SupervisorsController < ApplicationController
       end
 
     def destroy
+        sync_id = Supervisor.find(params[:id]).sync_id
         if Supervisor.find(params[:id]).destroy
-            olddb_supervisor_destroy(params)
+            olddb_supervisor_destroy(sync_id)
             flash[:success] = Array(flash[:success]).push("Supervisor deleted.")
         else
             flash[:danger] = Array(flash[:danger]).push("Error deleting supervisor.")

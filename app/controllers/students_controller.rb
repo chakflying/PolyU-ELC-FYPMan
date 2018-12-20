@@ -55,8 +55,9 @@ class StudentsController < ApplicationController
   end
 
   def destroy
+    sync_id = Student.find(params[:id]).sync_id
     if Student.find(params[:id]).destroy
-        olddb_student_destroy(params)
+        olddb_student_destroy(sync_id)
         flash[:success] = Array(flash[:success]).push("Student deleted.")
     else
         flash[:danger] = Array(flash[:danger]).push("Error deleting student.")
