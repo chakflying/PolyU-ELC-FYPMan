@@ -14,7 +14,7 @@
 
         <div class="form-group">
         <%= f.label :username %>
-        <%= f.text_field :username, class: 'form-control', disabled: true %>
+        <%= f.text_field :username, class: 'form-control', readonly: true %>
         </div>
 
         <div class="form-group">
@@ -24,7 +24,12 @@
 
         <div class="form-group">
         <%= f.label :department %>
-        <%= f.select :department, @departments_list, {}, {class: "form-control", disabled: !is_admin?} %>
+        <% if is_admin? %>
+        <%= f.select :department_id, @departments_list, {include_blank: true}, {class: "form-control"} %>
+        <% else %>
+        <%= f.select :department_id, @departments_list, {include_blank: true}, {class: "form-control", disabled: true} %>
+        <%= f.hidden_field :department_id, value: current_user.department.id %>
+        <% end %>
         </div>
 
         <div class="form-group">

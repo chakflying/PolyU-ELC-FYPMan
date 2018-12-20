@@ -25,7 +25,8 @@ class UsersController < ApplicationController
     end
 
     def create
-        @user = User.new(user_params)    # Not the final implementation!
+        @departments_list = get_departments_list
+        @user = User.new(user_params)
         if @user.save
             flash[:success] = Array(flash[:success]).push("Sign Up successful!")
             redirect_to @user
@@ -45,7 +46,7 @@ class UsersController < ApplicationController
     end
 
     def user_params
-        params.require(:user).permit(:username, :email, :password, :password_confirmation, :department)
+        params.require(:user).permit(:username, :email, :password, :password_confirmation, :department_id)
     end
 
     def correct_user

@@ -23,19 +23,25 @@ class SupervisorsController < ApplicationController
             flash[:success] = Array(flash[:success]).push("Supervisor successfully added!")
             redirect_to '/supervisors'
         else
-            if params[:department] == ""
+            if params[:department_id] == ""
                 flash[:danger] = Array(flash[:danger]).push("Please select the supervisor's department.")
             elsif params[:name] == ""
                 flash[:danger] = Array(flash[:danger]).push("Supervisor must have a name.")
             else
                 flash[:danger] = Array(flash[:danger]).push("Supervisor cannot be created.")
             end
-            redirect_to '/supervisors'
+            if is_admin?
+                @supervisors = Supervisor.all
+                @departments_list = get_departments_list
+            else
+                @supervisors = Supervisor.where(department: current_user.department)
+            end
+            render 'index'
         end
     end
   
     def supervisor_params
-        params.require(:supervisor).permit(:name, :netID, :department)
+        params.require(:supervisor).permit(:name, :netID, :department_id)
     end
 
     def update
@@ -105,30 +111,34 @@ class SupervisorsController < ApplicationController
         if request.post?
             netID_list = request.params[:supervisors_list][:netID_list].lines.each {|x| x.strip!}
             name_list = request.params[:supervisors_list][:name_list].lines.each {|x| x.strip!}
-            department = request.params[:supervisors_list][:department]
+            department_id = request.params[:supervisors_list][:department_id]
             if name_list.length < netID_list.length
                 flash[:danger] = Array(flash[:danger]).push("Every supervisor must have a name.")
-                redirect_back(fallback_location: supervisors_batch_import_path)
+                render 'batch_import'
                 return
             end
             if name_list.length > netID_list.length
                 flash[:danger] = Array(flash[:danger]).push("Every supervisor must have a netID.")
-                redirect_back(fallback_location: supervisors_batch_import_path)
+                render 'batch_import'
                 return
             end
-            if department == ""
+            if department_id == ""
                 flash[:danger] = Array(flash[:danger]).push("Please select the Department of the supervisor(s).")
-                redirect_back(fallback_location: supervisors_batch_import_path)
+                render 'batch_import'
                 return
             end
             if netID_list.length == 0
                 flash[:danger] = Array(flash[:danger]).push("Please enter supervisor(s) info.")
-                redirect_back(fallback_location: supervisors_batch_import_path)
+                render 'batch_import'
                 return
             end
             netID_list.zip(name_list).each do |netID, name|
-                # print "Supervisor " + netID.to_s + " " + name.to_s + "\n"
-                @supervisor = Supervisor.new(department: department, netID: netID, name: name)  
+                if Supervisor.find_by(netID: netID)
+                    flash[:danger] = Array(flash[:danger]).push("Supervisor with netID: " + netID + " already exist.")
+                    render 'batch_import'
+                    return
+                end
+                @supervisor = Supervisor.new(department_id: department_id, netID: netID, name: name)  
                 if !@supervisor.save
                     if name == ""
                         flash[:danger] = Array(flash[:danger]).push("Supervisor "+ netID.to_s + " must have a name.")
@@ -138,7 +148,7 @@ class SupervisorsController < ApplicationController
                     redirect_back(fallback_location: supervisors_batch_import_path)
                     return
                 else
-                    sync_id = olddb_supervisor_create({department: department, netID: netID, name: name})
+                    sync_id = olddb_supervisor_create({department: Department.find(department_id).name, netID: netID, name: name})
                     @supervisor.sync_id = sync_id
                     @supervisor.save
                 end

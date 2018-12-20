@@ -20,7 +20,7 @@
                     <th scope="row"><%= user.id %></th>
                     <td><%= user.username %></td>
                     <td><%= user.email %></td>
-                    <td><%= user.department %></td>
+                    <td><%= user.department.name %></td>
                     <td><%= user.admin %></td>
                     <td><%= user.last_seen_at.in_time_zone("Hong Kong") if user.last_seen_at %></td>
                     <td>

@@ -4,7 +4,7 @@
     <% if is_admin? %>
     <h5 class="display-5">You are viewing Todo items from all departments.</h5>
     <% else %>
-    <h5 class="display-5">You are viewing Todo items from <%= current_user.department %>.</h5>
+    <h5 class="display-5">You are viewing Todo items from <%= current_user.department.name %>.</h5>
     <% end %>
     <br>
     <button class="btn btn-lg btn-secondary" type="button" data-toggle="collapse" data-target="#addtodoform" aria-expanded="false" aria-controls="addtodoform">
@@ -29,10 +29,10 @@
         <div class="form-row">
             <% if is_admin? %>
             <div class="form-group col-md-12">
-            <%= f.select :department, @departments_list, {prompt: "Select Department:"}, {class: "form-control"} %>
+            <%= f.select :department_id, @departments_list, {prompt: "Select Department:"}, {class: "form-control"} %>
             </div>
             <% else %>
-            <%= f.hidden_field :department, value: current_user.department %>
+            <%= f.hidden_field :department_id, value: current_user.department.id %>
             <% end %>
         </div>
         <div class="form-row">

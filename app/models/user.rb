@@ -7,6 +7,7 @@ class User < ApplicationRecord
     validates :email, presence: true, length: { maximum: 255 }, format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false }
     has_secure_password
     validates :password, presence: true, length: { minimum: 8 }, if: -> {new_record? || changes[:password_digest]}
+    belongs_to :department
     has_paper_trail
 
     def User.digest(string)

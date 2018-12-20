@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_27_044113) do
+ActiveRecord::Schema.define(version: 2018_12_20_084411) do
 
   create_table "delayed_jobs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.integer "priority", default: 0, null: false
@@ -27,14 +27,22 @@ ActiveRecord::Schema.define(version: 2018_11_27_044113) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
+  create_table "departments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.string "name"
+    t.string "code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "students", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "name"
     t.string "netID"
-    t.string "department"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "fyp_year"
     t.integer "sync_id"
+    t.bigint "department_id"
+    t.index ["department_id"], name: "index_students_on_department_id"
   end
 
   create_table "students_supervisors", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
@@ -45,18 +53,20 @@ ActiveRecord::Schema.define(version: 2018_11_27_044113) do
   create_table "supervisors", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "name"
     t.string "netID"
-    t.string "department"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "sync_id"
+    t.bigint "department_id"
+    t.index ["department_id"], name: "index_supervisors_on_department_id"
   end
 
   create_table "todos", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
-    t.string "department"
     t.string "title"
     t.text "description"
     t.datetime "eta"
     t.integer "sync_id"
+    t.bigint "department_id"
+    t.index ["department_id"], name: "index_todos_on_department_id"
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
@@ -66,10 +76,11 @@ ActiveRecord::Schema.define(version: 2018_11_27_044113) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "admin", default: false
-    t.string "department"
     t.datetime "last_seen_at"
     t.string "reset_digest"
     t.datetime "reset_sent_at"
+    t.bigint "department_id"
+    t.index ["department_id"], name: "index_users_on_department_id"
   end
 
   create_table "versions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|

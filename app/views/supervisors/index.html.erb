@@ -4,7 +4,7 @@
     <% if is_admin? %>
     <h5 class="display-5">You are viewing all supervisors.</h5>
     <% else %>
-    <h5 class="display-5">You are viewing supervisors from <%= current_user.department %>.</h5>
+    <h5 class="display-5">You are viewing supervisors from <%= current_user.department.name %>.</h5>
     <% end %>
     <br>
     <%= form_for(@supervisor, url: supervisors_path) do |f| %>
@@ -19,10 +19,10 @@
             </div>
             <% if is_admin? %>
             <div class="form-group col-md-12">
-            <%= f.select :department, @departments_list, {prompt: "Select Department:"}, {class: "form-control", 'aria-label': "New supervisor department"} %>
+            <%= f.select :department_id, @departments_list, {prompt: "Select Department:"}, {class: "form-control", 'aria-label': "New supervisor department"} %>
             </div>
             <% else %>
-            <%= f.hidden_field :department, value: current_user.department %>
+            <%= f.hidden_field :department_id, value: current_user.department %>
             <% end %>
         </div>
         <%= button_tag(type: 'submit', class: "btn btn-primary") do %>
@@ -52,7 +52,7 @@
                     <td><%= supervisor.name %></td>
                     <td><%= supervisor.netID %></td>
                     <% if is_admin? %>
-                    <td><%= supervisor.department %></td>
+                    <td><%= supervisor.department.name %></td>
                     <% end %>
                     <td>
                     <div class="col-md-12">

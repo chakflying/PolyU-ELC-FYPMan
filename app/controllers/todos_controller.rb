@@ -4,7 +4,7 @@ class TodosController < ApplicationController
         if is_admin?
             @todo_list = Todo.all.order("eta ASC").to_a
         else
-            @todo_list = Todo.where(department: current_user.department).or(Todo.where(department: "")).order("eta ASC").to_a
+            @todo_list = Todo.where(department: current_user.department).or(Todo.where(department: nil)).order("eta ASC").to_a
         end
         @todo = Todo.new
         @departments_list = get_departments_list
@@ -51,7 +51,7 @@ class TodosController < ApplicationController
     end
 
     def todo_params
-        params.require(:todo).permit(:department, :title, :description, :eta)
+        params.require(:todo).permit(:department_id, :title, :description, :eta)
     end
 
     def destroy
