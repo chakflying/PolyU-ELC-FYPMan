@@ -23,7 +23,9 @@ class StudentsController < ApplicationController
         return
     end
     if @student.save
-        olddb_student_create(student_params)
+        sync_id = olddb_student_create(student_params)
+        @student.sync_id = sync_id
+        @student.save
         flash[:success] = Array(flash[:success]).push("Student successfully added!")
         redirect_to '/students'
     else
@@ -138,7 +140,9 @@ class StudentsController < ApplicationController
                 redirect_back(fallback_location: students_batch_import_path)
                 return
             else
-                olddb_student_create({department: department, fyp_year: fyp_year, netID: netID, name: name})
+                sync_id = olddb_student_create({department: department, fyp_year: fyp_year, netID: netID, name: name})
+                @student.sync_id = sync_id
+                @student.save
             end
         end
         flash[:success] = Array(flash[:success]).push("All students successfully created.")

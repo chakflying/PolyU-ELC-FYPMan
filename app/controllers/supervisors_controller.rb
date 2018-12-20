@@ -17,7 +17,9 @@ class SupervisorsController < ApplicationController
     def create
         @supervisor = Supervisor.new(supervisor_params)
         if @supervisor.save
-            olddb_supervisor_create(supervisor_params)
+            sync_id = olddb_supervisor_create(supervisor_params)
+            @supervisor.sync_id = sync_id
+            @supervisor.save
             flash[:success] = Array(flash[:success]).push("Supervisor successfully added!")
             redirect_to '/supervisors'
         else
@@ -135,7 +137,9 @@ class SupervisorsController < ApplicationController
                     redirect_back(fallback_location: supervisors_batch_import_path)
                     return
                 else
-                    olddb_supervisor_create({department: department, netID: netID, name: name})
+                    sync_id = olddb_supervisor_create({department: department, netID: netID, name: name})
+                    @supervisor.sync_id = sync_id
+                    @supervisor.save
                 end
             end
             flash[:success] = Array(flash[:success]).push("All supervisors successfully created.")

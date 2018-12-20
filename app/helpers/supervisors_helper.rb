@@ -1,6 +1,7 @@
 module SupervisorsHelper
     def olddb_supervisor_create(params)
         @old_supervisor = OldUsers.create(common_name: params[:name], net_id: params[:netID], department: check_old_department(params[:department]), status: 1, role: 2, uuid: 0, program_code: 0, subject_code: 0, senior_year: 0)
+        return @old_supervisor.id
     end
 
     def olddb_supervisor_update(params)

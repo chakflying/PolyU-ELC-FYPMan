@@ -12,6 +12,7 @@ module StudentsHelper
 
     def olddb_student_create(params)
         @old_student = OldUsers.create(common_name: params[:name], net_id: params[:netID], FYPyear: params[:fyp_year], department: check_old_department(params[:department]), status: 1, role: 1, uuid: 0, program_code: 0, subject_code: 0, senior_year: 0)
+        return @old_student.id
     end
 
     def olddb_student_update(params)
