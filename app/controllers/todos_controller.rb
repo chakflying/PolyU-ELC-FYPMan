@@ -2,9 +2,9 @@ class TodosController < ApplicationController
     before_action :authenticate_user!
     def show
         if is_admin?
-            @todo_list = Todo.all.order("eta ASC").to_a
+            @todo_list = Todo.all.order("eta ASC")
         else
-            @todo_list = Todo.where(department: current_user.department).or(Todo.where(department: nil)).order("eta ASC").to_a
+            @todo_list = Todo.where(department: current_user.department).or(Todo.where(department: nil)).order("eta ASC")
         end
         @todo = Todo.new
         @departments_list = get_departments_list
@@ -24,7 +24,11 @@ class TodosController < ApplicationController
             else
                 flash[:danger] = Array(flash[:danger]).push("Create todo item unsuccessful.")
             end
-            @todolist = Todo.all
+            if is_admin?
+                @todo_list = Todo.all.order("eta ASC")
+            else
+                @todo_list = Todo.where(department: current_user.department).or(Todo.where(department: nil)).order("eta ASC")
+            end
             @todo = Todo.new
             @departments_list = get_departments_list
             render 'show'
@@ -51,7 +55,7 @@ class TodosController < ApplicationController
     end
 
     def todo_params
-        params.require(:todo).permit(:department_id, :title, :description, :eta)
+        params.require(:todo).permit(:department_id, :title, :description, :eta, :color)
     end
 
     def destroy

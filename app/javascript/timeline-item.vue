@@ -4,6 +4,7 @@
             <div class="timeline-panel">
                 <div class="timeline-heading">
                     <h4 class="timeline-title col-lg-9 col-sm-8 col-xs-12">{{ item.title }}</h4>
+                    <p class="timeline-department">{{ ( item.department ? item.department.name : "All Departments" ) }}</p>
                     <div class="timeline-panel-controls">
                         <div class="controls">
                             <a 

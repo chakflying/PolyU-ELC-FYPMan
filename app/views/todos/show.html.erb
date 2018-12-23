@@ -7,9 +7,18 @@
     <h5 class="display-5">You are viewing Todo items from <%= current_user.department.name %>.</h5>
     <% end %>
     <br>
-    <button class="btn btn-lg btn-secondary" type="button" data-toggle="collapse" data-target="#addtodoform" aria-expanded="false" aria-controls="addtodoform">
-        <i class="fas fa-plus"></i>&ensp; New Todo Item
-    </button>
+    <div class="d-flex justify-content-between align-items-center">
+        <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#addtodoform" aria-expanded="false" aria-controls="addtodoform">
+            <i class="fas fa-plus" style="font-size:80%"></i>&ensp; New Todo Item
+        </button>
+        <% if params[:past] %>
+            <%= button_to "Show current Todos", todos_path,
+            class: "btn ml-auto", method: :get %>
+        <% else %>
+            <%= button_to "Show past Todos", todos_path,
+            class: "btn ml-auto", method: :get, params: { past: "" } %>
+        <% end %>
+    </div>
     <div class="collapse" id="addtodoform">
     <br>
     <div class="card card-body">
@@ -19,9 +28,6 @@
             <div class="form-group col-md-8">
             <%= f.text_field :title, class: "form-control", placeholder: "Enter title", required: true %>
             </div>
-            <!--<div class="form-group col-md-4 form-row" style="margin:0 0 1rem 0;">
-            <%= f.date_select :eta, {order: [:month, :day, :year], prompt: { day: 'Select day', month: 'Select month', year: 'Select year' }, start_year: Date.today.year, end_year: Date.today.year + 2, use_short_month: true, selected: 1.days.from_now}, {class: "form-control col-md-4", required: true, style: "margin-bottom:0.2rem;"} %>
-            </div>-->
             <div class="form-group col-md-4" style="margin:0 0 1rem 0;">
                 <input name="todo[eta]" class="form-control datepicker" placeholder="Pick a Date">
             </div>
@@ -34,6 +40,24 @@
             <% else %>
             <%= f.hidden_field :department_id, value: current_user.department.id %>
             <% end %>
+        </div>
+        <div class="form-group">
+        &nbsp;
+            <label>
+            <%= radio_button_tag 'todo[color]', 'primary', true %>
+            <i class="form-timeline-badge timeline-badge primary"> &nbsp;&nbsp; </i></label>
+            <label>
+            <%= radio_button_tag 'todo[color]', 'success', false %>
+            <i class="form-timeline-badge timeline-badge success"> &nbsp;&nbsp; </i></label>
+            <label>
+            <%= radio_button_tag 'todo[color]', 'info', false %>
+            <i class="form-timeline-badge timeline-badge info"> &nbsp;&nbsp; </i></label>
+            <label>
+            <%= radio_button_tag 'todo[color]', 'warning', false %>
+            <i class="form-timeline-badge timeline-badge warning"> &nbsp;&nbsp; </i></label>
+            <label>
+            <%= radio_button_tag 'todo[color]', 'danger', false %>
+            <i class="form-timeline-badge timeline-badge danger"> &nbsp;&nbsp; </i></label>
         </div>
         <div class="form-row">
             <div class="form-group col-md-12">
@@ -48,6 +72,8 @@
     id: 'todo',
     data: {
         items2: @todo_list,
-    }.to_json() do %>
+        show: ( params[:past] ? "past" : "future"),
+        is_admin: is_admin?,
+    }.to_json(methods: :department) do %>
     <% end %>
 </div>

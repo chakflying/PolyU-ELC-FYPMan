@@ -60,23 +60,33 @@ document.addEventListener('turbolinks:load', () => {
   var element = document.getElementById("todo")
   if (element != null) {
     const el = element
-    var parsed_props = JSON.parse(element.getAttribute('data'))
+    var parsed_props = JSON.parse(element.getAttribute('data'));
+    console.log(parsed_props);
     parsed_props.items2.map((obj) => {
       obj.icon_class = 'fas fa-book';
-      obj.icon_status = 'danger';
+      obj.icon_status = obj.color;
       obj.eta = obj.eta.replace(/\T(.*)/, "");
       obj.controls = [
-          { 
-              method: 'edit', 
-              icon_class: 'fas fa-pen' 
-          },
-          { 
-              method: 'delete', 
-              icon_class: 'fas fa-trash' 
-          }
+        {
+          method: 'edit',
+          icon_class: 'fas fa-pen'
+        },
+        {
+          method: 'delete',
+          icon_class: 'fas fa-trash'
+        }
       ];
-      return obj;
-    })
+    });
+    var d_now = new Date();
+    for (var i = parsed_props.items2.length - 1; i >= 0; i--) {
+      var d = new Date(parsed_props.items2[i].eta);
+      if (parsed_props.show == "future") {
+        if (d.getTime() <= d_now.getTime()) parsed_props.items2.splice(i, 1);
+      }
+      else {
+        if (d.getTime() >= d_now.getTime()) parsed_props.items2.splice(i, 1);
+      }
+    }
     const props = {
       items: parsed_props.items2,
     }

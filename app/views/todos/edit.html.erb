@@ -29,8 +29,28 @@
         <% end %>
         </div>
 
+        <div class="form-group">
+            <label>
+            <%= radio_button_tag 'todo[color]', 'primary', (@todo.color == 'primary') %>
+            <i class="form-timeline-badge timeline-badge primary"> &nbsp;&nbsp; </i></label>
+            <label>
+            <%= radio_button_tag 'todo[color]', 'success', (@todo.color == 'success') %>
+            <i class="form-timeline-badge timeline-badge success"> &nbsp;&nbsp; </i></label>
+            <label>
+            <%= radio_button_tag 'todo[color]', 'info', (@todo.color == 'info') %>
+            <i class="form-timeline-badge timeline-badge info"> &nbsp;&nbsp; </i></label>
+            <label>
+            <%= radio_button_tag 'todo[color]', 'warning', (@todo.color == 'warning') %>
+            <i class="form-timeline-badge timeline-badge warning"> &nbsp;&nbsp; </i></label>
+            <label>
+            <%= radio_button_tag 'todo[color]', 'danger', (@todo.color == 'danger') %>
+            <i class="form-timeline-badge timeline-badge danger"> &nbsp;&nbsp; </i></label>
+        </div>
+        <br>
+
         <div class="form-row">
             <div class="form-group col-md-12">
+            <%= f.label :description %>
             <%= f.text_area :description, {placeholder: "Enter description (Optional)", rows: 3, class: "form-control"} %>
             </div>
         </div>
