@@ -1,7 +1,7 @@
 class AdminController < ApplicationController
   before_action :authenticate_admin!
 
-  def index
+  def activities
     if params[:students]
       @versions = PaperTrail::Version.where(item_type: "Student")
     elsif params[:supervisors]

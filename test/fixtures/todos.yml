@@ -1,0 +1,11 @@
+one:
+  title: "Testing Todo #1"
+  description: "Description of Testing Todo #1"
+  eta:  <%= 5.days.from_now.to_s(:db) %>
+  color: "success"
+
+two:
+  title: "Testing Todo #2"
+  description: "Description of Testing Todo #2"
+  eta:  <%= 10.days.from_now.to_s(:db) %>
+  department_id: 16

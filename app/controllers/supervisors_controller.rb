@@ -44,11 +44,14 @@ class SupervisorsController < ApplicationController
         params.require(:supervisor).permit(:name, :netID, :department_id)
     end
 
-    def update
+    def edit
         @supervisor = Supervisor.find(params[:id])
         @departments_list = get_departments_list
-        @fyp_year_list = get_fyp_years_list
+    end
+
+    def update
         if request.patch?
+            @supervisor = Supervisor.find(params[:id])
             if @supervisor.update_attributes(supervisor_params)
                 olddb_supervisor_update(supervisor_params)
                 flash[:success] = Array(flash[:success]).push("Supervisor updated.")

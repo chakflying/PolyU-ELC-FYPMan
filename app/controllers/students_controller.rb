@@ -52,11 +52,15 @@ class StudentsController < ApplicationController
       params.require(:student).permit(:name, :netID, :department_id, :fyp_year)
   end
 
-  def update
+  def edit
     @student = Student.find(params[:id])
     @departments_list = get_departments_list
     @fyp_year_list = get_fyp_years_list
+  end
+
+  def update
     if request.patch?
+        @student = Student.find(params[:id])
         if @student.update_attributes(student_params)
             olddb_student_update(student_params)
             flash[:success] = Array(flash[:success]).push("Student updated.")

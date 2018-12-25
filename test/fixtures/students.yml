@@ -1,11 +1,15 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: MyString
-  netID: MyString
-  department: MyString
+  id: 1
+  name: John Doe
+  netID: johndoe01
+  department_id: 16
+  fyp_year: 2018-2019
 
 two:
-  name: MyString
-  netID: MyString
-  department: MyString
+  id: 2
+  name: Tipsy Timmy
+  netID: ttimmy01
+  department_id: 16
+  fyp_year: 2018-2019

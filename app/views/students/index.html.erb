@@ -76,7 +76,7 @@
                     </div>
                     </td>
                     <td>
-                        <%= link_to student, method: :get, data: {} do %>
+                        <%= link_to edit_student_path(student.id), method: :get, data: {} do %>
                             <button class="btn btn-sm btn-outline-info" style="width:35px;margin-bottom:5px" aria-label="Edit Student"><i class="fas fa-user-edit"></i></button>
                         <% end %>
                         <%= link_to student, method: :delete,

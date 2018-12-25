@@ -17,22 +17,21 @@ class TodosController < ApplicationController
             @todo.sync_id = sync_id
             @todo.save
             flash[:success] = Array(flash[:success]).push("Todo item successfully added!")
-            redirect_to '/todos'
         else
             if request.params[:eta].nil?
                 flash[:danger] = Array(flash[:danger]).push("Todo date cannot be empty. Please set date.")
             else
                 flash[:danger] = Array(flash[:danger]).push("Create todo item unsuccessful.")
             end
-            if is_admin?
-                @todo_list = Todo.all.order("eta ASC")
-            else
-                @todo_list = Todo.where(department: current_user.department).or(Todo.where(department: nil)).order("eta ASC")
-            end
-            @todo = Todo.new
-            @departments_list = get_departments_list
-            render 'index'
         end
+        if is_admin?
+            @todo_list = Todo.all.order("eta ASC")
+        else
+            @todo_list = Todo.where(department: current_user.department).or(Todo.where(department: nil)).order("eta ASC")
+        end
+        @todo = Todo.new
+        @departments_list = get_departments_list
+        render 'index'
     end
 
     def edit
@@ -42,14 +41,15 @@ class TodosController < ApplicationController
 
     def update
         @todo = Todo.find(params[:id])
-        @departments_list = get_departments_list
         if request.patch?
             if @todo.update_attributes(todo_params)
                 olddb_todo_update(todo_params, @todo.sync_id)
                 flash[:success] = Array(flash[:success]).push("Todo item updated.")
                 redirect_to '/todos'
             else
-                render 'update'
+                flash[:danger] = Array(flash[:danger]).push("Error when updating Todo item.")
+                @departments_list = get_departments_list
+                render 'edit'
             end
         end
     end
@@ -65,7 +65,7 @@ class TodosController < ApplicationController
             flash[:success] = Array(flash[:success]).push("Todo item deleted.")
             render plain: "submitted"
         else
-            flash[:alert] = "No todo item deleted."
+            flash[:danger] = Array(flash[:danger]).push("Error when deleting Todo item.")
             render plain: "failed"
         end
     end

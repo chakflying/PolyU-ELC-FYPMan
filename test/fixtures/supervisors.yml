@@ -1,0 +1,11 @@
+one:
+  id: 1
+  name: John Lui
+  netID: johnlui01
+  department_id: 16
+
+two:
+  id: 2
+  name: Irwin King
+  netID: irking01
+  department_id: 13

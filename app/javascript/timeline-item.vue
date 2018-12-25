@@ -37,30 +37,29 @@ export default {
         delete: function(event) {
             // this.$dispatch('timeline-delete-item', this.item.id)
             var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-            console.log(this);
-            this.$http.delete('/todos', {body: {id: this.item.id}, headers: {'X-CSRF-Token': csrfToken}}).then(response => {
-                // get status
-            response.status;
-            if(response.body == "submitted") {
-                Turbolinks.visit(window.location);
+            if (confirm("Do you want to delete this Todo item?")) {
+                this.$http.delete('/todos/' + this.item.id, {body: {id: this.item.id}, headers: {'X-CSRF-Token': csrfToken}}).then(response => {
+                // response.status;
+                if(response.body == "submitted") {
+                    Turbolinks.visit(window.location);
+                }
+                else if(response.body == "failed") {
+                    Turbolinks.visit(window.location);
+                }
+                // get status text
+                // response.statusText;
+                // get 'Expires' header
+                // response.headers.get('Expires');
+                // console.log(response.body);
+
+                }, response => {
+                    // error callback
+                });
             }
-
-            // get status text
-            response.statusText;
-
-            // get 'Expires' header
-            response.headers.get('Expires');
-
-            // get body data
-            // console.log(response.body);
-
-            }, response => {
-                // error callback
-            });
         },
         
         edit: function(event) {
-            Turbolinks.visit('/todos/' + this.item.id);
+            Turbolinks.visit('/todos/' + this.item.id + '/edit');
         }
     },
     

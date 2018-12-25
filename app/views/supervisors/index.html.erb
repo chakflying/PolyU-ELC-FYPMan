@@ -74,7 +74,7 @@
                     </div>
                     </td>
                     <td>
-                        <%= link_to supervisor, method: :get, data: {} do %>
+                        <%= link_to edit_supervisor_path(supervisor.id), method: :get, data: {} do %>
                             <button class="btn btn-sm btn-outline-info" style="width:35px" aria-label="Edit Supervisor"><i class="fas fa-user-edit"></i></button>
                         <% end %>
                         <%= link_to supervisor, method: :delete,

@@ -43,4 +43,7 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+  
+  # Setup The Old Database connection using Sequel
+  Old_DB = Sequel.connect((Rails.configuration.database_configuration)["development_old"])
 end
