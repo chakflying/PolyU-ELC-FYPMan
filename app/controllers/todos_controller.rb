@@ -1,6 +1,6 @@
 class TodosController < ApplicationController
     before_action :authenticate_user!
-    def show
+    def index
         if is_admin?
             @todo_list = Todo.all.order("eta ASC")
         else
@@ -31,7 +31,7 @@ class TodosController < ApplicationController
             end
             @todo = Todo.new
             @departments_list = get_departments_list
-            render 'show'
+            render 'index'
         end
     end
 

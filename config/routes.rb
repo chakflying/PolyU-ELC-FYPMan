@@ -31,7 +31,7 @@ Rails.application.routes.draw do
   post   '/getSupervisorName', to: 'supervisors#getSupervisorName'
   post   '/removeStudent', to: 'supervisors#removeStudent'
   post   '/removeSupervisor', to: 'students#removeSupervisor'
-  get    '/todos',       to: 'todos#show'
+  get    '/todos',       to: 'todos#index'
   post   '/todos',       to: 'todos#create'
   get    '/todos/:id',   to: 'todos#edit'
   delete '/todos',       to: 'todos#destroy'
