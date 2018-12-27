@@ -1,7 +1,7 @@
 <template id="timeline-item-template">
     <li class="timeline-item">
         <div :class="'timeline-badge ' + item.icon_status"><i :class="item.icon_class"></i></div>
-            <div class="timeline-panel">
+            <div class="timeline-panel" v-on:click="expanded = !expanded" v-bind:class="{active: expanded}">
                 <div class="timeline-heading">
                     <h4 class="timeline-title col-lg-9 col-sm-8 col-xs-12">{{ item.title }}</h4>
                     <p class="timeline-department">{{ ( item.department ? item.department.name : "All Departments" ) }}</p>
@@ -18,7 +18,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="timeline-description" style="white-space: pre-wrap">{{ item.description }}</div>
+                <transition name="slide-fade">
+                <div class="timeline-description" v-show="expanded == true">{{ item.description }}</div>
+                </transition>
             </div>
         </div>
     </li>
@@ -32,6 +34,12 @@ export default {
     },
 
     props: ['item'],
+
+    data: function() {
+        return {
+            expanded: false,
+        }
+    },
         
     methods: {
         delete: function(event) {

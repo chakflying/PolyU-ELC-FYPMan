@@ -1,5 +1,5 @@
 <template id="timeline-control-template">
-    <a href="" @click="handleClick">
+    <a v-on:click.stop="handleClick">
         <i :class="control.icon_class"></i>
     </a>
 </template>

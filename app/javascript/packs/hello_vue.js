@@ -61,7 +61,6 @@ document.addEventListener('turbolinks:load', () => {
   if (element != null) {
     const el = element
     var parsed_props = JSON.parse(element.getAttribute('data'));
-    console.log(parsed_props);
     parsed_props.items2.map((obj) => {
       obj.icon_class = 'fas fa-book';
       obj.icon_status = obj.color;
