@@ -12,4 +12,10 @@ document.addEventListener("turbolinks:load", function () {
     $(".past").parent().click(function () {
         $(this).children().first().toggleClass("fas").toggleClass("far");
     });
+    $(".todo-refresh-btn").click(function () {
+        window.todo_vue.$children[0].fetchItems();
+    });
+    $(".todo-toggle-past-btn").click(function () {
+        window.todo_vue.$children[0].toggleShowPast();
+    });
 });

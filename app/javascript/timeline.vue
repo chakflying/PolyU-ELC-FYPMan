@@ -16,7 +16,7 @@ export default {
   data: function() {
     return {
       m_items: [],
-      m_show_future: true
+      m_show_past: false,
     };
   },
 
@@ -24,15 +24,15 @@ export default {
   },
 
   methods: {
-    toggleShowFuture: function() {
-      this.m_show_future = !this.m_show_future;
+    toggleShowPast: function() {
+      this.m_show_past = !this.m_show_past;
       this.updateItems(this.items);
     },
     updateItems: function(old_items) {
       var now = Date.now();
-      this.m_items = this.m_show_future
-        ? old_items.filter(item => Date.parse(item.eta) >= now)
-        : old_items.filter(item => Date.parse(item.eta) <= now);
+      this.m_items = this.m_show_past
+        ? old_items.filter(item => Date.parse(item.eta) <= now)
+        : old_items.filter(item => Date.parse(item.eta) >= now);
     },
     fetchItems: function() {
       var csrfToken = document
