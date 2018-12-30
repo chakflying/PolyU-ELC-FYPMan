@@ -10,6 +10,16 @@ class TodosController < ApplicationController
         @departments_list = get_departments_list
     end
 
+    def get_items
+        if is_admin?
+            @todo_list = Todo.all.order("eta ASC")
+        else
+            @todo_list = Todo.where(department: current_user.department).or(Todo.where(department: nil)).order("eta ASC")
+        end
+        render json: @todo_list
+    end
+
+
     def create
         @todo = Todo.new(todo_params)  # Not the final implementation!
         if @todo.save
@@ -62,7 +72,7 @@ class TodosController < ApplicationController
         sync_id = Todo.find(params[:id]).sync_id
         if Todo.find(params[:id]).destroy
             olddb_todo_destroy(sync_id)
-            flash[:success] = Array(flash[:success]).push("Todo item deleted.")
+            # flash[:success] = Array(flash[:success]).push("Todo item deleted.")
             render plain: "submitted"
         else
             flash[:danger] = Array(flash[:danger]).push("Error when deleting Todo item.")

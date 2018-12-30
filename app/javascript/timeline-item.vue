@@ -47,9 +47,9 @@ export default {
             var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
             if (confirm("Do you want to delete this Todo item?")) {
                 this.$http.delete('/todos/' + this.item.id, {body: {id: this.item.id}, headers: {'X-CSRF-Token': csrfToken}}).then(response => {
-                // response.status;
+                if (response.status != 200) Turbolinks.visit(window.location);
                 if(response.body == "submitted") {
-                    Turbolinks.visit(window.location);
+                    this.$parent.fetchItems();
                 }
                 else if(response.body == "failed") {
                     Turbolinks.visit(window.location);

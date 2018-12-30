@@ -31,6 +31,7 @@ Rails.application.routes.draw do
   post   '/batch_assign', to: 'assign#batch_assign'
 
   resources :todos
+  post   '/get_items',  to: 'todos#get_items'
 
   get    '/admin/',                     to: 'admin#activities'
   get    '/admin/trails',               to: 'admin#activities'

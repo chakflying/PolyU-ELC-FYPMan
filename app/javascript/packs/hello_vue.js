@@ -46,9 +46,9 @@ document.addEventListener('turbolinks:load', () => {
 });
 
 document.addEventListener('turbolinks:load', () => {
-    var element = document.getElementById("todo")
+    var element = document.getElementById("todo");
     if (element != null) {
-        const el = element
+        const el = element;
         var parsed_props = JSON.parse(element.getAttribute('data'));
         parsed_props.items2.map((obj) => {
             obj.icon_class = 'fas fa-book';
@@ -65,47 +65,17 @@ document.addEventListener('turbolinks:load', () => {
                 }
             ];
         });
-        var d_now = new Date();
-        var future_todos = parsed_props.items2.filter(function (item) { var d = new Date(item.eta); return (d.getTime() <= d_now.getTime()); });
-        var past_todos = parsed_props.items2.filter(function (item) { var d = new Date(item.eta); return (d.getTime() >= d_now.getTime()); });
-        var out_items;
-        if (parsed_props.show == "future") out_items = past_todos;
-        else out_items = future_todos;
+
         var props = {
-            items: out_items,
+            items: parsed_props.items2,
         };
 
-        new Vue({
+        window.todo_vue = new Vue({
             el,
 
             render: h => h(Timeline, { props }),
 
             events: {
-                'timeline-delete-item': function (id) {
-                    // this.timeline = _.remove(this.timeline, function(item) { 
-                    //     return item.id != id 
-                    // });
-                    var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-                    this.$http.post('/todos', { id: id }, { method: "DELETE", headers: { 'X-CSRF-Token': csrfToken } }).then(response => {
-                        // get status
-                        response.status;
-                        if (response.body == "submitted") {
-                            Turbolinks.visit(window.location);
-                        }
-
-                        // get status text
-                        response.statusText;
-
-                        // get 'Expires' header
-                        response.headers.get('Expires');
-
-                        // get body data
-                        // console.log(response.body);
-
-                    }, response => {
-                        // error callback
-                    });
-                }
             }
         })
     }
