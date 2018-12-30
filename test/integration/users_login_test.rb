@@ -22,6 +22,8 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
         get root_path
         post login_path, params: { session: { username:  @user.email,
                                             password: 'password' } }
+        assert_redirected_to root_path
+        follow_redirect!
         assert_redirected_to students_path
         follow_redirect!
         assert_select "h2", {:count=>1, :text=>"Manage Students"}, "Wrong title or more than one h2 element after logged in"
@@ -34,6 +36,8 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
         get root_path
         post login_path, params: { session: { username:  @user.email,
                                             password: 'password' } }
+        assert_redirected_to root_path
+        follow_redirect!
         assert_redirected_to students_path
         follow_redirect!
         assert is_logged_in?
