@@ -37,8 +37,6 @@ Rails.application.routes.draw do
   get    '/admin/trails',               to: 'admin#activities'
   get    '/admin/users',                to: 'admin#users'
   
-  get '.well-known/acme-challenge/:file', to: 'application#acmeauth'
-
   if Rails.env.production?
     get '404',   to: 'landing_page#index'
   end

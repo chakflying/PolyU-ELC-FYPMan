@@ -15,12 +15,4 @@ class ApplicationController < ActionController::Base
     before_action :set_paper_trail_whodunnit
     after_action :store_location
 
-    def acmeauth 
-        file = Pathname.new(Dir.pwd).join('.acme-challenges').join(params[:file])
-        render plain: File.read(file) and return if File.exist?(file)
-        render plain: ""
-        render nothing: true
-        return
-    end
-
 end
