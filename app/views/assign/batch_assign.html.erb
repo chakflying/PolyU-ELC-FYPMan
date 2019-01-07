@@ -1,19 +1,30 @@
 <% provide(:title, 'Batch Assign Students') %>
 <div class="container">
     <h2 class="display-2" style="margin:1em 0 0.5em 0">Batch Assign Students</h2>
+    <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#batchassignhelp" aria-expanded="false" aria-controls="batchimporthelp">
+        <i class="fas fa-info" style='font-size:77%;position:relative;top:-1px'></i>&ensp; Need Help?
+    </button>
+    <div class="collapse" id="batchassignhelp">
+        <br>
+        <div class="card card-body">
+            <p style="color:darkslategrey">Input netIDs of corresponding students and supervisors, 1 on each line. <br>All of the students will be assigned to all of the supervisors. <br>You cannot skip a line. <br>Press "Assign Students" when you are done.</p>
+        </div>
+    </div>
+    <br>
+    <br>
     <%= form_for :lists, url: batch_assign_path do |f| %>
     <div class="row">
         <div class="form-group col-md-6">
-        <%= f.label :students_list, "Assign student(s) (netIDs one on each line):" %>
+        <%= f.label :students_list, "Assign student(s) netID:" %>
         <%= f.text_area :students_list, {rows: 15, class: "form-control batch-import-box"} %>
         </div>
         <div class="form-group col-md-6">
-        <%= f.label :supervisors_list, "to supervisor(s) (netIDs one on each line):" %>
+        <%= f.label :supervisors_list, "to supervisor(s) netID:" %>
         <%= f.text_area :supervisors_list, {rows: 15, class: "form-control batch-import-box"} %>
         </div>
     </div>
     <br>
     <%= f.submit "Assign students", class: "btn btn-primary" %>
-    <%= link_to "Back&nbsp; <i class='fas fa-undo' style='font-size:79%'></i>".html_safe, {action: "assign"}, {class: "btn btn-secondary"} %>
+    <%= link_to "Back&nbsp; <i class='fas fa-undo' style='font-size:79%'></i>".html_safe, :back, {class: "btn btn-secondary"} %>
     <% end %>
 </div>
