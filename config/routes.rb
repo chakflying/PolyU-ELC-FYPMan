@@ -37,8 +37,4 @@ Rails.application.routes.draw do
   get    '/admin/trails',               to: 'admin#activities'
   get    '/admin/users',                to: 'admin#users'
   
-  if Rails.env.production?
-    get '404',   to: 'landing_page#index'
-  end
-  
 end

@@ -1,5 +1,5 @@
 class AdminController < ApplicationController
-  before_action :authenticate_admin!
+  before_action :authenticate_admin_404!
 
   def activities
     if params[:students]

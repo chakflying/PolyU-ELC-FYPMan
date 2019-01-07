@@ -67,7 +67,7 @@ class AssignController < ApplicationController
                 end
             end
             flash[:success] = Array(flash[:success]).push("All students assigned successfully.")
-            redirect_to '/students'
+            redirect_to '/batch_assign'
         end
     end    
 end

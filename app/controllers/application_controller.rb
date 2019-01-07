@@ -15,4 +15,7 @@ class ApplicationController < ActionController::Base
     before_action :set_paper_trail_whodunnit
     after_action :store_location
 
+    def render_404
+        raise ActionController::RoutingError.new('Not Found')
+    end
 end

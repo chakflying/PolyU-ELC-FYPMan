@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-    before_action :correct_user,   only: [:edit, :update, :destroy]
     before_action :authenticate_user!,   only: [:edit, :update, :destroy]
+    before_action :correct_user!,   only: [:edit, :update, :destroy]
 
     def show
         @user = User.find(params[:id])
@@ -49,8 +49,8 @@ class UsersController < ApplicationController
         params.require(:user).permit(:username, :email, :password, :password_confirmation, :department_id)
     end
 
-    def correct_user
+    def correct_user!
         @user = User.find(params[:id])
-        redirect_back_or(root_url) unless (@user == current_user) or is_admin?
+        render_404 unless (@user == current_user) or is_admin?
       end
   end
