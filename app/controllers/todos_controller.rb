@@ -53,7 +53,7 @@ class TodosController < ApplicationController
         @todo = Todo.find(params[:id])
         if request.patch?
             if @todo.update_attributes(todo_params)
-                olddb_todo_update(todo_params, @todo.sync_id)
+                @todo.sync_id ? olddb_todo_update(todo_params, @todo.sync_id) : false
                 flash[:success] = Array(flash[:success]).push("Todo item updated.")
                 redirect_to '/todos'
             else
@@ -71,7 +71,7 @@ class TodosController < ApplicationController
     def destroy
         sync_id = Todo.find(params[:id]).sync_id
         if Todo.find(params[:id]).destroy
-            olddb_todo_destroy(sync_id)
+            sync_id ? olddb_todo_destroy(sync_id) : false
             # flash[:success] = Array(flash[:success]).push("Todo item deleted.")
             render plain: "submitted"
         else

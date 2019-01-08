@@ -62,7 +62,7 @@ class StudentsController < ApplicationController
     if request.patch?
         @student = Student.find(params[:id])
         if @student.update_attributes(student_params)
-            olddb_student_update(student_params)
+            @student.sync_id ? olddb_student_update(student_params) : false
             flash[:success] = Array(flash[:success]).push("Student updated.")
             redirect_to '/students'
         else
@@ -74,7 +74,7 @@ class StudentsController < ApplicationController
   def destroy
     sync_id = Student.find(params[:id]).sync_id
     if Student.find(params[:id]).destroy
-        olddb_student_destroy(sync_id)
+        sync_id ? olddb_student_destroy(sync_id) : false
         flash[:success] = Array(flash[:success]).push("Student deleted.")
     else
         flash[:danger] = Array(flash[:danger]).push("Error deleting student.")
@@ -95,10 +95,10 @@ class StudentsController < ApplicationController
   end
 
   def removeSupervisor
-    sup_id = request.params[:sup_netID]
-    stu_id = request.params[:stu_netID]
-    @student = Student.find_by(netID: stu_id)
-    sup = Supervisor.find_by(netID: sup_id)
+    sup_netid = request.params[:sup_netID]
+    stu_netid = request.params[:stu_netID]
+    @student = Student.find_by(netID: stu_netid)
+    sup = Supervisor.find_by(netID: sup_netid)
     if !@student
         flash[:danger] = Array(flash[:danger]).push("Student not found")
         redirect_to '/students'
@@ -107,7 +107,7 @@ class StudentsController < ApplicationController
         redirect_to '/students'
     else
         @student.supervisors.delete(sup)
-        olddb_student_removeSupervisor(stu_id, sup_id)
+        ( @student.sync_id && sup.sync_id ) ? olddb_student_removeSupervisor(stu_netid, sup_netid) : false
         flash[:success] = Array(flash[:success]).push("Supervisor removed successfully.")
         redirect_to '/students'
     end
