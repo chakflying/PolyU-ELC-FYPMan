@@ -31,7 +31,7 @@ class UsersController < ApplicationController
             flash[:success] = Array(flash[:success]).push("Sign Up successful!")
             redirect_to @user
         else
-            flash[:danger] = Array(flash[:danger]).push("Error when creating user.")
+            flash.now[:danger] = Array(flash.now[:danger]).push("Error when creating user.")
             render 'new'
         end
     end

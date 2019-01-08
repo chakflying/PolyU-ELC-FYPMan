@@ -58,38 +58,6 @@ export default {
         clearError: function (event) {
             event.target.classList.remove('is-invalid');
         },
-        checkStudentName: function (event, student_item) {
-            event.target.classList.remove('is-invalid');
-            var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            this.$http.post('/getStudentName', {netID: event.target.value}, {headers: {'X-CSRF-Token': csrfToken}}).then(response => {
-
-            if(response.body != "Student not found") {
-                this.student_name[student_item] = response.body;
-            }
-            else {
-                this.student_name[student_item] = "";
-            }
-            this.$forceUpdate();
-            }, response => {
-                // error callback
-            });
-        },
-        checkSupervisorName: function (event) {
-            event.target.classList.remove('is-invalid');
-            var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            this.$http.post('/getSupervisorName', {netID: event.target.value}, {headers: {'X-CSRF-Token': csrfToken}}).then(response => {
-
-            if(response.body != "Supervisor not found") {
-                this.supervisor_name = response.body;
-            }
-            else {
-                this.supervisor_name = "";
-            }
-            this.$forceUpdate();
-            }, response => {
-                // error callback
-            });
-        },
         submit: function () {
             document.getElementById("assign_submit_btn").classList.add('disabled');
             if(!(this.supervisor_netID_response[1])) {

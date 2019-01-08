@@ -15,13 +15,11 @@ Rails.application.routes.draw do
 
   get    '/students_batch_import', to: 'students#batch_import'
   post   '/students_batch_import', to: 'students#batch_import'
-  post   '/getStudentName', to: 'students#getStudentName'
   post   '/removeSupervisor', to: 'students#removeSupervisor'
   resources :students
 
   get    '/supervisors_batch_import', to: 'supervisors#batch_import'
   post   '/supervisors_batch_import', to: 'supervisors#batch_import'
-  post   '/getSupervisorName', to: 'supervisors#getSupervisorName'
   post   '/removeStudent', to: 'supervisors#removeStudent'
   resources :supervisors
 
@@ -31,7 +29,6 @@ Rails.application.routes.draw do
   post   '/batch_assign', to: 'assign#batch_assign'
 
   resources :todos
-  post   '/get_items',  to: 'todos#get_items'
 
   get    '/admin/',                     to: 'admin#activities'
   get    '/admin/trails',               to: 'admin#activities'

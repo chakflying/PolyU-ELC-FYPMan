@@ -24,11 +24,11 @@ class SupervisorsController < ApplicationController
             redirect_to '/supervisors'
         else
             if params[:department_id] == ""
-                flash[:danger] = Array(flash[:danger]).push("Please select the supervisor's department.")
+                flash.now[:danger] = Array(flash.now[:danger]).push("Please select the supervisor's department.")
             elsif params[:name] == ""
-                flash[:danger] = Array(flash[:danger]).push("Supervisor must have a name.")
+                flash.now[:danger] = Array(flash.now[:danger]).push("Supervisor must have a name.")
             else
-                flash[:danger] = Array(flash[:danger]).push("Supervisor cannot be created.")
+                flash.now[:danger] = Array(flash.now[:danger]).push("Error when creating supervisor.")
             end
             if is_admin?
                 @supervisors = Supervisor.all
@@ -57,6 +57,7 @@ class SupervisorsController < ApplicationController
                 flash[:success] = Array(flash[:success]).push("Supervisor updated.")
                 redirect_to '/supervisors'
             else
+                flash.now[:danger] = Array(flash.now[:danger]).push("Error updating supervisor.")
                 render 'update'
             end
         end
@@ -71,18 +72,6 @@ class SupervisorsController < ApplicationController
             flash[:danger] = Array(flash[:danger]).push("Error deleting supervisor.")
         end
         redirect_to '/supervisors'
-    end
-
-    def getSupervisorName
-        if request.post?
-            sup_netid = request.params[:netID]
-            sup = Supervisor.find_by(netID: sup_netid)
-            if !sup
-                render plain: "Supervisor not found"
-            else
-                render plain: sup.name
-            end
-        end
     end
 
     def removeStudent
@@ -116,28 +105,28 @@ class SupervisorsController < ApplicationController
             name_list = request.params[:supervisors_list][:name_list].lines.each {|x| x.strip!}
             department_id = request.params[:supervisors_list][:department_id]
             if name_list.length < netID_list.length
-                flash[:danger] = Array(flash[:danger]).push("Every supervisor must have a name.")
+                flash.now[:danger] = Array(flash.now[:danger]).push("Every supervisor must have a name.")
                 render 'batch_import'
                 return
             end
             if name_list.length > netID_list.length
-                flash[:danger] = Array(flash[:danger]).push("Every supervisor must have a netID.")
+                flash.now[:danger] = Array(flash.now[:danger]).push("Every supervisor must have a netID.")
                 render 'batch_import'
                 return
             end
             if department_id == ""
-                flash[:danger] = Array(flash[:danger]).push("Please select the Department of the supervisor(s).")
+                flash.now[:danger] = Array(flash.now[:danger]).push("Please select the Department of the supervisor(s).")
                 render 'batch_import'
                 return
             end
             if netID_list.length == 0
-                flash[:danger] = Array(flash[:danger]).push("Please enter supervisor(s) info.")
+                flash.now[:danger] = Array(flash.now[:danger]).push("Please enter supervisor(s) info.")
                 render 'batch_import'
                 return
             end
             netID_list.zip(name_list).each do |netID, name|
                 if Supervisor.find_by(netID: netID)
-                    flash[:danger] = Array(flash[:danger]).push("Supervisor with netID: " + netID + " already exist.")
+                    flash.now[:danger] = Array(flash.now[:danger]).push("Supervisor with netID: " + netID + " already exist.")
                     render 'batch_import'
                     return
                 end

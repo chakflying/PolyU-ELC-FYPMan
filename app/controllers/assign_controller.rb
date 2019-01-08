@@ -41,7 +41,7 @@ class AssignController < ApplicationController
             students_netID_list.each do |stu_id|
                 stu = Student.find_by(netID: stu_id)
                 if !stu
-                    flash[:danger] = Array(flash[:danger]).push("Student with netID " + stu_id + " not found.")
+                    flash.now[:danger] = Array(flash.now[:danger]).push("Student with netID " + stu_id + " not found.")
                     render 'batch_assign'
                     return
                 end
@@ -49,7 +49,7 @@ class AssignController < ApplicationController
             supervisors_netID_list.each do |sup_id|
                 sup = Supervisor.find_by(netID: sup_id)
                 if !sup
-                    flash[:danger] = Array(flash[:danger]).push("Supervisor with netID " + sup_id + " not found.")
+                    flash.now[:danger] = Array(flash.now[:danger]).push("Supervisor with netID " + sup_id + " not found.")
                     render 'batch_assign'
                     return
                 end

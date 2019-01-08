@@ -36,7 +36,15 @@ class StudentsController < ApplicationController
         flash[:success] = Array(flash[:success]).push("Student successfully added!")
         redirect_to '/students'
     else
-        flash[:danger] = Array(flash[:danger]).push("Error when creating student.")
+        if params[:department_id] == ""
+            flash.now[:danger] = Array(flash.now[:danger]).push("Please select the student's department.")
+        elsif params[:fyp_year] == ""
+            flash.now[:danger] = Array(flash.now[:danger]).push("Student must have an FYP Year.")
+        elsif params[:netID] = ""
+            flash.now[:danger] = Array(flash.now[:danger]).push("Student must have a netID.")
+        else
+            flash.now[:danger] = Array(flash.now[:danger]).push("Error when creating student.")
+        end
         if is_admin?
             @students = Student.all
             @departments_list = get_departments_list
@@ -66,6 +74,7 @@ class StudentsController < ApplicationController
             flash[:success] = Array(flash[:success]).push("Student updated.")
             redirect_to '/students'
         else
+            flash.now[:danger] = Array(flash.now[:danger]).push("Error updating student.")
             render 'update'
         end
     end
@@ -80,18 +89,6 @@ class StudentsController < ApplicationController
         flash[:danger] = Array(flash[:danger]).push("Error deleting student.")
     end
     redirect_to '/students'
-  end
-
-  def getStudentName
-    if request.post?
-        stu_id = request.params[:netID]
-        stu = Student.find_by(netID: stu_id)
-        if !stu
-            render plain: "Student not found"
-        else
-            render plain: stu.name
-        end
-    end
   end
 
   def removeSupervisor
@@ -126,33 +123,33 @@ class StudentsController < ApplicationController
         department_id = request.params[:students_list][:department_id]
         fyp_year = request.params[:students_list][:fyp_year]
         if name_list.length != netID_list.length
-            flash[:danger] = Array(flash[:danger]).push("Length of NetIDs does not match length of names. Press Enter to skip line if name isn't available.")
+            flash.now[:danger] = Array(flash.now[:danger]).push("Length of NetIDs does not match length of names. Press Enter to skip line if name isn't available.")
             render 'batch_import'
             return
         end
         if name_list.length > netID_list.length
-            flash[:danger] = Array(flash[:danger]).push("Every student must have a netID.")
+            flash.now[:danger] = Array(flash.now[:danger]).push("Every student must have a netID.")
             render 'batch_import'
             return
         end
         if fyp_year == ""
-            flash[:danger] = Array(flash[:danger]).push("Please select FYP year of the student(s).")
+            flash.now[:danger] = Array(flash.now[:danger]).push("Please select FYP year of the student(s).")
             render 'batch_import'
             return
         end
         if department_id == ""
-            flash[:danger] = Array(flash[:danger]).push("Please select the Department of the student(s).")
+            flash.now[:danger] = Array(flash.now[:danger]).push("Please select the Department of the student(s).")
             render 'batch_import'
             return
         end
         if netID_list.length == 0
-            flash[:danger] = Array(flash[:danger]).push("Please enter student(s) info.")
+            flash.now[:danger] = Array(flash.now[:danger]).push("Please enter student(s) info.")
             render 'batch_import'
             return
         end
         netID_list.zip(name_list).each do |netID, name|
             if Student.find_by(netID: netID)
-                flash[:danger] = Array(flash[:danger]).push("Student with netID: " + netID + " already exist.")
+                flash.now[:danger] = Array(flash.now[:danger]).push("Student with netID: " + netID + " already exist.")
                 render 'batch_import'
                 return
             end

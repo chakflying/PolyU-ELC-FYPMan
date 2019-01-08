@@ -39,10 +39,10 @@ export default {
         .querySelector('meta[name="csrf-token"]')
         .getAttribute("content");
       this.$http
-        .post(
-          "/get_items",
+        .get(
+          "/todos",
           {},
-          { method: "POST", headers: { "X-CSRF-Token": csrfToken } }
+          { headers: { "X-CSRF-Token": csrfToken } }
         )
         .then(
           response => {
