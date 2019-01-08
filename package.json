@@ -2,7 +2,7 @@
   "name": "PolyFYPman",
   "private": true,
   "dependencies": {
-    "@rails/webpacker": "^4.0.0-rc.2",
+    "@rails/webpacker": "https://github.com/rails/webpacker",
     "css-loader": "^1.0.0",
     "select2-theme-bootstrap4": "^0.2.0-beta.2",
     "vue": "^2.5.17",
