@@ -22,7 +22,7 @@
             <%= f.select :department_id, @departments_list, {prompt: "Select Department:"}, {class: "form-control", 'aria-label': "New supervisor department"} %>
             </div>
             <% else %>
-            <%= f.hidden_field :department_id, value: current_user.department %>
+            <%= f.hidden_field :department_id, value: current_user.department.id %>
             <% end %>
         </div>
         <%= button_tag(type: 'submit', class: "btn btn-primary") do %>
