@@ -15,7 +15,6 @@ development:
 development_old:
   <<: *default
   database: directus
-  pool: 1
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -39,7 +38,6 @@ production:
 production_old:
   <<: *polyUServer
   database: directus
-  pool: 1
 
 # production_heroku:
 #   encoding: utf8mb4

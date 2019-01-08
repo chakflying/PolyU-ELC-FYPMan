@@ -114,5 +114,7 @@ Rails.application.configure do
 
   # Setup The Old Database connection using Sequel
   Old_DB = Sequel.connect((Rails.configuration.database_configuration)["production_old"])
+  Old_DB.extension(:connection_validator)
+  Old_DB.pool.connection_validation_timeout = 300
 
 end
