@@ -5,7 +5,7 @@
 // like app/views/layouts/application.html.erb.
 // All it does is render <div>Hello Vue</div> at the bottom of the page.
 
-import Vue from 'vue'
+import Vue from 'vue/dist/vue.esm'
 import VueResource from 'vue-resource'
 import Assign from '../assign.vue'
 import Timeline from '../timeline.vue'
