@@ -3,6 +3,7 @@
   "private": true,
   "dependencies": {
     "@rails/webpacker": "3.5",
+    "caniuse-lite": "^1.0.30000928",
     "css-loader": "^1.0.0",
     "select2-theme-bootstrap4": "^0.2.0-beta.2",
     "vue": "^2.5.17",
