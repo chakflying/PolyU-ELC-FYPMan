@@ -6,8 +6,8 @@ function toggleClassDelay(element,classname,delay) {
 
 document.addEventListener("turbolinks:load", function () {
     $(".rotate").parent().click(function () {
-        $(this).children().toggleClass("fa-spin");
-        toggleClassDelay($(this).children(), "fa-spin", 2000);
+        $(this).children().first().toggleClass("fa-spin");
+        toggleClassDelay($(this).children().first(), "fa-spin", 2000);
     });
     $(".past").parent().click(function () {
         $(this).children().first().toggleClass("fas").toggleClass("far");
