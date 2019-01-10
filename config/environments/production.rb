@@ -69,7 +69,7 @@ Rails.application.configure do
 
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method = :smtp
-  host = 'edc-x-1021d.polyu.edu.hk'
+  host = 'langcapadmin.edc.polyu.edu.hk'
   config.action_mailer.default_url_options = { host: host }
   ActionMailer::Base.smtp_settings = {
     :address        => 'smtp.sendgrid.net',
@@ -77,7 +77,7 @@ Rails.application.configure do
     :authentication => :plain,
     :user_name      => Rails.application.credentials.mailer[:user_name],
     :password       => Rails.application.credentials.mailer[:password],
-    :domain         => 'polyu.edu.hk',
+    :domain         => 'edc.polyu.edu.hk',
     :enable_starttls_auto => true
   }
 
