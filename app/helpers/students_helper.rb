@@ -1,4 +1,6 @@
 module StudentsHelper
+    include OldDbHelper
+    
     def get_fyp_years_list
         return [
           [Time.now.year.to_s + '-' + (Time.now.year + 1).to_s, Time.now.year.to_s + '-' + (Time.now.year + 1).to_s],

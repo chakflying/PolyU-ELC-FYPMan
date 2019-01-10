@@ -1,4 +1,6 @@
 module TodosHelper
+    include OldDbHelper
+    
     def olddb_todo_create(params)
         @old_todo = OldTodos.create(issued_department: check_old_department(params[:department]), status: 1, title: params[:title], time: params[:eta], description: params[:description])
         return @old_todo.id
