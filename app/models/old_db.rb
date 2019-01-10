@@ -13,6 +13,29 @@ class OldDb < ActiveRecord::Base
 
     # Simple old database sync
     def self.sync
+        Student.where.not(sync_id: nil) do |student|
+            stu = OldUsers[student.sync_id]
+            if (stu == nil)
+                student.delete
+            else
+                student.department_id = ( stu.department ? check_department(OldDepartments[stu.department].name) : nil )
+                student.name = stu.common_name
+                student.fyp_year = ( ( stu.FYPyear == "" ) ? Time.now.year.to_s + '-' + (Time.now.year + 1).to_s : stu.FYPyear)
+                student.netID = stu.net_id
+                student.save!
+            end
+        end
+        Supervisor.where.not(sync_id: nil) do |supervisor|
+            sup = OldUsers[supervisor.sync_id]
+            if (sup == nil)
+                supervisor.delete
+            else
+                supervisor.department_id = ( sup.department ? check_department(OldDepartments[sup.department].name) : nil )
+                supervisor.name = sup.common_name
+                supervisor.netID = sup.net_id
+                supervisor.save!
+            end
+        end
         OldUsers.each do |entry|
             next if entry.status == 0
             if entry.FYPyear == nil or entry.FYPyear == ""
@@ -37,29 +60,6 @@ class OldDb < ActiveRecord::Base
                     @supervisor = Supervisor.new(netID: entry.net_id, name: entry.common_name, department_id: check_department(@department), sync_id: entry.id)
                     @supervisor.save!
                 end
-            end
-        end
-        Student.where.not(sync_id: nil) do |student|
-            stu = OldUsers[student.sync_id]
-            if (stu == nil)
-                student.delete
-            else
-                student.department_id = ( stu.department ? check_department(OldDepartments[stu.department].name) : nil )
-                student.name = stu.common_name
-                student.fyp_year = ( ( stu.FYPyear == "" ) ? Time.now.year.to_s + '-' + (Time.now.year + 1).to_s : stu.FYPyear)
-                student.netID = stu.net_id
-                student.save!
-            end
-        end
-        Supervisor.where.not(sync_id: nil) do |supervisor|
-            sup = OldUsers[supervisor.sync_id]
-            if (sup == nil)
-                supervisor.delete
-            else
-                supervisor.department_id = ( sup.department ? check_department(OldDepartments[sup.department].name) : nil )
-                supervisor.name = sup.common_name
-                supervisor.netID = sup.net_id
-                supervisor.save!
             end
         end
         OldRelations.each do |rel|
