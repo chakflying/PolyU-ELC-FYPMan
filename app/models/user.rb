@@ -1,5 +1,7 @@
 class User < ApplicationRecord
     attr_accessor :reset_token
+    auto_strip_attributes :username
+    auto_strip_attributes :email
 
     before_save { self.email = email.downcase }
     validates :username, presence: true, length: { maximum: 25 }, uniqueness: { case_sensitive: true }

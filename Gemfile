@@ -86,3 +86,5 @@ gem 'delayed_job_recurring'
 gem 'daemons'
 # Sequel for connecting to the old database
 gem 'sequel'
+# Strip Spaces for form inputs
+gem "auto_strip_attributes", "~> 2.5"
