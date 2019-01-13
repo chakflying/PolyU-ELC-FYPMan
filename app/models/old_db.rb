@@ -98,13 +98,16 @@ class OldDb < ActiveRecord::Base
         OldRelations.each do |rel|
             next if rel.status == 0
             if (OldUsers[rel.student_net_id.to_i])
-                @stu = Student.find_by(netID: OldUsers[rel.student_net_id.to_i].net_id)
+                @stu = Student.find_by(sync_id: rel.student_net_id.to_i)
             end
             if (OldUsers[rel.supervisor_net_id.to_i])
-                @sup = Supervisor.find_by(netID: OldUsers[rel.supervisor_net_id.to_i].net_id)
+                @sup = Supervisor.find_by(sync_id: rel.supervisor_net_id.to_i)
             end
             if (@stu && @sup && !@stu.supervisors.find_by(id: @sup.id))
                 @stu.supervisors << @sup
+            end
+            if !OldUsers[rel.student_net_id.to_i] and !OldUsers[rel.supervisor_net_id.to_i]
+                rel.delete
             end
         end
         OldTodos.each do |old_todo|
