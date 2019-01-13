@@ -4,18 +4,13 @@ function toggleClassDelay(element,classname,delay) {
     },delay);
 }
 
-document.addEventListener("turbolinks:load", function () {
-    $(".rotate").parent().click(function () {
-        $(this).children().first().toggleClass("fa-spin");
-        toggleClassDelay($(this).children().first(), "fa-spin", 2000);
-    });
-    $(".past").parent().click(function () {
-        $(this).children().first().toggleClass("fas").toggleClass("far");
-    });
-    $(".todo-refresh-btn").click(function () {
-        window.todo_vue.$children[0].fetchItems();
-    });
-    $(".todo-toggle-past-btn").click(function () {
-        window.todo_vue.$children[0].toggleShowPast();
-    });
+$(document).on('click', ".todo-refresh-btn", function () {
+    window.todo_vue.$children[0].fetchItems();
+    $(this).children().first().toggleClass("fa-spin");
+    toggleClassDelay($(this).children().first(), "fa-spin", 2000);
+});
+
+$(document).on('click', ".todo-toggle-past-btn", function () {
+    window.todo_vue.$children[0].toggleShowPast();
+    $(this).children().first().toggleClass("fas").toggleClass("far");
 });
