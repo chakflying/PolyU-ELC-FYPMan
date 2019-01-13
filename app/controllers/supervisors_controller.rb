@@ -101,6 +101,7 @@ class SupervisorsController < ApplicationController
         end
     
         if request.post?
+            flash[:supervisors_list] = request.params[:supervisors_list]
             netID_list = request.params[:supervisors_list][:netID_list].lines.each {|x| x.strip!}
             name_list = request.params[:supervisors_list][:name_list].lines.each {|x| x.strip!}
             department_id = request.params[:supervisors_list][:department_id]
@@ -137,16 +138,40 @@ class SupervisorsController < ApplicationController
                     else
                         flash[:danger] = Array(flash[:danger]).push("Error when saving supervisor " + netID.to_s)
                     end
-                    redirect_back(fallback_location: supervisors_batch_import_path)
+                    render 'batch_import'
                     return
                 else
-                    sync_id = olddb_supervisor_create({department: Department.find(department_id).name, netID: netID, name: name})
+                    sync_id = olddb_supervisor_create({department_id: department_id, netID: netID, name: name})
                     @supervisor.sync_id = sync_id
                     @supervisor.save
                 end
             end
             flash[:success] = Array(flash[:success]).push("All supervisors successfully created.")
+            flash.delete(:supervisors_list)
             redirect_to '/supervisors'
         end
     end
+
+    def olddb_supervisor_create(params)
+        @old_supervisor = OldUsers.create(common_name: params[:name], net_id: params[:netID], department: Department.find(params[:department_id]).sync_id, status: 1, role: 2, uuid: 0, program_code: 0, subject_code: 0, senior_year: 0)
+        return @old_supervisor.id
+    end
+
+    def olddb_supervisor_update(params)
+        @old_supervisor = OldUsers.first(net_id: params[:netID])
+        @old_supervisor.update(common_name: params[:name], net_id: params[:netID], department: Department.find(params[:department_id]).sync_id)
+    end
+
+    def olddb_supervisor_destroy(sync_id)
+        @old_supervisor = OldUsers[sync_id]
+        @old_supervisor.destroy
+    end
+
+    def olddb_supervisor_removeStudent(stu_netID, sup_netID)
+        @old_student = OldUsers.first(net_id: stu_netID)
+        @old_supervisor = OldUsers.first(net_id: sup_netID)
+        @old_rel = OldRelations.first(student_net_id: @old_student.id, supervisor_net_id: @old_supervisor.id)
+        @old_rel.destroy
+    end
+
   end

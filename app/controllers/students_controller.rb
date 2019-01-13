@@ -118,6 +118,7 @@ class StudentsController < ApplicationController
     end
 
     if request.post?
+        flash[:students_list] = request.params[:students_list]
         netID_list = request.params[:students_list][:netID_list].lines.each {|x| x.strip!}
         name_list = request.params[:students_list][:name_list].lines.each {|x| x.strip!}
         department_id = request.params[:students_list][:department_id]
@@ -156,17 +157,40 @@ class StudentsController < ApplicationController
             @student = Student.new(department_id: department_id, fyp_year: fyp_year, netID: netID, name: name)  
             if !@student.save
                 flash[:danger] = Array(flash[:danger]).push("Error when saving student " + netID.to_s)
-                redirect_back(fallback_location: students_batch_import_path)
+                render 'batch_import'
                 return
             else
-                sync_id = olddb_student_create({department: Department.find(department_id).name, fyp_year: fyp_year, netID: netID, name: name})
+                sync_id = olddb_student_create({department_id: department_id, fyp_year: fyp_year, netID: netID, name: name})
                 @student.sync_id = sync_id
                 @student.save
             end
         end
         flash[:success] = Array(flash[:success]).push("All students successfully created.")
+        flash.delete(:students_list)
         redirect_to '/students'
     end
   end
+
+    def olddb_student_create(params)
+        @old_student = OldUsers.create(common_name: params[:name], net_id: params[:netID], FYPyear: params[:fyp_year], department: Department.find(params[:department_id]).sync_id, status: 1, role: 1, uuid: 0, program_code: 0, subject_code: 0, senior_year: 0)
+        return @old_student.id
+    end
+
+    def olddb_student_update(params)
+        @old_student = OldUsers.first(net_id: params[:netID])
+        @old_student.update(common_name: params[:name], net_id: params[:netID], FYPyear: params[:fyp_year], department: Department.find(params[:department_id]).sync_id)
+    end
+
+    def olddb_student_destroy(sync_id)
+        @old_student = OldUsers[sync_id]
+        @old_student.destroy
+    end
+
+    def olddb_student_removeSupervisor(stu_netID, sup_netID)
+        @old_student = OldUsers.first(net_id: stu_netID)
+        @old_supervisor = OldUsers.first(net_id: sup_netID)
+        @old_rel = OldRelations.first(student_net_id: @old_student.id, supervisor_net_id: @old_supervisor.id)
+        @old_rel.destroy
+    end
 
 end

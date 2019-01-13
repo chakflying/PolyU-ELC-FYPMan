@@ -25,6 +25,7 @@
     <%= render 'layouts/header' %>
     <div class="alert-wrapper">
     <% flash.each do |message_type, message_list| %>
+      <% next if !message_type.in?(['success', 'danger', 'warning', 'info']) %>
       <% message_list.each do |message| %>
         <div class="text-center site-alert alert alert-<%= message_type %> alert-dismissible fade show">
         <%= message %>

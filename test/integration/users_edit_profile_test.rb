@@ -15,7 +15,6 @@ class UsersEditProfileTest < ActionDispatch::IntegrationTest
         end
         assert is_logged_in?
         
-        get edit_user_path(2)
-        assert_redirected_to students_path
+        assert_raise(ActionController::RoutingError) { get edit_user_path(2) }
     end    
 end

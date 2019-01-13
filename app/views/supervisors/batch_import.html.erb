@@ -16,7 +16,7 @@
     <% if is_admin? %>
     <div class="form-group">
     <%= f.label :department, "Adding Supervisors to Department:" %>
-    <%= f.select :department_id, @departments_list, {prompt: "Select Department:"}, {class: "form-control"} %>
+    <%= f.select :department_id, options_for_select(@departments_list, ( flash[:supervisors_list] ? flash[:supervisors_list][:department_id] : nil )), {prompt: "Select Department:", selected: !flash[:supervisors_list].nil? }, {class: "form-control"} %>
     </div>
     <% else %>
     <%= f.hidden_field :department_id, value: current_user.department.id %>
@@ -25,11 +25,11 @@
     <div class="row">
         <div class="form-group col-md-6">
         <%= f.label :netID_list, "List of netIDs:" %>
-        <%= f.text_area :netID_list, {rows: 15, class: "form-control batch-import-box"} %>
+        <%= f.text_area :netID_list, {rows: 15, class: "form-control batch-import-box", value: ( flash[:supervisors_list] ? flash[:supervisors_list][:netID_list] : nil )} %>
         </div>
         <div class="form-group col-md-6">
         <%= f.label :name_list, "List of names:" %>
-        <%= f.text_area :name_list, {rows: 15, class: "form-control batch-import-box"} %>
+        <%= f.text_area :name_list, {rows: 15, class: "form-control batch-import-box", value: ( flash[:supervisors_list] ? flash[:supervisors_list][:name_list] : nil )} %>
         </div>
     </div>
     <br>

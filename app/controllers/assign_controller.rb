@@ -34,40 +34,51 @@ class AssignController < ApplicationController
         end
     end
     
-      def batch_assign
+    def batch_assign
         if request.post?
-            students_netID_list = request.params[:lists][:students_list].lines.each {|x| x.strip!}
-            supervisors_netID_list = request.params[:lists][:supervisors_list].lines.each {|x| x.strip!}
-            students_netID_list.each do |stu_id|
+            flash[:assign_lists] = request.params[:assign_lists]
+            students_netID_list = request.params[:assign_lists][:students_list].lines.each {|x| x.strip!}
+            supervisors_netID_list = request.params[:assign_lists][:supervisors_list].lines.each {|x| x.strip!}
+            if students_netID_list.length != supervisors_netID_list.length
+                flash.now[:danger] = Array(flash.now[:danger]).push("The length of two lists is not equal. Check if you need an extra line at the end.")
+                render 'batch_assign'
+                return
+            end
+            # Verify that all netIDs exist before actual operation
+            students_netID_list.zip(supervisors_netID_list).each{ |stu_id,sup_id| 
                 stu = Student.find_by(netID: stu_id)
                 if !stu
                     flash.now[:danger] = Array(flash.now[:danger]).push("Student with netID " + stu_id + " not found.")
                     render 'batch_assign'
                     return
                 end
-            end
-            supervisors_netID_list.each do |sup_id|
                 sup = Supervisor.find_by(netID: sup_id)
                 if !sup
                     flash.now[:danger] = Array(flash.now[:danger]).push("Supervisor with netID " + sup_id + " not found.")
                     render 'batch_assign'
                     return
                 end
-            end
-            students_netID_list.each do |stu_id|
-                supervisors_netID_list.each do |sup_id|
-                    stu = Student.find_by(netID: stu_id)
-                    sup = Supervisor.find_by(netID: sup_id)
-                    if stu.supervisors.find_by(netID: sup_id)
-                        flash[:info] = Array(flash[:info]).push("Student with netID " + stu_id + " already assigned.")
-                    else
-                        stu.supervisors << sup
-                        olddb_assign(stu.netID, sup.netID)
-                    end
+            }
+            students_netID_list.zip(supervisors_netID_list).each{ |stu_id,sup_id| 
+                stu = Student.find_by(netID: stu_id)
+                sup = Supervisor.find_by(netID: sup_id)
+                if stu.supervisors.find_by(netID: sup_id)
+                    flash[:info] = Array(flash[:info]).push("Student with netID " + stu_id + " already assigned.")
+                else
+                    stu.supervisors << sup
+                    olddb_assign(stu.netID, sup.netID)
                 end
-            end
+            }
+
             flash[:success] = Array(flash[:success]).push("All students assigned successfully.")
+            flash.delete(:assign_lists)
             redirect_to '/batch_assign'
         end
-    end    
+    end
+
+    def olddb_assign(stu_netID, sup_netID)
+        @old_student = OldUsers.first(net_id: stu_netID)
+        @old_supervisor = OldUsers.first(net_id: sup_netID)
+        @old_rel = OldRelations.create(student_net_id: @old_student.id, supervisor_net_id: @old_supervisor.id, status: 1)
+    end
 end

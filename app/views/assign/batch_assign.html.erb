@@ -7,20 +7,23 @@
     <div class="collapse" id="batchassignhelp">
         <br>
         <div class="card card-body">
-            <p style="color:darkslategrey">Input netIDs of corresponding students and supervisors, 1 on each line. <br>All of the students will be assigned to all of the supervisors. <br>You cannot skip a line. <br>Press "Assign Students" when you are done.</p>
+            <p style="color:darkslategrey">Input netIDs of corresponding students and supervisors, 1 on each line. <br>
+            Student and Supervisor for each row will be assigned individually. <br>
+            You cannot skip a line. <br>
+            Press "Assign Students" when you are done.</p>
         </div>
     </div>
     <br>
     <br>
-    <%= form_for :lists, url: batch_assign_path do |f| %>
+    <%= form_for :assign_lists, url: batch_assign_path do |f| %>
     <div class="row">
         <div class="form-group col-md-6">
         <%= f.label :students_list, "Assign student(s) netID:" %>
-        <%= f.text_area :students_list, {rows: 15, class: "form-control batch-import-box"} %>
+        <%= f.text_area :students_list, {rows: 15, class: "form-control batch-import-box", value: ( flash[:assign_lists] ? flash[:assign_lists][:students_list] : nil )} %>
         </div>
         <div class="form-group col-md-6">
         <%= f.label :supervisors_list, "to supervisor(s) netID:" %>
-        <%= f.text_area :supervisors_list, {rows: 15, class: "form-control batch-import-box"} %>
+        <%= f.text_area :supervisors_list, {rows: 15, class: "form-control batch-import-box", value: ( flash[:assign_lists] ? flash[:assign_lists][:supervisors_list] : nil )} %>
         </div>
     </div>
     <br>
