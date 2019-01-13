@@ -7,8 +7,24 @@ class Department < ApplicationRecord
     has_many :supervisors
     has_many :users
     has_many :todos
+    belongs_to :faculty
 
     def code=(val)
-        write_attribute :code, val.upcase
+        write_attribute(:code, val.upcase) unless val.nil?
+    end
+
+    def university
+        self.faculty.university
+    end
+
+    def self.check_synced(sync_id)
+        if sync_id.nil?
+            return nil
+        end
+        if dep = Department.find_by(sync_id: sync_id)
+            return dep.id
+        else
+            return nil
+        end
     end
 end

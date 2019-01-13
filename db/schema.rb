@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_23_182832) do
+ActiveRecord::Schema.define(version: 2019_01_12_183830) do
 
   create_table "delayed_jobs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.integer "priority", default: 0, null: false
@@ -32,6 +32,19 @@ ActiveRecord::Schema.define(version: 2018_12_23_182832) do
     t.string "code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "faculty_id"
+    t.integer "sync_id"
+    t.index ["faculty_id"], name: "index_departments_on_faculty_id"
+  end
+
+  create_table "faculties", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "code", limit: 8
+    t.integer "sync_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "university_id"
+    t.index ["university_id"], name: "index_faculties_on_university_id"
   end
 
   create_table "students", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
@@ -68,6 +81,14 @@ ActiveRecord::Schema.define(version: 2018_12_23_182832) do
     t.bigint "department_id"
     t.string "color", limit: 10, default: "danger"
     t.index ["department_id"], name: "index_todos_on_department_id"
+  end
+
+  create_table "universities", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "code", limit: 8
+    t.integer "sync_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|

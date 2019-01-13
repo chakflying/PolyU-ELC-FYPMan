@@ -10,7 +10,8 @@ Rails.application.routes.draw do
   get    '/login',   to: 'sessions#new'
   post   '/login',   to: 'sessions#create'
   delete '/logout',  to: 'sessions#destroy'
-  resources :users
+  get    '/users',                to: 'admin#users'
+  resources :users,               only: [:new, :create, :show, :edit, :update, :destroy]
   resources :password_resets,     only: [:new, :create, :edit, :update]
 
   get    '/students_batch_import', to: 'students#batch_import'
@@ -30,8 +31,10 @@ Rails.application.routes.draw do
 
   resources :todos
 
-  get    '/admin/',                     to: 'admin#activities'
-  get    '/admin/trails',               to: 'admin#activities'
-  get    '/admin/users',                to: 'admin#users'
+  scope '/admin' do
+    get    '/',                     to: 'admin#activities'
+    get    '/trails',               to: 'admin#activities'
+    resources :departments
+  end
   
 end

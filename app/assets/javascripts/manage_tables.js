@@ -63,6 +63,22 @@ document.addEventListener("turbolinks:load", function () {
             }
         });
     }
+
+    if (!$.fn.DataTable.isDataTable('.departments-table')) {
+        supervisors_dataTable = $('.departments-table').dataTable({
+            stateSave: true,
+            responsive: true,
+            columnDefs: [
+                { responsivePriority: 2, targets: 1 },
+                { responsivePriority: 1, targets: -1 },
+                { 'width': '15px', 'targets': 0 },
+                { 'width': '4.7rem', 'targets': -1 },
+            ],
+            language: {
+                "emptyTable": "No departments present."
+            }
+        });
+    }
 });
 
 document.addEventListener("turbolinks:before-cache", function () {
@@ -73,6 +89,12 @@ document.addEventListener("turbolinks:before-cache", function () {
         students_dataTable.dataTable().fnDestroy();
     }
     if ($.fn.DataTable.isDataTable('.supervisors-table')) {
+        supervisors_dataTable.dataTable().fnDestroy();
+    }
+    if ($.fn.DataTable.isDataTable('.admin-activity-table')) {
+        supervisors_dataTable.dataTable().fnDestroy();
+    }
+    if ($.fn.DataTable.isDataTable('.departments-table')) {
         supervisors_dataTable.dataTable().fnDestroy();
     }
 });
