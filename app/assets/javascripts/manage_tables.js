@@ -35,9 +35,9 @@ document.addEventListener("turbolinks:load", function () {
                 { responsivePriority: 2, targets: 2 },
                 { responsivePriority: 1, targets: -1 },
                 { 'width': '5%', 'targets': 0 },
-                { 'width': '17%', 'targets': 1 },
+                { 'width': '150px', 'targets': 1 },
                 { 'width': '10%', 'targets': 2 },
-                { 'width': '200px', 'targets': -2 },
+                { 'width': '230px', 'targets': -2 },
                 { 'width': '4.7rem', 'targets': -1 },
             ],
             language: {
