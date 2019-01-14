@@ -1,3 +1,5 @@
 {
-    "terminal.integrated.shell.windows": "C:\\Windows\\System32\\bash.exe"
+    "terminal.integrated.shell.windows": "C:\\Windows\\System32\\bash.exe",
+    "solargraph.commandPath": ".vscode\\solargraph.bat",
+    "solargraph.formatting": true,
 }
