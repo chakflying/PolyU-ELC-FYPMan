@@ -21,7 +21,7 @@ $(document).on("click", ".todo-refresh-btn", function() {
 
 $(document).on("click", ".todo-toggle-past-btn", function() {
   window.todo_vue.$children[0].toggleShowPast();
-  const icon = $(this)
+  var icon = $(this)
     .children()
     .first();
   icon.toggleClass('far fas');
