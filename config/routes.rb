@@ -24,8 +24,9 @@ Rails.application.routes.draw do
   post   '/removeStudent', to: 'supervisors#removeStudent'
   resources :supervisors
 
-  get    '/assign',  to: 'assign#assign'
-  post   '/assign',  to: 'assign#assign'
+  get    '/assign',   to: 'assign#assign'
+  post   '/assign',   to: 'assign#assign'
+  post   '/unassign', to: 'assign#unassign'
   get    '/batch_assign', to: 'assign#batch_assign'
   post   '/batch_assign', to: 'assign#batch_assign'
 

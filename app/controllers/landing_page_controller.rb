@@ -1,7 +1,7 @@
+# frozen_string_literal: true
+
 class LandingPageController < ApplicationController
   def index
-    if logged_in?
-      redirect_to '/students'
-    end
+    redirect_to '/students' if logged_in?
   end
 end

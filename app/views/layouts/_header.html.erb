@@ -1,37 +1,39 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-end">
-    <%= link_to "PolyU FYP Man", '/', {id: "logo", style: "padding-right:0.5em", class: "navbar-brand mr-auto"}  %>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-        <% if logged_in? %>
-          <% if is_admin? %>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Admin
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <%= link_to "Manage Users", users_path, class: "dropdown-item"  %>
-                <%= link_to "Manage Departments", departments_path, class: "dropdown-item"  %>
-                <%= link_to "Database Activities", trails_path, class: "dropdown-item"  %>
-              </div>
-            </li>
-          <% end %>
-          <li class="nav-item"><%= link_to "Students", students_path, class: "nav-link"  %></li>
-          <li class="nav-item"><%= link_to "Supervisors", supervisors_path, class: "nav-link"  %></li>
-          <li class="nav-item"><%= link_to "Assign", assign_path, class: "nav-link"  %></li>
-          <li class="nav-item"><%= link_to "Edit My Profile", edit_user_path(current_user), class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "Todo List", todos_path, class: "nav-link"  %></li>
+  <%= link_to "PolyU FYP Man", '/', {id: "logo", style: "padding-right:0.5em", class: "navbar-brand mr-auto"}  %>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <% if logged_in? %>
+        <% if is_admin? %>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Admin
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <%= link_to "Manage Users", users_path, class: "dropdown-item"  %>
+              <%= link_to "Manage Departments", departments_path, class: "dropdown-item"  %>
+              <%= link_to "Database Activities", trails_path, class: "dropdown-item"  %>
+            </div>
+          </li>
         <% end %>
-      </ul>
-      <ul class="navbar-nav ml-auto">
-        <% if logged_in? %>
-          <li class="nav-item d-lg-none d-xl-flex"><p class="nav-link disabled" style="margin-bottom:0;overflow:hidden;">You are Logged in as <%= current_user.username %>.</p></li>
-          <li class="nav-item"><%= link_to "Log out", logout_path, method: :delete, class: "nav-link"  %></li>
-        <% else %>
-          <li class="nav-item"><%= link_to "Log in", root_path, class: "nav-link" %></li>
-        <% end %>
-      </ul>
-    </div>
+        <li class="nav-item"><%= link_to "Students", students_path, class: "nav-link"  %></li>
+        <li class="nav-item"><%= link_to "Supervisors", supervisors_path, class: "nav-link"  %></li>
+        <li class="nav-item"><%= link_to "Assign", assign_path, class: "nav-link"  %></li>
+        <li class="nav-item"><%= link_to "Edit My Profile", edit_user_path(current_user), class: "nav-link" %></li>
+        <li class="nav-item"><%= link_to "Todo List", todos_path, class: "nav-link"  %></li>
+      <% end %>
+    </ul>
+    <ul class="navbar-nav ml-auto">
+      <% if logged_in? %>
+        <li class="nav-item d-lg-none d-xl-flex">
+          <p class="nav-link disabled" style="margin-bottom:0;overflow:hidden;">You are Logged in as <%= current_user.username %>.</p>
+        </li>
+        <li class="nav-item"><%= link_to "Log out", logout_path, method: :delete, class: "nav-link"  %></li>
+      <% else %>
+        <li class="nav-item"><%= link_to "Log in", root_path, class: "nav-link" %></li>
+      <% end %>
+    </ul>
+  </div>
 </nav>

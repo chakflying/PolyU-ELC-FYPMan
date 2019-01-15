@@ -16,12 +16,11 @@ export default {
   data: function() {
     return {
       m_items: [],
-      m_show_past: false,
+      m_show_past: false
     };
   },
 
-  events: {
-  },
+  events: {},
 
   methods: {
     toggleShowPast: function() {
@@ -39,11 +38,7 @@ export default {
         .querySelector('meta[name="csrf-token"]')
         .getAttribute("content");
       this.$http
-        .get(
-          "/todos",
-          {},
-          { headers: { "X-CSRF-Token": csrfToken } }
-        )
+        .get("/todos", {}, { headers: { "X-CSRF-Token": csrfToken } })
         .then(
           response => {
             // get status
@@ -77,11 +72,17 @@ export default {
             Turbolinks.visit(window.location);
           }
         );
-    },
+    }
   },
 
   created: function() {
     this.updateItems(this.items);
+  },
+  mounted: function() {
+    FontAwesome.dom.i2svg();
+  },
+  updated: function() {
+    FontAwesome.dom.i2svg();
   }
 };
 </script>

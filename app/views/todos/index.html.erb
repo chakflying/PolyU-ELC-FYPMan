@@ -1,73 +1,77 @@
 <% provide(:title, 'Todo List') %>
 <div class="container">
-    <h2 class="display-2" style="margin:1em 0 0.4em 0">Todo List</h2>
-    <% if is_admin? %>
+  <h2 class="display-2" style="margin:1em 0 0.4em 0">Todo List</h2>
+  <% if is_admin? %>
     <h5 class="display-5">You are viewing Todo items from all departments.</h5>
-    <% else %>
+  <% else %>
     <h5 class="display-5">You are viewing Todo items from <%= current_user.department.name %>.</h5>
-    <% end %>
-    <br>
-    <div class="d-flex justify-content-between align-items-center">
-        <button class="btn btn-secondary mr-auto" type="button" data-toggle="collapse" data-target="#addtodoform" aria-expanded="false" aria-controls="addtodoform">
-            <i class="fas fa-plus" style="font-size:80%"></i>&ensp; New Todo Item
-        </button>
-        <button class="btn btn-light todo-refresh-btn" style="margin-right:0.3em;"><i class="fas fa-sync-alt" style="font-size:80%;"></i><p class="d-none d-sm-none d-md-none d-lg-inline d-xl-inline">&nbsp;Refresh</p></button>
-        <button class="btn btn-light todo-toggle-past-btn"><i class="fas fa-clock" style="font-size:80%;"></i><p class="d-none d-sm-none d-md-none d-lg-inline d-xl-inline">&nbsp;Toggle Past Todos</p></button>
-    </div>
-    <div class="collapse" id="addtodoform">
+  <% end %>
+  <br>
+  <div class="d-flex justify-content-between align-items-center">
+    <button class="btn btn-secondary mr-auto" type="button" data-toggle="collapse" data-target="#addtodoform" aria-expanded="false" aria-controls="addtodoform">
+      <i class="fas fa-plus" style="font-size:80%"></i>&ensp; New Todo Item
+    </button>
+    <button class="btn btn-light todo-refresh-btn" style="margin-right:0.3em;"><i class="fas fa-sync-alt" style="font-size:80%;"></i>
+      <p class="d-none d-sm-none d-md-none d-lg-inline d-xl-inline">&nbsp;Refresh</p>
+    </button>
+    <button class="btn btn-light todo-toggle-past-btn"><i class="fas fa-clock" style="font-size:80%;"></i>
+      <p class="d-none d-sm-none d-md-none d-lg-inline d-xl-inline">&nbsp;Toggle Past Todos</p>
+    </button>
+  </div>
+  <div class="collapse" id="addtodoform">
     <br>
     <div class="card card-body">
-    <%= form_for(@todo, url: todos_path) do |f| %>
+      <%= form_for(@todo, url: todos_path) do |f| %>
         <%= render 'shared/error_messages', obj: @todo %>
         <div class="form-row">
-            <div class="form-group col-md-8">
+          <div class="form-group col-md-8">
             <%= f.text_field :title, class: "form-control", placeholder: "Enter title", required: true %>
-            </div>
-            <div class="form-group col-md-4" style="margin:0 0 1rem 0;">
-                <input name="todo[eta]" class="form-control datepicker" placeholder="Pick a Date">
-            </div>
+          </div>
+          <div class="form-group col-md-4" style="margin:0 0 1rem 0;">
+            <input name="todo[eta]" class="form-control datepicker" placeholder="Pick a Date">
+          </div>
         </div>
         <div class="form-row">
-            <% if is_admin? %>
+          <% if is_admin? %>
             <div class="form-group col-md-12">
-            <%= f.select :department_id, @departments_list, {prompt: "Select Department:"}, {class: "form-control"} %>
+              <%= f.select :department_id, @departments_list, {prompt: "Select Department:"}, {class: "form-control"} %>
             </div>
-            <% else %>
+          <% else %>
             <%= f.hidden_field :department_id, value: current_user.department.id %>
-            <% end %>
+          <% end %>
         </div>
         <div class="form-group">
-        &nbsp;
-            <label>
+          &nbsp;
+          <label>
             <%= radio_button_tag 'todo[color]', 'primary', true %>
             <i class="form-timeline-badge timeline-badge primary"> &nbsp;&nbsp; </i></label>
-            <label>
+          <label>
             <%= radio_button_tag 'todo[color]', 'success', false %>
             <i class="form-timeline-badge timeline-badge success"> &nbsp;&nbsp; </i></label>
-            <label>
+          <label>
             <%= radio_button_tag 'todo[color]', 'info', false %>
             <i class="form-timeline-badge timeline-badge info"> &nbsp;&nbsp; </i></label>
-            <label>
+          <label>
             <%= radio_button_tag 'todo[color]', 'warning', false %>
             <i class="form-timeline-badge timeline-badge warning"> &nbsp;&nbsp; </i></label>
-            <label>
+          <label>
             <%= radio_button_tag 'todo[color]', 'danger', false %>
             <i class="form-timeline-badge timeline-badge danger"> &nbsp;&nbsp; </i></label>
         </div>
         <div class="form-row">
-            <div class="form-group col-md-12">
+          <div class="form-group col-md-12">
             <%= f.text_area :description, {placeholder: "Enter description (Optional)", rows: 3, class: "form-control"} %>
-            </div>
+          </div>
         </div>
         <%= f.submit "Add to Todo List", class: "btn btn-primary" %>
-    <% end %>
+      <% end %>
     </div>
-    </div>
-    <%= content_tag :div,
+  </div>
+  <%= content_tag :div,
     id: 'todo',
     data: {
         items2: @todo_list,
         is_admin: is_admin?,
     }.to_json() do %>
-    <% end %>
+  <% end %>
 </div>

@@ -1,16 +1,16 @@
-class OldUsers < Sequel::Model(Old_DB[:users]); end
-class OldDepartments < Sequel::Model(Old_DB[:departments]); end
-class OldRelations < Sequel::Model(Old_DB[:supervises]); end
-class OldTodos < Sequel::Model(Old_DB[:todos]); end
-class OldFaculties < Sequel::Model(Old_DB[:faculties]); end
-class OldUniversities < Sequel::Model(Old_DB[:universities]); end
+class OldUser < Sequel::Model(Old_DB[:users]); end
+class OldDepartment < Sequel::Model(Old_DB[:departments]); end
+class OldRelation < Sequel::Model(Old_DB[:supervises]); end
+class OldTodo < Sequel::Model(Old_DB[:todos]); end
+class OldFaculty < Sequel::Model(Old_DB[:faculties]); end
+class OldUniversity < Sequel::Model(Old_DB[:universities]); end
 
-OldUsers.plugin :timestamps, create: :date_created, update: :date_modified
-OldRelations.plugin :timestamps, create: :date_created, update: :date_modified
-OldTodos.plugin :timestamps, create: :date_created, update: :date_modified
-OldDepartments.plugin :timestamps, create: :date_created, update: :date_modified
-OldFaculties.plugin :timestamps, create: :date_created, update: :date_modified
-OldUniversities.plugin :timestamps, create: :date_created, update: :date_modified
+OldUser.plugin :timestamps, create: :date_created, update: :date_modified
+OldRelation.plugin :timestamps, create: :date_created, update: :date_modified
+OldTodo.plugin :timestamps, create: :date_created, update: :date_modified
+OldDepartment.plugin :timestamps, create: :date_created, update: :date_modified
+OldFaculty.plugin :timestamps, create: :date_created, update: :date_modified
+OldUniversity.plugin :timestamps, create: :date_created, update: :date_modified
 
 class OldDbSyncTask
     include Delayed::RecurringJob

@@ -1,5 +1,3 @@
 document.addEventListener("turbolinks:load", function() {
-  $(".site-alert")
-    .delay(5000)
-    .fadeOut("slow");
+  FontAwesome.dom.i2svg();
 });

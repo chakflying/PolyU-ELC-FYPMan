@@ -1,91 +1,91 @@
 <% provide(:title, 'Manage Students') %>
 <div class="container">
-    <h2 class="display-2" style="margin:1em 0 0.4em 0">Manage Students</h2>
-    <% if is_admin? %>
+  <h2 class="display-2" style="margin:1em 0 0.4em 0">Manage Students</h2>
+  <% if is_admin? %>
     <h5 class="display-5">You are viewing all students.</h5>
-    <% else %>
+  <% else %>
     <h5 class="display-5">You are viewing students from <%= current_user.department.name %>.</h5>
-    <% end %>
-    <br>
-    <%= form_for(@student, url: students_path) do |f| %>
-        <%= render 'shared/error_messages', obj: @student %>
-        <p>Add new Student:</p>
-        <div class="row">
-            <div class="form-group col-md-4">
-            <%= f.text_field :name, class: "form-control", placeholder: "enter student name", 'aria-label': "New student name" %>
-            </div>
-            <div class="form-group col-md-4">
-            <%= f.text_field :netID, class: "form-control", placeholder: "enter student netID", required: true, 'aria-label': "New student netID" %>
-            </div>
-            <div class="form-group col-md-4">
-            <%= f.select :fyp_year, @fyp_year_list, {prompt: "Select FYP Year:"}, {class: "form-control", required: true, 'aria-label': "New student FYP Year"} %>
-            </div>
-            <% if is_admin? %>
-            <div class="form-group col-md-12">
-            <%= f.select :department_id, @departments_list, {prompt: "Select Department:"}, {class: "form-control", 'aria-label': "New student Department"} %>
-            </div>
-            <% else %>
-            <%= f.hidden_field :department_id, value: current_user.department.id %>
-            <% end %>
+  <% end %>
+  <br>
+  <%= form_for(@student, url: students_path) do |f| %>
+    <%= render 'shared/error_messages', obj: @student %>
+    <p>Add new Student:</p>
+    <div class="row">
+      <div class="form-group col-md-4">
+        <%= f.text_field :name, class: "form-control", placeholder: "enter student name", 'aria-label': "New student name" %>
+      </div>
+      <div class="form-group col-md-4">
+        <%= f.text_field :netID, class: "form-control", placeholder: "enter student netID", required: true, 'aria-label': "New student netID" %>
+      </div>
+      <div class="form-group col-md-4">
+        <%= f.select :fyp_year, @fyp_year_list, {prompt: "Select FYP Year:"}, {class: "form-control", required: true, 'aria-label': "New student FYP Year"} %>
+      </div>
+      <% if is_admin? %>
+        <div class="form-group col-md-12">
+          <%= f.select :department_id, @departments_list, {prompt: "Select Department:"}, {class: "form-control", 'aria-label': "New student Department"} %>
         </div>
-        <%= button_tag(type: 'submit', class: "btn btn-primary") do %>
-             <i class='fas fa-plus' style='font-size:79%'></i>&nbsp; Create Student
+      <% else %>
+        <%= f.hidden_field :department_id, value: current_user.department.id %>
+      <% end %>
+    </div>
+    <%= button_tag(type: 'submit', class: "btn btn-primary") do %>
+      <i class='fas fa-plus' style='font-size:79%'></i>&nbsp; Create Student
+    <% end %>
+    <%= link_to "Batch Import&nbsp; <i class='fas fa-arrow-right' style='font-size:79%'></i>".html_safe, {action: "batch_import"}, {class: "btn btn-secondary"} %>
+  <% end %>
+  <br>
+  <br>
+  <table class="table students-table" style="font-size:14px; width:100%">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">NetID</th>
+        <% if is_admin? %>
+          <th scope="col">Department</th>
         <% end %>
-        <%= link_to "Batch Import&nbsp; <i class='fas fa-arrow-right' style='font-size:79%'></i>".html_safe, {action: "batch_import"}, {class: "btn btn-secondary"} %>
-        <% end %>
-    <br>
-    <br>
-    <table class="table students-table" style="font-size:14px; width:100%">
-        <thead>
-            <tr>
-            <th scope="col">#</th>
-            <th scope="col">Name</th>
-            <th scope="col">NetID</th>
-            <% if is_admin? %>
-            <th scope="col">Department</th>
+        <th scope="col">FYP Year</th>
+        <th scope="col">Supervisors</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @students.each do |student| %>
+        <tr>
+          <th scope="row"><%= student.id %></th>
+          <td><%= student.name %></td>
+          <td><%= student.netID %></td>
+          <% if is_admin? %>
+            <td><%= student.department.name %></td>
+          <% end %>
+          <td><%= student.fyp_year %></td>
+          <td>
+            <div class="col-sm-12">
+              <% student.supervisors.each do |supervisor| %>
+                <div class="row" style="margin-bottom:0.3em;margin-right:5px">
+                  <div class="col-sm-9">
+                    <%= supervisor.name %>
+                  </div>
+                  <%= form_for @student, :url => {:action => "removeSupervisor"}, html: {class: "col-sm-3"} do |f| %>
+                    <%= hidden_field_tag :stu_netID, student.netID %>
+                    <%= hidden_field_tag :sup_netID, supervisor.netID %>
+                    <%= f.submit "remove", class: "row btn btn-sm btn-light", style: "padding-top:0.1em;border-radius:0.5rem" %>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+          </td>
+          <td>
+            <%= link_to edit_student_path(student.id), method: :get, data: {} do %>
+              <button class="btn btn-sm btn-outline-info" style="width:35px;margin-bottom:5px" aria-label="Edit Student"><i class="fas fa-user-edit"></i></button>
             <% end %>
-            <th scope="col">FYP Year</th>
-            <th scope="col">Supervisors</th>
-            <th scope="col"></th>
-            </tr>
-        </thead>
-        <tbody>
-            <% @students.each do |student| %>
-                <tr>
-                    <th scope="row"><%= student.id %></th>
-                    <td><%= student.name %></td>
-                    <td><%= student.netID %></td>
-                    <% if is_admin? %>
-                    <td><%= student.department.name %></td>
-                    <% end %>
-                    <td><%= student.fyp_year %></td>
-                    <td>
-                    <div class="col-sm-12">
-                    <% student.supervisors.each do |supervisor| %>
-                        <div class="row" style="margin-bottom:0.3em;margin-right:5px">
-                        <div class="col-sm-9">
-                            <%= supervisor.name %>
-                        </div>
-                        <%= form_for @student, :url => {:action => "removeSupervisor"}, html: {class: "col-sm-3"} do |f| %>
-                            <%= hidden_field_tag :stu_netID, student.netID %>
-                            <%= hidden_field_tag :sup_netID, supervisor.netID %>
-                            <%= f.submit "remove", class: "row btn btn-sm btn-light", style: "padding-top:0.1em;border-radius:0.5rem" %>
-                        <% end %>
-                        </div>
-                    <% end %>
-                    </div>
-                    </td>
-                    <td>
-                        <%= link_to edit_student_path(student.id), method: :get, data: {} do %>
-                            <button class="btn btn-sm btn-outline-info" style="width:35px;margin-bottom:5px" aria-label="Edit Student"><i class="fas fa-user-edit"></i></button>
-                        <% end %>
-                        <%= link_to student, method: :delete,
+            <%= link_to student, method: :delete,
                                   data: { confirm: "Do you want to delete this student?" } do %>
-                            <button class="btn btn-sm btn-danger" style="width:35px;margin-bottom:5px" aria-label="Delete Student"><i class="fas fa-trash"></i></button>
-                        <% end %>
-                    </td>
-                </tr>
+              <button class="btn btn-sm btn-danger" style="width:35px;margin-bottom:5px" aria-label="Delete Student"><i class="fas fa-trash"></i></button>
             <% end %>
-        </tbody>
-    </table>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 </div>

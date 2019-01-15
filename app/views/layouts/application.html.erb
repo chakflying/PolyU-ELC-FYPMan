@@ -7,33 +7,30 @@
     <title><%= yield(:title) + " - PolyU FYP Management" %></title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload', async: true %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-
     <%= javascript_pack_tag 'hello_vue', 'data-turbolinks-track': 'reload' %>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.2/animate.min.css" integrity="sha384-OHBBOqpYHNsIqQy8hL1U+8OXf9hH6QRxi0+EODezv82DfnZoV7qoHAZDwMwEJvSw" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous" async="async">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/kt-2.4.0/r-2.2.2/sl-1.2.6/datatables.min.css" async="async"/>
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/kt-2.4.0/r-2.2.2/sl-1.2.6/datatables.min.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.6.3/js/all.js" integrity="sha384-EIHISlAOj4zgYieurP0SdoiBYfGJKkgWedPHH4jCzpCXLmzVsw1ouK59MuUtP4a1" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" async="async"/>
   </head>
-
   <body>
     <%= render 'layouts/header' %>
     <div class="alert-wrapper">
-    <% flash.each do |message_type, message_list| %>
-      <% next if !message_type.in?(['success', 'danger', 'warning', 'info']) %>
-      <% message_list.each do |message| %>
-        <div class="text-center site-alert alert alert-<%= message_type %> alert-dismissible fade show">
-        <%= message %>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        </div>
+      <% flash.each do |message_type, message_list| %>
+        <% next if !message_type.in?(['success', 'danger', 'warning', 'info']) %>
+        <% message_list.each do |message| %>
+          <div class="text-center site-alert alert alert-<%= message_type %> alert-dismissible fade show">
+            <%= message %>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        <% end %>
       <% end %>
-    <% end %>
     </div>
     <%= yield %>
     <%= render 'layouts/footer' %>

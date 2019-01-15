@@ -33,6 +33,8 @@ GEM
       activemodel (= 5.2.2)
       activesupport (= 5.2.2)
       arel (>= 9.0)
+    activerecord-import (0.28.1)
+      activerecord (>= 3.2)
     activestorage (5.2.2)
       actionpack (= 5.2.2)
       activerecord (= 5.2.2)
@@ -97,7 +99,7 @@ GEM
     ffi (1.9.25)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
-    i18n (1.5.1)
+    i18n (1.5.2)
       concurrent-ruby (~> 1.0)
     io-like (0.3.0)
     jbuilder (2.8.0)
@@ -132,11 +134,12 @@ GEM
     paper_trail (10.1.0)
       activerecord (>= 4.2, < 6.0)
       request_store (~> 1.1)
-    passenger (6.0.1)
+    passenger (5.3.7)
       rack
       rake (>= 0.8.1)
     popper_js (1.14.5)
     public_suffix (3.0.3)
+    puma (3.12.0)
     rack (2.0.6)
     rack-attack (5.4.2)
       rack (>= 1.0, < 3)
@@ -226,11 +229,13 @@ GEM
     websocket-extensions (0.1.3)
     xpath (3.2.0)
       nokogiri (~> 1.8)
+    yajl-ruby (1.4.1)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  activerecord-import
   auto_strip_attributes (~> 2.5)
   bcrypt
   bootsnap (>= 1.3.2)
@@ -247,7 +252,8 @@ DEPENDENCIES
   listen (>= 3.0.5, < 3.2)
   mysql2 (~> 0.5.2)
   paper_trail
-  passenger
+  passenger (~> 5.3.7)
+  puma
   rack-attack
   rails (~> 5.2.1)
   sassc-rails
@@ -260,6 +266,7 @@ DEPENDENCIES
   uglifier (>= 1.3.0)
   web-console (>= 3.3.0)
   webpacker
+  yajl-ruby
 
 RUBY VERSION
    ruby 2.5.1p57
