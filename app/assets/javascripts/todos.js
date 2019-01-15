@@ -21,9 +21,13 @@ $(document).on("click", ".todo-refresh-btn", function() {
 
 $(document).on("click", ".todo-toggle-past-btn", function() {
   window.todo_vue.$children[0].toggleShowPast();
-  $(this)
+  var icon = $(this)
     .children()
-    .first()
-    .toggleClass("fas")
-    .toggleClass("far");
+    .first();
+  var prefix = icon.attr("data-prefix");
+  if (prefix === "fas") {
+    icon.attr("data-prefix", "far");
+  } else {
+    icon.attr("data-prefix", "fas");
+  }
 });
