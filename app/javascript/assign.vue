@@ -105,12 +105,6 @@ export default {
         );
       document.getElementById("assign_submit_btn").classList.remove("disabled");
     }
-  },
-  mounted: function() {
-    FontAwesome.dom.i2svg();
-  },
-  updated: function() {
-    FontAwesome.dom.i2svg();
   }
 };
 </script>

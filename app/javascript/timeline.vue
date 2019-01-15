@@ -77,12 +77,6 @@ export default {
 
   created: function() {
     this.updateItems(this.items);
-  },
-  mounted: function() {
-    FontAwesome.dom.i2svg();
-  },
-  updated: function() {
-    FontAwesome.dom.i2svg();
   }
 };
 </script>
