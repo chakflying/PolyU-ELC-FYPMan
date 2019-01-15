@@ -10,6 +10,7 @@ class Department < ApplicationRecord
   has_many :users
   has_many :todos
   belongs_to :faculty
+  has_paper_trail
 
   def code=(val)
     write_attribute(:code, val.upcase) unless val.nil?

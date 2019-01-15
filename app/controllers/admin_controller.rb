@@ -10,6 +10,10 @@ class AdminController < ApplicationController
                   PaperTrail::Version.where(item_type: 'Supervisor')
                 elsif params[:users]
                   PaperTrail::Version.where(item_type: 'User')
+                elsif params[:departments]
+                  PaperTrail::Version.where(item_type: 'Department')
+                elsif params[:todos]
+                  PaperTrail::Version.where(item_type: 'Todo')
                 else
                   PaperTrail::Version.all
                 end
