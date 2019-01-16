@@ -11,9 +11,6 @@
  * It is generally better to create a new file per style scope.
  *
  *= require_tree .
- *= require_tree ./datepicker
- *= require_tree ./select2
- *= require_tree ./datatables
  *= require_self
  */
 @import "bootstrap";

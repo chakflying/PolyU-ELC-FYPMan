@@ -4,26 +4,26 @@
     <br>
     <ul class="nav nav-tabs">
         <li class="nav-item">
-            <a class="nav-link <%= (!params[:students] and !params[:supervisors] and !params[:users]) ? 'active' : '' %>" href="/admin">All Activities</a>
+            <a class="nav-link da-nav active" id="db_f_all">All Activities</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link <%= params[:students] ? 'active' : '' %>" href="/admin?students=">Students</a>
+            <a class="nav-link da-nav" id="db_f_students">Students</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link <%= params[:supervisors] ? 'active' : '' %>" href="/admin?supervisors=">Supervisors</a>
+            <a class="nav-link da-nav" id="db_f_supervisors">Supervisors</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link <%= params[:users] ? 'active' : '' %>" href="/admin?users=">Users</a>
+            <a class="nav-link da-nav" id="db_f_users">Users</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link <%= params[:todos] ? 'active' : '' %>" href="/admin?todos=">Todos</a>
+            <a class="nav-link da-nav" id="db_f_todos">Todos</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link <%= params[:departments] ? 'active' : '' %>" href="/admin?departments=">Departments</a>
+            <a class="nav-link da-nav" id="db_f_departments">Departments</a>
         </li>
     </ul>
     <br>
-    <table class="table admin-activity-table" style="font-size:14px; width:100%">
+    <table class="table admin-activity-table" style="font-size:14px; width:100%" data-source="<%= trails_path(format: :json) %>">
         <thead>
             <tr>
             <th scope="col">#</th>
@@ -35,16 +35,6 @@
             </tr>
         </thead>
         <tbody>
-            <% @versions.each do |version| %>
-                <tr>
-                    <th scope="row"><%= version.id %></th>
-                    <td><%= version.item_type %></td>
-                    <td><%= version.event %></td>
-                    <td><%= version.whodunnit ? User.find(version.whodunnit).username : "" %></td>
-                    <td><%= version.created_at.in_time_zone("Hong Kong") %></td>
-                    <td><%= version.changeset.except(:updated_at, :created_at) %></td>
-                </tr>
-            <% end %>
         </tbody>
     </table>
 </div>

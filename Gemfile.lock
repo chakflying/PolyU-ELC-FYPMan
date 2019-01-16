@@ -46,6 +46,8 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
+    ajax-datatables-rails (1.0.0)
+      railties (>= 4.2)
     archive-zip (0.11.0)
       io-like (~> 0.3.0)
     arel (9.0.0)
@@ -236,6 +238,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord-import
+  ajax-datatables-rails
   auto_strip_attributes (~> 2.5)
   bcrypt
   bootsnap (>= 1.3.2)

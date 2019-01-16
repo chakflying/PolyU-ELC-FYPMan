@@ -94,3 +94,5 @@ gem 'auto_strip_attributes', '~> 2.5'
 gem 'yajl-ruby', require: 'yajl'
 # ActiveRecord-Import for bulk inserting data into Database, not implemented yet.
 gem 'activerecord-import'
+# AJAX datatables for better performance on large tables
+gem 'ajax-datatables-rails'
