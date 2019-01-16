@@ -4,7 +4,6 @@ class AdminController < ApplicationController
   before_action :authenticate_admin_404!
 
   def activities
-    print request
     if params[:students]
       type = 'Student'
     elsif params[:supervisors]
