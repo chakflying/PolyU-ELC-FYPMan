@@ -98,3 +98,5 @@ gem 'activerecord-import'
 gem 'ajax-datatables-rails'
 # Profiler for performance
 gem 'rack-mini-profiler', require: false
+# Generate database data
+gem 'faker', :git => 'https://github.com/stympy/faker.git', :branch => 'master'
