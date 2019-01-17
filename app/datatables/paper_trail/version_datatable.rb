@@ -9,7 +9,7 @@ class PaperTrail::VersionDatatable < AjaxDatatablesRails::ActiveRecord
       event: { source: "PaperTrail::Version.event" },
       whodunnit: { source: "PaperTrail::Version.whodunnit" },
       created_at: { source: "PaperTrail::Version.created_at" },
-      changeset: { source: "PaperTrail::Version.changeset" }
+      changeset: { source: "PaperTrail::Version.object_changes" }
     }
   end
 
