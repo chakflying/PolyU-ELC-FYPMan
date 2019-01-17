@@ -14,7 +14,7 @@ export default {
       .select2({
         data: this.options,
         placeholder: "Select...",
-        width: "75%",
+        width: "100%",
         theme: "bootstrap"
       })
       .val(this.value)
@@ -31,7 +31,7 @@ export default {
       $(".select2-input").select2({
         data: this.options,
         placeholder: "Select...",
-        width: "75%",
+        width: "100%",
         theme: "bootstrap"
       });
     });

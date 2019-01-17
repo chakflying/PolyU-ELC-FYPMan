@@ -96,3 +96,5 @@ gem 'yajl-ruby', require: 'yajl'
 gem 'activerecord-import'
 # AJAX datatables for better performance on large tables
 gem 'ajax-datatables-rails'
+# Profiler for performance
+gem 'rack-mini-profiler', require: false

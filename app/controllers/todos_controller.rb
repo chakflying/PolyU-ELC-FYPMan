@@ -4,9 +4,9 @@ class TodosController < ApplicationController
   before_action :authenticate_user!
   def index
     if is_admin?
-      @todo_list = Todo.all.order('eta ASC')
+      @todo_list = Todo.all.order('eta ASC').includes(:department)
     else
-      @todo_list = Todo.where(department: current_user.department).or(Todo.where(department: nil)).order('eta ASC')
+      @todo_list = Todo.where(department: current_user.department).or(Todo.where(department: nil)).order('eta ASC').includes(:department)
     end
     @todo = Todo.new
     @departments_list = get_departments_list

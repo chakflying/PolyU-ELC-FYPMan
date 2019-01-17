@@ -24,6 +24,6 @@ class AdminController < ApplicationController
   end
 
   def users
-    @users = User.all
+    @users = User.all.includes(:department)
   end
 end

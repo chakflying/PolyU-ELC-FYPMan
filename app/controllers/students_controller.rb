@@ -4,10 +4,10 @@ class StudentsController < ApplicationController
   before_action :authenticate_user!
   def index
     if is_admin?
-      @students = Student.all
+      @students = Student.all.includes(:department, :supervisors)
       @departments_list = get_departments_list
     else
-      @students = Student.where(department: current_user.department)
+      @students = Student.where(department: current_user.department).includes(:department, :supervisors)
     end
     @fyp_year_list = get_fyp_years_list
     @student = Student.new

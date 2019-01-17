@@ -145,6 +145,8 @@ GEM
     rack (2.0.6)
     rack-attack (5.4.2)
       rack (>= 1.0, < 3)
+    rack-mini-profiler (1.0.1)
+      rack (>= 1.2.0)
     rack-proxy (0.6.5)
       rack
     rack-test (1.1.0)
@@ -258,6 +260,7 @@ DEPENDENCIES
   passenger (~> 5.3.7)
   puma
   rack-attack
+  rack-mini-profiler
   rails (~> 5.2.1)
   sassc-rails
   selenium-webdriver
