@@ -5,4 +5,5 @@ if Rails.env.development? or Rails.env.production?
 
   # initialization is skipped so trigger it
   Rack::MiniProfilerRails.initialize!(Rails.application)
+  Rack::MiniProfiler.config.authorization_mode = :whitelist
 end
