@@ -62,14 +62,14 @@
           <td>
             <div class="col-sm-12">
               <% student.supervisors.each do |supervisor| %>
-                <div class="row" style="margin-bottom:0.3em;margin-right:5px">
+                <div class="row dt-rel-row">
                   <div class="col-sm-9">
                     <%= supervisor.name %>
                   </div>
                   <%= form_for @student, :url => {:action => "removeSupervisor"}, html: {class: "col-sm-3"} do |f| %>
                     <%= hidden_field_tag :stu_netID, student.netID %>
                     <%= hidden_field_tag :sup_netID, supervisor.netID %>
-                    <%= f.submit "remove", class: "row btn btn-sm btn-light", style: "padding-top:0.1em;border-radius:0.5rem" %>
+                    <%= f.submit "remove", class: "row btn btn-sm btn-light dt-btn-rm" %>
                   <% end %>
                 </div>
               <% end %>
@@ -80,7 +80,7 @@
               <button class="btn btn-sm btn-outline-info dt-btn" aria-label="Edit Student"><i class="fas fa-user-edit"></i></button>
             <% end %>
             <%= link_to student, method: :delete,
-                                  data: { confirm: "Do you want to delete this student?" } do %>
+                                  data: { confirm: "Delete this student?" } do %>
               <button class="btn btn-sm btn-danger dt-btn" aria-label="Delete Student"><i class="fas fa-trash"></i></button>
             <% end %>
           </td>

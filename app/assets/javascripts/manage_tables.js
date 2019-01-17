@@ -37,14 +37,15 @@ document.addEventListener("turbolinks:load", function() {
   if (!$.fn.DataTable.isDataTable(".students-table")) {
     document.students_dataTable = $(".students-table").DataTable({
       stateSave: true,
+      deferRender: true,
       responsive: true,
       columnDefs: [
         { responsivePriority: 2, targets: 2 },
         { responsivePriority: 1, targets: -1 },
-        { width: "5%", targets: 0 },
-        { width: "150px", targets: 1 },
-        { width: "10%", targets: 2 },
-        { width: "230px", targets: -2 },
+        { width: "15px", targets: 0 },
+        { width: "120px", targets: 1 },
+        { width: "120px", targets: 2 },
+        { width: "280px", targets: -2 },
         { width: "4.7rem", targets: -1 }
       ],
       language: {
@@ -56,12 +57,13 @@ document.addEventListener("turbolinks:load", function() {
   if (!$.fn.DataTable.isDataTable(".supervisors-table")) {
     document.supervisors_dataTable = $(".supervisors-table").DataTable({
       stateSave: true,
+      deferRender: true,
       responsive: true,
       columnDefs: [
         { responsivePriority: 2, targets: 2 },
         { responsivePriority: 1, targets: -1 },
         { width: "15px", targets: 0 },
-        { width: "250px", targets: 1 },
+        { width: "150px", targets: 1 },
         { width: "400px", targets: -2 },
         { width: "4.7rem", targets: -1 }
       ],
