@@ -94,13 +94,17 @@ class AssignController < ApplicationController
   def olddb_assign(stu_netID, sup_netID)
     @old_student = OldUser.first(net_id: stu_netID)
     @old_supervisor = OldUser.first(net_id: sup_netID)
-    @old_rel = OldRelation.create(student_net_id: @old_student.id, supervisor_net_id: @old_supervisor.id, status: 1)
+    if @old_student && @old_supervisor
+      @old_rel = OldRelation.create(student_net_id: @old_student.id, supervisor_net_id: @old_supervisor.id, status: 1)
+    end
   end
 
   def olddb_unassign(stu_netID, sup_netID)
     @old_student = OldUser.first(net_id: stu_netID)
     @old_supervisor = OldUser.first(net_id: sup_netID)
-    @old_rel = OldRelation.first(student_net_id: @old_student.id, supervisor_net_id: @old_supervisor.id)
-    @old_rel.destroy
+    if @old_student && @old_supervisor
+      @old_rel = OldRelation.first(student_net_id: @old_student.id, supervisor_net_id: @old_supervisor.id)
+      @old_rel.destroy if @old_rel
+    end
   end
 end
