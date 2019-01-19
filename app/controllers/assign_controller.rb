@@ -12,6 +12,7 @@ class AssignController < ApplicationController
       @students = Student.where(department: current_user.department).select(:netID, :name).to_a
       @supervisors = Supervisor.where(department: current_user.department).select(:netID, :name).to_a
     end
+    # Submit Assign request
     if request.post?
       stu_ids = request.params[:student_netID].values
       sup_id = request.params[:supervisor_netID].values[0].to_s

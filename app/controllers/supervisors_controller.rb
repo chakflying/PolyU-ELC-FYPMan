@@ -82,6 +82,7 @@ class SupervisorsController < ApplicationController
     redirect_to '/supervisors'
   end
 
+  # Model specific unassign function to have customized flash messages.
   def removeStudent
     sup_netid = request.params[:sup_netID]
     stu_netid = request.params[:stu_netID]
@@ -102,6 +103,7 @@ class SupervisorsController < ApplicationController
     end
   end
 
+  # Function to batch import students. Parses blocks of netID and name data and create each of them if data is valid.
   def batch_import
     @supervisor = Supervisor.new
     @departments_list = get_departments_list if is_admin?

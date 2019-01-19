@@ -3,6 +3,7 @@
 class AdminController < ApplicationController
   before_action :authenticate_admin_404!
 
+  # Function to show PaperTrail versions. Uses AJAX datables gem.
   def activities
     if params[:students]
       type = 'Student'
@@ -23,6 +24,7 @@ class AdminController < ApplicationController
     end
   end
 
+  # Function to show all users. Living here instead of the users controller for now.
   def users
     @users = User.all.includes(:department)
   end

@@ -1,40 +1,40 @@
 <% provide(:title, 'Database Activity') %>
 <div class="container">
-    <h2 class="display-2" style="margin:1em 0 0.5em 0">Database Activity</h2>
-    <br>
-    <ul class="nav nav-tabs">
-        <li class="nav-item">
-            <a class="nav-link da-nav active" id="db_f_all">All Activities</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link da-nav" id="db_f_students">Students</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link da-nav" id="db_f_supervisors">Supervisors</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link da-nav" id="db_f_users">Users</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link da-nav" id="db_f_todos">Todos</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link da-nav" id="db_f_departments">Departments</a>
-        </li>
-    </ul>
-    <br>
-    <table class="table admin-activity-table table-hover" style="font-size:14px; width:100%" data-source="<%= trails_path(format: :json) %>">
-        <thead>
-            <tr>
-            <th scope="col">#</th>
-            <th scope="col">Type</th>
-            <th scope="col">Event</th>
-            <th scope="col">By Who</th>
-            <th scope="col">Time</th>
-            <th scope="col">Changes</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
+  <h2 class="display-2" style="margin:1em 0 0.5em 0">Database Activity</h2>
+  <br>
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link da-nav active" id="db_f_all">All Activities</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link da-nav" id="db_f_students">Students</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link da-nav" id="db_f_supervisors">Supervisors</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link da-nav" id="db_f_users">Users</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link da-nav" id="db_f_todos">Todos</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link da-nav" id="db_f_departments">Departments</a>
+    </li>
+  </ul>
+  <br>
+  <table class="table admin-activity-table table-hover" style="font-size:14px; width:100%" data-source="<%= trails_path(format: :json) %>">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Type</th>
+        <th scope="col">Event</th>
+        <th scope="col">By Who</th>
+        <th scope="col">Time</th>
+        <th scope="col">Changes</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
 </div>
