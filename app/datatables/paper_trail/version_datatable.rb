@@ -20,7 +20,7 @@ class PaperTrail::VersionDatatable < AjaxDatatablesRails::ActiveRecord
         item_type: record.item_type,
         event:  record.event,
         whodunnit:      (record.whodunnit ? User.find(record.whodunnit).username : ""),
-        created_at:        record.created_at.in_time_zone("Hong Kong"),
+        created_at:        record.created_at.in_time_zone("Hong Kong").strftime("%Y-%m-%d %I:%M%p"),
         changeset:        record.changeset.except(:updated_at, :created_at),
         DT_RowId:   record.id,
       }

@@ -3,8 +3,10 @@
   <h2 class="display-2" style="margin:1em 0 0.4em 0">Manage Students</h2>
   <% if is_admin? %>
     <h5 class="display-5">You are viewing all students.</h5>
+    <%= content_tag 'div', '', id: 'data', data: {admin: true} %>
   <% else %>
     <h5 class="display-5">You are viewing students from <%= current_user.department.name %>.</h5>
+    <%= content_tag 'div', '', id: 'data', data: {admin: false} %>
   <% end %>
   <br>
   <%= form_for(@student, url: students_path) do |f| %>
@@ -35,53 +37,19 @@
   <% end %>
   <br>
   <br>
-  <table class="table students-table table-hover" style="font-size:14px; width:100%">
+  <table class="table students-table table-hover" data-source="<%= students_path(format: :json) %>" style="font-size:14px; width:100%">
     <thead>
       <tr>
         <th scope="col">#</th>
         <th scope="col">Name</th>
         <th scope="col">NetID</th>
-        <% if is_admin? %>
-          <th scope="col">Department</th>
-        <% end %>
+        <th scope="col">Department</th>
         <th scope="col">FYP Year</th>
         <th scope="col">Supervisors</th>
         <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
-      <% @students.each do |student| %>
-        <tr>
-          <th scope="row"><%= student.id %></th>
-          <td><%= student.name %></td>
-          <td><%= student.netID %></td>
-          <% if is_admin? %>
-            <td><%= student.department.name %></td>
-          <% end %>
-          <td><%= student.fyp_year %></td>
-          <td>
-            <div class="col-sm-12">
-              <% student.supervisors.each do |supervisor| %>
-                <div class="row dt-rel-row">
-                  <div class="col-sm-9">
-                    <%= supervisor.name %>
-                  </div>
-                  <div class="col-md-3">
-                  <%= link_to removeSupervisor_path(stu_netID: student.netID, sup_netID: supervisor.netID), method: :post, data: {} do %>
-                    <button class="btn btn-sm btn-light dt-btn-rm" aria-label="Remove Supervisor">remove</button>
-                  <% end %>
-                  </div>
-                </div>
-              <% end %>
-            </div>
-          </td>
-          <td>
-            <%= link_to edit_student_path(student.id), method: :get, data: {} do %>
-              <button class="btn btn-sm btn-secondary dt-btn" aria-label="Edit Student"><i class="fas fa-user-edit"></i></button>
-            <% end %>
-          </td>
-        </tr>
-      <% end %>
     </tbody>
   </table>
 </div>

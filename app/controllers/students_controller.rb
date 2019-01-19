@@ -4,18 +4,13 @@ class StudentsController < ApplicationController
   before_action :authenticate_user!
   def index
     if is_admin?
-      @students = Student.all.includes(:department, :supervisors)
       @departments_list = get_departments_list
-    else
-      @students = Student.where(department: current_user.department).includes(:department, :supervisors)
     end
     @fyp_year_list = get_fyp_years_list
     @student = Student.new
     respond_to do |format|
       format.html
-      format.json do
-        render json: { data: @students }
-      end
+      format.json { render json: StudentDatatable.new(params, admin: is_admin?, current_user_department: current_user.department.id) }
     end
   end
 

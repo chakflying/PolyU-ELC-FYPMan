@@ -4,17 +4,12 @@ class SupervisorsController < ApplicationController
   before_action :authenticate_user!
   def index
     if is_admin?
-      @supervisors = Supervisor.all.includes(:department, :students)
       @departments_list = get_departments_list
-    else
-      @supervisors = Supervisor.where(department: current_user.department).includes(:department, :students)
     end
     @supervisor = Supervisor.new
     respond_to do |format|
       format.html
-      format.json do
-        render json: { data: @supervisors }
-      end
+      format.json { render json: SupervisorDatatable.new(params, admin: is_admin?, current_user_department: current_user.department.id) }
     end
   end
 
