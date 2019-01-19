@@ -35,7 +35,7 @@
   <% end %>
   <br>
   <br>
-  <table class="table students-table" style="font-size:14px; width:100%">
+  <table class="table students-table table-hover" style="font-size:14px; width:100%">
     <thead>
       <tr>
         <th scope="col">#</th>
@@ -66,22 +66,18 @@
                   <div class="col-sm-9">
                     <%= supervisor.name %>
                   </div>
-                  <%= form_for @student, :url => {:action => "removeSupervisor"}, html: {class: "col-sm-3"} do |f| %>
-                    <%= hidden_field_tag :stu_netID, student.netID %>
-                    <%= hidden_field_tag :sup_netID, supervisor.netID %>
-                    <%= f.submit "remove", class: "row btn btn-sm btn-light dt-btn-rm" %>
+                  <div class="col-md-3">
+                  <%= link_to removeSupervisor_path(stu_netID: student.netID, sup_netID: supervisor.netID), method: :post, data: {} do %>
+                    <button class="btn btn-sm btn-light dt-btn-rm" aria-label="Remove Supervisor">remove</button>
                   <% end %>
+                  </div>
                 </div>
               <% end %>
             </div>
           </td>
           <td>
             <%= link_to edit_student_path(student.id), method: :get, data: {} do %>
-              <button class="btn btn-sm btn-outline-info dt-btn" aria-label="Edit Student"><i class="fas fa-user-edit"></i></button>
-            <% end %>
-            <%= link_to student, method: :delete,
-                                  data: { confirm: "Delete this student?" } do %>
-              <button class="btn btn-sm btn-danger dt-btn" aria-label="Delete Student"><i class="fas fa-trash"></i></button>
+              <button class="btn btn-sm btn-secondary dt-btn" aria-label="Edit Student"><i class="fas fa-user-edit"></i></button>
             <% end %>
           </td>
         </tr>

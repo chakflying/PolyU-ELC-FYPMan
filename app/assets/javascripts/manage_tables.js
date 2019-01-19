@@ -1,20 +1,18 @@
 document.addEventListener("turbolinks:load", function() {
-  if (!$.fn.DataTable.isDataTable(".manage-table")) {
+  if ($(".manage-table").length) {
     document.manage_dataTable = $(".manage-table").DataTable({
       stateSave: true,
       responsive: true,
       columnDefs: [
         { responsivePriority: 2, targets: 2 },
         { responsivePriority: 1, targets: -1 },
-        { width: "5%", targets: 0 },
-        { width: "17%", targets: 1 },
-        { width: "10%", targets: 2 },
-        { width: "150px", targets: -2 },
-        { width: "72px", targets: -1 }
+        { width: "15px", targets: 0 },
+        { width: "25px", targets: -3 },
+        { width: "80px", targets: -1 }
       ]
     });
   }
-  if (!$.fn.DataTable.isDataTable(".admin-activity-table")) {
+  else if ($(".admin-activity-table").length) {
     document.admin_activity_dataTable = $(".admin-activity-table").DataTable({
       stateSave: true,
       responsive: true,
@@ -34,7 +32,7 @@ document.addEventListener("turbolinks:load", function() {
     });
   }
 
-  if (!$.fn.DataTable.isDataTable(".students-table")) {
+  else if ($(".students-table").length) {
     document.students_dataTable = $(".students-table").DataTable({
       stateSave: true,
       deferRender: true,
@@ -46,7 +44,7 @@ document.addEventListener("turbolinks:load", function() {
         { width: "120px", targets: 1 },
         { width: "120px", targets: 2 },
         { width: "280px", targets: -2 },
-        { width: "4.7rem", targets: -1 }
+        { width: "2.3rem", targets: -1 }
       ],
       language: {
         emptyTable: "No students found in this catogory."
@@ -54,7 +52,7 @@ document.addEventListener("turbolinks:load", function() {
     });
   }
 
-  if (!$.fn.DataTable.isDataTable(".supervisors-table")) {
+  else if ($(".supervisors-table").length) {
     document.supervisors_dataTable = $(".supervisors-table").DataTable({
       stateSave: true,
       deferRender: true,
@@ -65,7 +63,7 @@ document.addEventListener("turbolinks:load", function() {
         { width: "15px", targets: 0 },
         { width: "150px", targets: 1 },
         { width: "400px", targets: -2 },
-        { width: "4.7rem", targets: -1 }
+        { width: "2.3rem", targets: -1 }
       ],
       language: {
         emptyTable: "No supervisors found in this catogory."
@@ -73,7 +71,7 @@ document.addEventListener("turbolinks:load", function() {
     });
   }
 
-  if (!$.fn.DataTable.isDataTable(".departments-table")) {
+  else if ($(".departments-table").length) {
     document.departments_dataTable = $(".departments-table").DataTable({
       stateSave: true,
       responsive: true,
@@ -81,7 +79,7 @@ document.addEventListener("turbolinks:load", function() {
         { responsivePriority: 2, targets: 1 },
         { responsivePriority: 1, targets: -1 },
         { width: "15px", targets: 0 },
-        { width: "4.7rem", targets: -1 }
+        { width: "80px", targets: -1 }
       ],
       language: {
         emptyTable: "No departments present."
@@ -94,16 +92,16 @@ document.addEventListener("turbolinks:before-cache", function() {
   if ($.fn.DataTable.isDataTable(".manage-table")) {
     $(".manage-table").dataTable().fnDestroy();
   }
-  if ($.fn.DataTable.isDataTable(".students-table")) {
+  else if ($.fn.DataTable.isDataTable(".students-table")) {
     $(".students-table").dataTable().fnDestroy();
   }
-  if ($.fn.DataTable.isDataTable(".supervisors-table")) {
+  else if ($.fn.DataTable.isDataTable(".supervisors-table")) {
     $(".supervisors-table").dataTable().fnDestroy();
   }
-  if ($.fn.DataTable.isDataTable(".admin-activity-table")) {
+  else if ($.fn.DataTable.isDataTable(".admin-activity-table")) {
     $(".admin-activity-table").dataTable().fnDestroy();
   }
-  if ($.fn.DataTable.isDataTable(".departments-table")) {
+  else if ($.fn.DataTable.isDataTable(".departments-table")) {
     $(".departments-table").dataTable().fnDestroy();
   }
 });

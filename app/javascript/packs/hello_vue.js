@@ -17,23 +17,10 @@ Vue.use(VueResource)
 
 document.addEventListener('turbolinks:load', () => {
     var element = document.getElementById("assign-form-vue")
-    if (element == null) {
-        return;
-    }
+    if (element == null) return;
     const parsed_props = JSON.parse(element.getAttribute('data'))
-    var student_netIDs = parsed_props.students.map(a => a.netID);
-    var student_names = parsed_props.students.map(a => a.name);
-    var supervisor_netIDs = parsed_props.supervisors.map(a => a.netID);
-    var supervisor_names = parsed_props.supervisors.map(a => a.name);
-    var student_dropdown_list = []
-    var supervisor_dropdown_list = []
-    var i;
-    for (i = 0; i < student_netIDs.length; i += 1) {
-        student_dropdown_list.push({ id: student_netIDs[i], text: student_netIDs[i] + " " + student_names[i] });
-    }
-    for (i = 0; i < supervisor_netIDs.length; i += 1) {
-        supervisor_dropdown_list.push({ id: supervisor_netIDs[i], text: supervisor_netIDs[i] + " " + supervisor_names[i] });
-    }
+    var student_dropdown_list = parsed_props.students.map(function (a) { return { id: a.netID, text: a.netID + "  -  " + a.name }});
+    var supervisor_dropdown_list = parsed_props.supervisors.map(function (a) { return { id: a.netID, text: a.netID + "  -  " + a.name }});
     const props = { students: student_dropdown_list, supervisors: supervisor_dropdown_list }
 
     if (element != null && props != null) {

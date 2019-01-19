@@ -106,15 +106,15 @@ class StudentsController < ApplicationController
     sup = Supervisor.find_by(netID: sup_netid)
     if !@student
       flash[:danger] = Array(flash[:danger]).push('Student not found')
-      redirect_to '/students'
+      redirect_back(fallback_location: students_url)
     elsif !sup
       flash[:danger] = Array(flash[:danger]).push('Supervisor not found')
-      redirect_to '/students'
+      redirect_back(fallback_location: students_url)
     else
       @student.supervisors.delete(sup)
       @student.sync_id && sup.sync_id ? olddb_student_removeSupervisor(stu_netid, sup_netid) : false
       flash[:success] = Array(flash[:success]).push('Supervisor removed successfully.')
-      redirect_to '/students'
+      redirect_back(fallback_location: students_url)
     end
   end
 

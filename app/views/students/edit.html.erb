@@ -28,6 +28,9 @@
         </div>
         <br>
         <%= f.submit "Save changes", class: "btn btn-primary" %>
+        <%= link_to @student, method: :delete, data: { confirm: "Delete this student?" } do %>
+          <button class="btn btn-danger" aria-label="Delete Student"><i class="fas fa-trash"></i>&nbsp; Delete</button>
+        <% end %>
         <%= link_to "Back", '/students', {class: "btn btn-secondary"} %>
       <% end %>
     </div>
