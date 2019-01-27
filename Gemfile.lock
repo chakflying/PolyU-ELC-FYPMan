@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/stympy/faker.git
-  revision: 5c369a379326211bd281c671598e203f5be5a0d0
+  revision: fcbfaa282dc6c2d4c1393bcb65d9fb647c8a5bc0
   branch: master
   specs:
     faker (1.9.1)
@@ -52,7 +52,7 @@ GEM
       i18n (>= 0.7, < 2)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
-    addressable (2.5.2)
+    addressable (2.6.0)
       public_suffix (>= 2.0.2, < 4.0)
     ajax-datatables-rails (1.0.0)
       railties (>= 4.2)
@@ -61,7 +61,7 @@ GEM
     arel (9.0.0)
     auto_strip_attributes (2.5.0)
       activerecord (>= 4.0)
-    autoprefixer-rails (9.4.5)
+    autoprefixer-rails (9.4.6)
       execjs
     bcrypt (3.1.12)
     bindex (0.5.0)
@@ -73,7 +73,7 @@ GEM
       sassc-rails (>= 2.0.0)
     builder (3.2.3)
     byebug (10.0.2)
-    capybara (3.12.0)
+    capybara (3.13.2)
       addressable
       mini_mime (>= 0.1.3)
       nokogiri (~> 1.8)
@@ -109,7 +109,7 @@ GEM
     ffi (1.9.25)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
-    i18n (1.5.2)
+    i18n (1.5.3)
       concurrent-ruby (~> 1.0)
     io-like (0.3.0)
     jbuilder (2.8.0)

@@ -5,7 +5,7 @@
       <label for="student_netID">Assign student(s):</label>
       <template v-for="student_item in student_set">
         <div class="form-group">
-          <AssignSelect2 :options="students" v-model="student_netID_response[student_item]"></AssignSelect2>
+          <v-select :options="students" v-model="student_netID_response[student_item]"></v-select>
         </div>
       </template>
       <button v-on:click="add_student_field()" class="btn btn-secondary">
@@ -15,7 +15,7 @@
       <br>
       <label for="student_netID">to supervisor:</label>
       <div class="form-group">
-        <AssignSelect2 :options="supervisors" v-model="supervisor_netID_response[1]"></AssignSelect2>
+        <v-select :options="supervisors" v-model="supervisor_netID_response[0]"></v-select>
       </div>
       <button
         v-on:click="submit()"
@@ -29,20 +29,14 @@
 </template>
 
 <script>
-import AssignSelect2 from "./assign-select2.vue";
 export default {
-  components: {
-    AssignSelect2
-  },
   props: ["students", "supervisors"],
   data: function() {
     return {
-      student_set: [1],
-      student_name: [null],
-      supervisor_name: "",
+      student_set: [0],
       student_count: 1,
-      student_netID_response: {},
-      supervisor_netID_response: {}
+      student_netID_response: [],
+      supervisor_netID_response: []
     };
   },
   methods: {
@@ -50,35 +44,34 @@ export default {
       this.postFontSize += enlargeAmount;
     },
     add_student_field: function() {
-      // console.log("add_student_field called");
-      this.student_count++;
-      // console.log("count is  " + this.student_netID_count);
-      // this.student_netID_set[this.student_netID_count] = this.student_netID_count;
       this.student_set.push(this.student_count);
-      this.student_name.push(null);
-      // this.student_netID_set.pop();
-      // console.log(this.student_netID_set);
+      this.student_count++;
     },
     clearError: function(event) {
       event.target.classList.remove("is-invalid");
     },
     submit: function() {
-      document.getElementById("assign_submit_btn").classList.add("disabled");
-      if (!this.supervisor_netID_response[1]) {
-        document
-          .getElementById("assign_submit_btn")
-          .classList.remove("disabled");
+      var submit_btn = document.getElementById("assign_submit_btn");
+      submit_btn.classList.add("disabled");
+      if (!this.supervisor_netID_response[0]) {
+        submit_btn.classList.remove("disabled");
         return 0;
       }
       var csrfToken = document
         .querySelector('meta[name="csrf-token"]')
         .getAttribute("content");
+      var post_sups = this.supervisor_netID_response.map(obj => {
+        return obj.value;
+      });
+      var post_stus = this.student_netID_response.map(obj => {
+        return obj.value;
+      });
       this.$http
         .post(
           "/assign",
           {
-            supervisor_netID: this.supervisor_netID_response,
-            student_netID: this.student_netID_response
+            supervisor_netID: post_sups,
+            student_netID: post_stus
           },
           { headers: { "X-CSRF-Token": csrfToken } }
         )
@@ -89,29 +82,15 @@ export default {
             if (response.body == "submitted") {
               Turbolinks.visit(window.location);
             }
-
             // get status text
             response.statusText;
-
-            // get 'Expires' header
-            response.headers.get("Expires");
-
-            // get body data
-            // console.log(response.body);
           },
           response => {
             // error callback
           }
         );
-      document.getElementById("assign_submit_btn").classList.remove("disabled");
+      submit_btn.classList.remove("disabled");
     }
   }
 };
 </script>
-
-<style scoped>
-p {
-  font-size: 2em;
-  text-align: center;
-}
-</style>

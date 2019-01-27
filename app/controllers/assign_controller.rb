@@ -12,10 +12,10 @@ class AssignController < ApplicationController
       @students = Student.where(department: current_user.department).select(:netID, :name).to_a
       @supervisors = Supervisor.where(department: current_user.department).select(:netID, :name).to_a
     end
-    # Submit Assign request
+    # Submitted Assign request
     if request.post?
-      stu_ids = request.params[:student_netID].values
-      sup_id = request.params[:supervisor_netID].values[0].to_s
+      stu_ids = request.params[:student_netID]
+      sup_id = request.params[:supervisor_netID][0]
       sup = Supervisor.find_by(netID: sup_id)
       unless sup
         flash[:danger] = Array(flash[:danger]).push('Supervisor with netID ' + sup_id + ' not found.')
