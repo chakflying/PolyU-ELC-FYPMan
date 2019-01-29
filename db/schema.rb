@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_12_183830) do
+ActiveRecord::Schema.define(version: 2019_01_28_145940) do
 
   create_table "delayed_jobs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.integer "priority", default: 0, null: false
@@ -28,7 +28,7 @@ ActiveRecord::Schema.define(version: 2019_01_12_183830) do
   end
 
   create_table "departments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.string "code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -49,7 +49,7 @@ ActiveRecord::Schema.define(version: 2019_01_12_183830) do
 
   create_table "students", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "name"
-    t.string "netID"
+    t.string "netID", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "fyp_year"
@@ -65,7 +65,7 @@ ActiveRecord::Schema.define(version: 2019_01_12_183830) do
 
   create_table "supervisors", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "name"
-    t.string "netID"
+    t.string "netID", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "sync_id"
@@ -74,7 +74,7 @@ ActiveRecord::Schema.define(version: 2019_01_12_183830) do
   end
 
   create_table "todos", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
-    t.string "title"
+    t.string "title", null: false
     t.text "description"
     t.datetime "eta"
     t.integer "sync_id"

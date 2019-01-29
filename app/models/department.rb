@@ -9,7 +9,7 @@ class Department < ApplicationRecord
   has_many :supervisors
   has_many :users
   has_many :todos
-  belongs_to :faculty
+  belongs_to :faculty, optional: true
   has_paper_trail
 
   def code=(val)

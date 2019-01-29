@@ -3,9 +3,7 @@
 class SupervisorsController < ApplicationController
   before_action :authenticate_user!
   def index
-    if is_admin?
-      @departments_list = get_departments_list
-    end
+    @departments_list = get_departments_list if is_admin?
     @supervisor = Supervisor.new
     respond_to do |format|
       format.html
@@ -26,10 +24,10 @@ class SupervisorsController < ApplicationController
       flash[:success] = Array(flash[:success]).push('Supervisor successfully added!')
       redirect_to '/supervisors'
     else
-      if params[:department_id] == ''
+      if params[:supervisor][:department_id].blank?
         flash.now[:danger] = Array(flash.now[:danger]).push("Please select the supervisor's department.")
-      elsif params[:name] == ''
-        flash.now[:danger] = Array(flash.now[:danger]).push('Supervisor must have a name.')
+      elsif params[:supervisor][:netID].blank?
+        flash.now[:danger] = Array(flash.now[:danger]).push('Supervisor must have a netID.')
       else
         flash.now[:danger] = Array(flash.now[:danger]).push('Error when creating supervisor.')
       end
@@ -60,8 +58,15 @@ class SupervisorsController < ApplicationController
         flash[:success] = Array(flash[:success]).push('Supervisor updated.')
         redirect_to '/supervisors'
       else
-        flash.now[:danger] = Array(flash.now[:danger]).push('Error updating supervisor.')
-        render 'update'
+        if params[:supervisor][:department_id].blank?
+          flash.now[:danger] = Array(flash.now[:danger]).push("Please select the supervisor's department.")
+        elsif params[:supervisor][:netID].blank?
+          flash.now[:danger] = Array(flash.now[:danger]).push('Supervisor must have a netID.')
+        else
+          flash.now[:danger] = Array(flash.now[:danger]).push('Error updating supervisor.')
+        end
+        @departments_list = get_departments_list
+        render 'edit'
       end
     end
     end
@@ -108,27 +113,27 @@ class SupervisorsController < ApplicationController
       netID_list = request.params[:supervisors_list][:netID_list].lines.each(&:strip!)
       name_list = request.params[:supervisors_list][:name_list].lines.each(&:strip!)
       department_id = request.params[:supervisors_list][:department_id]
-      if name_list.length < netID_list.length
-        flash.now[:danger] = Array(flash.now[:danger]).push('Every supervisor must have a name.')
+      if name_list.length != netID_list.length
+        flash.now[:danger] = Array(flash.now[:danger]).push(format("Length of netIDs does not match length of names. Press Enter to skip line if name isn't available. [no. of names: %d, no. of netIDs: %d]", name_list.length, netID_list.length))
         render 'batch_import'
         return
       end
-      if name_list.length > netID_list.length
-        flash.now[:danger] = Array(flash.now[:danger]).push('Every supervisor must have a netID.')
-        render 'batch_import'
-        return
-      end
-      if department_id == ''
+      if department_id.blank?
         flash.now[:danger] = Array(flash.now[:danger]).push('Please select the Department of the supervisor(s).')
         render 'batch_import'
         return
       end
-      if netID_list.empty?
+      if netID_list.blank?
         flash.now[:danger] = Array(flash.now[:danger]).push('Please enter supervisor(s) info.')
         render 'batch_import'
         return
       end
       netID_list.zip(name_list).each do |netID, name|
+        if netID.blank?
+          flash.now[:danger] = Array(flash.now[:danger]).push('Every supervisor must have a netID.')
+          render 'batch_import'
+          return
+        end
         if Supervisor.find_by(netID: netID)
           flash.now[:danger] = Array(flash.now[:danger]).push('Supervisor with netID: ' + netID + ' already exist.')
           render 'batch_import'

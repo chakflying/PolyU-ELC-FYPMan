@@ -27,8 +27,10 @@ class TodosController < ApplicationController
       @todo.save
       flash.now[:success] = Array(flash.now[:success]).push('Todo item successfully added!')
     else
-      if request.params[:eta].nil?
+      if request.params[:todo][:eta].blank?
         flash.now[:danger] = Array(flash.now[:danger]).push('Todo date cannot be empty. Please set date.')
+      elsif request.params[:todo][:title].blank?
+        flash.now[:danger] = Array(flash.now[:danger]).push('Todo title cannot be empty. Please enter title.')
       else
         flash.now[:danger] = Array(flash.now[:danger]).push('Create todo item unsuccessful.')
       end
@@ -56,7 +58,13 @@ class TodosController < ApplicationController
         flash[:success] = Array(flash[:success]).push('Todo item updated.')
         redirect_to '/todos'
       else
-        flash.now[:danger] = Array(flash.now[:danger]).push('Error when updating Todo item.')
+        if request.params[:todo][:eta].blank?
+          flash.now[:danger] = Array(flash.now[:danger]).push('Todo date cannot be empty. Please set date.')
+        elsif request.params[:todo][:title].blank?
+          flash.now[:danger] = Array(flash.now[:danger]).push('Todo title cannot be empty. Please enter title.')
+        else
+          flash.now[:danger] = Array(flash.now[:danger]).push('Error when updating Todo item.')
+        end
         @departments_list = get_departments_list
         render 'edit'
       end

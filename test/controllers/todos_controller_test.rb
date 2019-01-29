@@ -16,17 +16,38 @@ class TodosControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should not create Todo item with no time' do
-    todo = Todo.new(title: 'a')
-    assert_not todo.save
+    login_as users(:one)
+    assert_difference 'Todo.count', 0 do
+      post todos_path, params: { todo: { title: 'Short Life, too much To Do', description: 'damn.', department_id: departments(:one).id } }
+      follow_redirect! while redirect?
+    end
+    assert_select 'h2', { count: 1, text: 'Todo List' }, 'Wrong title or more than one h2 element'
+    assert_equal ['Todo date cannot be empty. Please set date.'], flash[:danger]
   end
 
   test 'should not create Todo item with no title' do
-    todo = Todo.new(eta: 5.days.from_now.to_s)
-    assert_not todo.save
+    login_as users(:one)
+    assert_difference 'Todo.count', 0 do
+      post todos_path, params: { todo: { color: 'success', description: 'damn.', eta: 3.days.from_now.to_s(:db), department_id: departments(:one).id } }
+      follow_redirect! while redirect?
+    end
+    assert_select 'h2', { count: 1, text: 'Todo List' }, 'Wrong title or more than one h2 element'
+    assert_equal ['Todo title cannot be empty. Please enter title.'], flash[:danger]
   end
 
   test 'should create normal Todo item' do
-    todo = Todo.new(title: "Test", description: "desc", eta: 5.days.from_now.to_s)
-    assert todo.save
+    login_as users(:one)
+    assert_difference 'Todo.count', 1 do
+      post todos_path, params: { todo: { title: 'Short Life, too much To Do', color: 'success', description: 'damn.', eta: 3.days.from_now.to_s(:db), department_id: departments(:one).id } }
+      follow_redirect! while redirect?
+    end
+    assert_select 'h2', { count: 1, text: 'Todo List' }, 'Wrong title or more than one h2 element'
+    assert_equal ['Todo item successfully added!'], flash[:success]
+
+    assert_difference 'Todo.count', -1 do
+      delete todo_path(Todo.last.id)
+      follow_redirect! while redirect?
+    end
+    assert_equal ['Todo item deleted.'], flash[:success]
   end
 end

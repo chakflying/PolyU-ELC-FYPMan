@@ -9,14 +9,17 @@ class TodosCreateTest < ActionDispatch::IntegrationTest
     @todo = todos(:two)
   end
 
-  test 'non admin create todos' do
+  test 'non admin create and destroy todos' do
     login_as users(:one)
     assert is_logged_in?
 
     get todos_path
     assert_difference 'Todo.count', 1 do
-      post todos_path, params: { todo: { title: @todo.title, description: @todo.description, eta: @todo.eta, department_id: @todo.department_id } }
-
+      post todos_path, params: { todo: { title: 'Short Life, too much To Do', description: 'damn.', eta: 3.days.from_now.to_s, department_id: departments(:one).id } }
+      follow_redirect! while redirect?
+    end
+    assert_difference 'Todo.count', -1 do
+      delete todo_path(Todo.last.id)
       follow_redirect! while redirect?
     end
   end

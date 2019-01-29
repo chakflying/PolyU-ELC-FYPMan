@@ -3,9 +3,7 @@
 class StudentsController < ApplicationController
   before_action :authenticate_user!
   def index
-    if is_admin?
-      @departments_list = get_departments_list
-    end
+    @departments_list = get_departments_list if is_admin?
     @fyp_year_list = get_fyp_years_list
     @student = Student.new
     respond_to do |format|
@@ -39,11 +37,11 @@ class StudentsController < ApplicationController
       flash[:success] = Array(flash[:success]).push('Student successfully added!')
       redirect_to '/students'
     else
-      if params[:department_id] == ''
+      if params[:student][:department_id].blank?
         flash.now[:danger] = Array(flash.now[:danger]).push("Please select the student's department.")
-      elsif params[:fyp_year] == ''
+      elsif params[:student][:fyp_year].blank?
         flash.now[:danger] = Array(flash.now[:danger]).push('Student must have an FYP Year.')
-      elsif params[:netID] = ''
+      elsif params[:student][:netID].blank?
         flash.now[:danger] = Array(flash.now[:danger]).push('Student must have a netID.')
       else
         flash.now[:danger] = Array(flash.now[:danger]).push('Error when creating student.')
@@ -77,8 +75,18 @@ class StudentsController < ApplicationController
         flash[:success] = Array(flash[:success]).push('Student updated.')
         redirect_to '/students'
       else
-        flash.now[:danger] = Array(flash.now[:danger]).push('Error updating student.')
-        render 'update'
+        if params[:student][:department_id].blank?
+          flash.now[:danger] = Array(flash.now[:danger]).push("Please select the student's department.")
+        elsif params[:student][:fyp_year].blank?
+          flash.now[:danger] = Array(flash.now[:danger]).push('Student must have an FYP Year.')
+        elsif params[:student][:netID].blank?
+          flash.now[:danger] = Array(flash.now[:danger]).push('Student must have a netID.')
+        else
+          flash.now[:danger] = Array(flash.now[:danger]).push('Error updating student.')
+        end
+        @departments_list = get_departments_list
+        @fyp_year_list = get_fyp_years_list
+        render 'edit'
       end
     end
   end
@@ -127,31 +135,31 @@ class StudentsController < ApplicationController
       department_id = request.params[:students_list][:department_id]
       fyp_year = request.params[:students_list][:fyp_year]
       if name_list.length != netID_list.length
-        flash.now[:danger] = Array(flash.now[:danger]).push("Length of NetIDs does not match length of names. Press Enter to skip line if name isn't available.")
+        flash.now[:danger] = Array(flash.now[:danger]).push(format("Length of netIDs does not match length of names. Press Enter to skip line if name isn't available. [no. of names: %d, no. of netIDs: %d]", name_list.length, netID_list.length))
         render 'batch_import'
         return
       end
-      if name_list.length > netID_list.length
-        flash.now[:danger] = Array(flash.now[:danger]).push('Every student must have a netID.')
-        render 'batch_import'
-        return
-      end
-      if fyp_year == ''
+      if fyp_year.blank?
         flash.now[:danger] = Array(flash.now[:danger]).push('Please select FYP year of the student(s).')
         render 'batch_import'
         return
       end
-      if department_id == ''
+      if department_id.blank?
         flash.now[:danger] = Array(flash.now[:danger]).push('Please select the Department of the student(s).')
         render 'batch_import'
         return
       end
-      if netID_list.empty?
+      if netID_list.blank?
         flash.now[:danger] = Array(flash.now[:danger]).push('Please enter student(s) info.')
         render 'batch_import'
         return
       end
       netID_list.zip(name_list).each do |netID, name|
+        if netID.blank?
+          flash.now[:danger] = Array(flash.now[:danger]).push('Every student must have a netID.')
+          render 'batch_import'
+          return
+        end
         if Student.find_by(netID: netID)
           flash.now[:danger] = Array(flash.now[:danger]).push('Student with netID: ' + netID + ' already exist.')
           render 'batch_import'

@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class DepartmentsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_admin_404!
+
   def index
     @departments = Department.all
     @department = Department.new
@@ -21,7 +22,7 @@ class DepartmentsController < ApplicationController
       flash[:success] = Array(flash[:success]).push('Department successfully added.')
       redirect_to departments_url
     else
-      if params[:name] == ''
+      if params[:department][:name].blank?
         flash.now[:danger] = Array(flash.now[:danger]).push("Please enter department's name.")
       else
         flash.now[:danger] = Array(flash.now[:danger]).push('Error when creating department.')
@@ -50,8 +51,13 @@ class DepartmentsController < ApplicationController
         flash[:success] = Array(flash[:success]).push('Department info updated.')
         redirect_to departments_url
       else
-        flash.now[:danger] = Array(flash.now[:danger]).push('Error updating department info.')
-        render 'update'
+        if params[:department][:name].blank?
+          flash.now[:danger] = Array(flash.now[:danger]).push("Please enter department's name.")
+        else
+          flash.now[:danger] = Array(flash.now[:danger]).push('Error updating department info.')
+        end
+        @faculties_list = get_faculties_list
+        render 'edit'
       end
     end
   end

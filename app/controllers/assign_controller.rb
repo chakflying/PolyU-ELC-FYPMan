@@ -44,7 +44,7 @@ class AssignController < ApplicationController
     stu_netid = request.params[:student_netID]
     stu = Student.find_by(netID: stu_netid)
     sup = Supervisor.find_by(netID: sup_netid)
-    if !stu or !sup
+    if !stu || !sup
       render plain: 'failed'
       return
     else
@@ -64,14 +64,19 @@ class AssignController < ApplicationController
         flash.now[:danger] = Array(flash.now[:danger]).push('The length of two lists is not equal. Check if you need an extra line at the end.')
         render 'batch_assign'
         return
+      elsif students_netID_list.blank? || supervisors_netID_list.blank?
+        flash.now[:danger] = Array(flash.now[:danger]).push('Please enter student/supervisor info.')
+        render 'batch_assign'
+        return
       end
       # Verify that all netIDs exist before actual operation
       students_netID_list.zip(supervisors_netID_list).each do |stu_id, sup_id|
         stu = Student.find_by(netID: stu_id)
         sup = Supervisor.find_by(netID: sup_id)
         next if sup && stu
-        if !stu then flash.now[:danger] = Array(flash.now[:danger]).push('Student with netID ' + stu_id + ' not found.') end
-        if !sup then flash.now[:danger] = Array(flash.now[:danger]).push('Supervisor with netID ' + sup_id + ' not found.') end
+
+        unless stu then flash.now[:danger] = Array(flash.now[:danger]).push('Student with netID ' + stu_id + ' not found.') end
+        unless sup then flash.now[:danger] = Array(flash.now[:danger]).push('Supervisor with netID ' + sup_id + ' not found.') end
         render 'batch_assign'
         return
       end
@@ -105,7 +110,7 @@ class AssignController < ApplicationController
     @old_supervisor = OldUser.first(net_id: sup_netID)
     if @old_student && @old_supervisor
       @old_rel = OldRelation.first(student_net_id: @old_student.id, supervisor_net_id: @old_supervisor.id)
-      @old_rel.destroy if @old_rel
+      @old_rel&.destroy
     end
   end
 end

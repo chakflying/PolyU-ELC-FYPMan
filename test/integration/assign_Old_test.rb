@@ -34,7 +34,7 @@ class AssignOldTest < ActionDispatch::IntegrationTest
 
     get assign_path
     assert_difference 'OldRelation.count', 1 do
-      post assign_path, params: { student_netID: {a:'stupid01'}, supervisor_netID: {a:'stupid02'} }
+      post assign_path, params: { student_netID: ['stupid01'], supervisor_netID: ['stupid02'] }
     end
 
     assert_difference 'OldRelation.count', -1 do
