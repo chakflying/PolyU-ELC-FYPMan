@@ -3,7 +3,7 @@
 this is the repo for the PolyU FYP management system. It uses Ruby on Rails as the backend and Vue.js as some of the frontend.
 
 ## Ruby version
-``` ruby 2.5.1 ``` and ``` rails 5.2.1 ```
+``` ruby 2.5.1 ```
 
 ## System dependencies
 this repo is setup in Linux Subsystem for Windows. 
