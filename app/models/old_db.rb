@@ -33,7 +33,7 @@ class OldDb < ActiveRecord::Base
         cur.university_id = u_id
         cur.save
       else
-        Faculty.create(name: old_fac.name, code: old_fac.short_name, university_id: u_id, sync_id: old_fac.id)
+        Faculty.create(name: old_fac.name, code: old_fac.short_name, university_id: (!u_id.blank? ? u_id : nil), sync_id: old_fac.id)
       end
     end
 
@@ -47,7 +47,7 @@ class OldDb < ActiveRecord::Base
         cur.faculty_id = f_id
         cur.save
       else
-        Department.create(name: old_dep.name, code: old_dep.short_name, faculty_id: f_id, sync_id: old_dep.id)
+        Department.create(name: old_dep.name, code: old_dep.short_name, faculty_id: (!f_id.blank? ? f_id : nil), sync_id: old_dep.id)
       end
     end
 
