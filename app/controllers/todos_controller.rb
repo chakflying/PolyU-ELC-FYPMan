@@ -40,7 +40,6 @@ class TodosController < ApplicationController
     else
       @todo_list = Todo.where(department: current_user.department).or(Todo.where(department: nil)).order('eta ASC')
     end
-    @todo = Todo.new
     @departments_list = get_departments_list
     render 'index'
   end
