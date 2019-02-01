@@ -1,10 +1,17 @@
 staging:
   type: deploy
   environment:
-    name: staging
-    url: https://polyu-fyp-man.herokuapp.com/
+    name: dev-staging
   only:
-  - master
+    - deploy
+  tags:
+    - dev
+    - rails
   script:
-  - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/polyu-fyp-man.git
-  - git push -q -f heroku master
+    - cd /home/michaelchan/PolyFYPman/
+    - git pull
+    - bundle install
+    - yarn install
+    - rails db:migrate
+    - rails assets:precompile
+    - service httpd restart
