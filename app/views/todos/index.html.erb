@@ -18,11 +18,10 @@
       <p class="d-none d-sm-none d-md-none d-lg-inline d-xl-inline">&nbsp;Toggle Past Todos</p>
     </button>
   </div>
-  <div class="collapse" id="addtodoform">
+  <div class="collapse <%= (!@retry.blank? ? "show" : "") %>" id="addtodoform">
     <br>
     <div class="card card-body">
       <%= form_for(@todo, url: todos_path) do |f| %>
-        <%= render 'shared/error_messages', obj: @todo %>
         <div class="form-row">
           <div class="form-group col-md-8">
             <%= f.text_field :title, class: "form-control", placeholder: "Enter title", required: true %>
