@@ -87,13 +87,19 @@ class OldDb < ActiveRecord::Base
 
       if entry.role == '1'
         # is a student
-        unless Student.find_by(netID: entry.net_id)
+        if stu = Student.find_by(netID: entry.net_id)
+          entry.department = Department.find(stu.department_id).sync_id
+          entry.save
+        else
           @student = Student.new(netID: entry.net_id, name: entry.common_name, department_id: d_id, fyp_year: @fyp_year, sync_id: entry.id)
           @student.save!
         end
       elsif entry.role == '2'
         # is a supervisor
-        unless Supervisor.find_by(netID: entry.net_id)
+        if sup = Supervisor.find_by(netID: entry.net_id)
+          entry.department = Department.find(sup.department_id).sync_id
+          entry.save
+        else
           @supervisor = Supervisor.new(netID: entry.net_id, name: entry.common_name, department_id: d_id, sync_id: entry.id)
           @supervisor.save!
         end
