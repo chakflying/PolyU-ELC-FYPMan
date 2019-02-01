@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class OldUser < Sequel::Model(Old_DB[:users]); end
 class OldDepartment < Sequel::Model(Old_DB[:departments]); end
 class OldRelation < Sequel::Model(Old_DB[:supervises]); end
@@ -13,14 +15,14 @@ OldFaculty.plugin :timestamps, create: :date_created, update: :date_modified
 OldUniversity.plugin :timestamps, create: :date_created, update: :date_modified
 
 class OldDbSyncTask
-    include Delayed::RecurringJob
-    run_every 5.minute
-    queue 'slow-jobs'
-    def perform
-      OldDb.sync
-    end
+  include Delayed::RecurringJob
+  run_every 5.minute
+  queue 'slow-jobs'
+  def perform
+    OldDb.sync
+  end
 end
 
 Rails.configuration.after_initialize do
-    OldDbSyncTask.schedule!
-  end
+  OldDbSyncTask.schedule!
+end
