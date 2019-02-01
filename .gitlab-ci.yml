@@ -14,4 +14,4 @@ staging:
     - yarn install
     - rails db:migrate
     - rails assets:precompile
-    - /usr/sbin/service apache2 reload
+    - sudo service apache2 reload
