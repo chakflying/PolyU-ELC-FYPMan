@@ -23,6 +23,10 @@ class OldDb < ActiveRecord::Base
         University.create(name: old_uni.name, code: old_uni.short_name, sync_id: old_uni.id)
       end
     end
+    University.where.not(sync_id: nil) do |uni|
+      @university = OldDepartment[uni.sync_id]
+      uni.delete if @university.nil?
+    end
 
     # Update Faculties according to old DB
     OldFaculty.each do |old_fac|
@@ -38,6 +42,10 @@ class OldDb < ActiveRecord::Base
         Faculty.create(name: old_fac.name, code: old_fac.short_name, university_id: (!u_id.blank? ? u_id : nil), sync_id: old_fac.id)
       end
     end
+    Faculty.where.not(sync_id: nil) do |fac|
+      @faculty = OldDepartment[fac.sync_id]
+      fac.delete if @faculty.nil?
+    end
 
     # Update Departments according to old DB
     OldDepartment.each do |old_dep|
@@ -52,6 +60,10 @@ class OldDb < ActiveRecord::Base
       else
         Department.create(name: old_dep.name, code: old_dep.short_name, faculty_id: (!f_id.blank? ? f_id : nil), sync_id: old_dep.id)
       end
+    end
+    Department.where.not(sync_id: nil) do |dep|
+      @department = OldDepartment[dep.sync_id]
+      dep.delete if @department.nil?
     end
 
     # Update Students according to old DB
