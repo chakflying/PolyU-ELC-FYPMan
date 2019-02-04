@@ -11,6 +11,7 @@ class OldDb < ActiveRecord::Base
 
   # Simple old database sync
   def self.sync
+    # Update Universities according to old DB
     OldUniversity.each do |old_uni|
       next if old_uni.status == 0
 
@@ -23,6 +24,7 @@ class OldDb < ActiveRecord::Base
       end
     end
 
+    # Update Faculties according to old DB
     OldFaculty.each do |old_fac|
       next if old_fac.status == 0
 
@@ -37,6 +39,7 @@ class OldDb < ActiveRecord::Base
       end
     end
 
+    # Update Departments according to old DB
     OldDepartment.each do |old_dep|
       next if old_dep.status == 0
 
@@ -51,6 +54,7 @@ class OldDb < ActiveRecord::Base
       end
     end
 
+    # Update Students according to old DB
     Student.where.not(sync_id: nil) do |student|
       stu = OldUser[student.sync_id]
       if stu.nil?
@@ -63,6 +67,8 @@ class OldDb < ActiveRecord::Base
         student.save!
       end
     end
+
+    # Update Supervisors according to old DB
     Supervisor.where.not(sync_id: nil) do |supervisor|
       sup = OldUser[supervisor.sync_id]
       if sup.nil?
@@ -74,6 +80,8 @@ class OldDb < ActiveRecord::Base
         supervisor.save!
       end
     end
+
+    # Create new Students/Supervisors according to old DB
     OldUser.each do |entry|
       next if (entry.status == 0) || entry.department.nil?
 
@@ -105,6 +113,8 @@ class OldDb < ActiveRecord::Base
         end
       end
     end
+
+    # Update Relations according to old DB
     OldRelation.each do |rel|
       next if rel.status == 0
 
@@ -117,10 +127,13 @@ class OldDb < ActiveRecord::Base
       if @stu && @sup && !@stu.supervisors.find_by(id: @sup.id)
         @stu.supervisors << @sup
       end
-      if !OldUser[rel.student_net_id.to_i] && !OldUser[rel.supervisor_net_id.to_i]
+      # Delete if relation is invalid
+      if !OldUser[rel.student_net_id.to_i] || !OldUser[rel.supervisor_net_id.to_i]
         rel.delete
       end
     end
+
+    # Update Todos according to old DB
     OldTodo.each do |old_todo|
       next if old_todo.status == 0
 

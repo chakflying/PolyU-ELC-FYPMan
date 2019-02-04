@@ -14,5 +14,4 @@ staging:
     - yarn install
     - rails db:migrate
     - rails assets:precompile
-    - whoami
     - sudo service apache2 reload
