@@ -101,7 +101,11 @@ class AssignController < ApplicationController
     @old_student = OldUser.first(net_id: stu_netID)
     @old_supervisor = OldUser.first(net_id: sup_netID)
     if @old_student && @old_supervisor
-      @old_rel = OldRelation.create(student_net_id: @old_student.id, supervisor_net_id: @old_supervisor.id, status: 1)
+      if exist = OldRelation[student_net_id: @old_student.id, supervisor_net_id: @old_supervisor.id]
+        exist.update(status: 1)
+      else
+        @old_rel = OldRelation.create(student_net_id: @old_student.id, supervisor_net_id: @old_supervisor.id, status: 1)
+      end
     end
   end
 
@@ -109,8 +113,9 @@ class AssignController < ApplicationController
     @old_student = OldUser.first(net_id: stu_netID)
     @old_supervisor = OldUser.first(net_id: sup_netID)
     if @old_student && @old_supervisor
-      @old_rel = OldRelation.first(student_net_id: @old_student.id, supervisor_net_id: @old_supervisor.id)
-      @old_rel&.destroy
+      if @old_rel = OldRelation.first(student_net_id: @old_student.id, supervisor_net_id: @old_supervisor.id)
+        @old_rel.update(status: 2)
+      end
     end
   end
 end

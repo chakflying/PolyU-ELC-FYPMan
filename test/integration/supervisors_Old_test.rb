@@ -30,9 +30,11 @@ class SupervisorsOldTest < ActionDispatch::IntegrationTest
     patch supervisor_path(@supervisor), params: { supervisor: { name: 'Stupid You', netID: 'stupid02', department_id: 16 } }
     assert_equal 'Stupid You', OldUser.last.common_name
     
-    assert_difference 'OldUser.count', -1 do
+    assert_difference 'OldUser.count', 0 do
       delete supervisor_path(@supervisor)
       follow_redirect! while redirect?
     end
+
+    assert_equal 2, OldUser[net_id: 'stupid02'].status
   end
 end

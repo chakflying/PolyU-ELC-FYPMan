@@ -13,7 +13,7 @@ class OldDb < ActiveRecord::Base
   def self.sync
     # Update Universities according to old DB
     OldUniversity.each do |old_uni|
-      next if old_uni.status == 0
+      next if old_uni.status != 1
 
       if (cur = University.find_by(sync_id: old_uni.id))
         cur.name = old_uni.name
@@ -30,7 +30,7 @@ class OldDb < ActiveRecord::Base
 
     # Update Faculties according to old DB
     OldFaculty.each do |old_fac|
-      next if old_fac.status == 0
+      next if old_fac.status != 1
 
       u_id = University.find_by(sync_id: old_fac.university).id unless University.find_by(sync_id: old_fac.university).nil?
       if (cur = Faculty.find_by(sync_id: old_fac.id))
@@ -49,7 +49,7 @@ class OldDb < ActiveRecord::Base
 
     # Update Departments according to old DB
     OldDepartment.each do |old_dep|
-      next if old_dep.status == 0
+      next if old_dep.status != 1
 
       f_id = Faculty.find_by(sync_id: old_dep.faculty).id unless Faculty.find_by(sync_id: old_dep.faculty).nil?
       if (cur = Department.find_by(sync_id: old_dep.id))
@@ -95,7 +95,7 @@ class OldDb < ActiveRecord::Base
 
     # Create new Students/Supervisors according to old DB
     OldUser.each do |entry|
-      next if (entry.status == 0) || entry.department.nil?
+      next if (entry.status != 1) || entry.department.nil?
 
       @fyp_year = if entry.FYPyear.nil? || (entry.FYPyear == '')
                     Time.now.year.to_s + '-' + (Time.now.year + 1).to_s
@@ -128,7 +128,7 @@ class OldDb < ActiveRecord::Base
 
     # Update Relations according to old DB
     OldRelation.each do |rel|
-      next if rel.status == 0
+      next if rel.status != 1
 
       if OldUser[rel.student_net_id.to_i]
         @stu = Student.find_by(sync_id: rel.student_net_id.to_i)
@@ -147,7 +147,7 @@ class OldDb < ActiveRecord::Base
 
     # Update Todos according to old DB
     OldTodo.each do |old_todo|
-      next if old_todo.status == 0
+      next if old_todo.status != 1
 
       @todo = Todo.find_by(sync_id: old_todo.id)
       department_id = Department.check_synced(old_todo.issued_department)

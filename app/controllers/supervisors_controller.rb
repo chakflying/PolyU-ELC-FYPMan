@@ -161,18 +161,23 @@ class SupervisorsController < ApplicationController
   end
 
   def olddb_supervisor_create(params)
-    @old_supervisor = OldUser.create(common_name: params[:name], net_id: params[:netID], department: Department.find(params[:department_id]).sync_id, status: 1, role: 2, uuid: 0, program_code: 0, subject_code: 0, senior_year: 0)
-    @old_supervisor.id
+    if exist = OldUser[net_id: params[:netID].squish]
+      exist.update(common_name: params[:name].squish, net_id: params[:netID].squish, department: Department.find(params[:department_id]).sync_id, status: 1, role: 2, uuid: 0, program_code: 0, subject_code: 0, senior_year: 0)
+      exist.id
+    else
+      @old_supervisor = OldUser.create(common_name: params[:name].squish, net_id: params[:netID].squish, department: Department.find(params[:department_id]).sync_id, status: 1, role: 2, uuid: 0, program_code: 0, subject_code: 0, senior_year: 0)
+      @old_supervisor.id
+    end
   end
 
   def olddb_supervisor_update(params)
-    @old_supervisor = OldUser.first(net_id: params[:netID])
-    @old_supervisor.update(common_name: params[:name], net_id: params[:netID], department: Department.find(params[:department_id]).sync_id)
+    @old_supervisor = OldUser.first(net_id: params[:netID].squish)
+    @old_supervisor.update(common_name: params[:name].squish, net_id: params[:netID].squish, department: Department.find(params[:department_id]).sync_id)
   end
 
   def olddb_supervisor_destroy(sync_id)
     @old_supervisor = OldUser[sync_id]
-    @old_supervisor.destroy
+    @old_supervisor.update(status: 2)
   end
 
   def olddb_supervisor_removeStudent(stu_netID, sup_netID)

@@ -74,17 +74,22 @@ class DepartmentsController < ApplicationController
   end
 
   def olddb_department_create(params)
-    @old_department = OldDepartment.create(name: params[:name], short_name: params[:code], status: 1)
-    @old_department.id
+    if exist = OldDepartment[name: params[:name].squish]
+      exist.update(name: params[:name].squish, short_name: params[:code], status: 1)
+      exist.id
+    else
+      @old_department = OldDepartment.create(name: params[:name].squish, short_name: params[:code], status: 1)
+      @old_department.id
+    end
   end
 
   def olddb_department_update(params)
     @old_department = OldDepartment[params[:sync_id]]
-    @old_department.update(name: params[:name], short_name: params[:code])
+    @old_department.update(name: params[:name].squish, short_name: params[:code])
   end
 
   def olddb_department_destroy(sync_id)
     @old_department = OldDepartment[sync_id]
-    @old_department.destroy
+    @old_department.update(status: 2)
   end
 end

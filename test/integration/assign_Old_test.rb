@@ -7,9 +7,9 @@ class AssignOldTest < ActionDispatch::IntegrationTest
     @user = users(:one)
     @user2 = users(:two)
     @department = Department.find(16)
-    [:users, :departments, :supervises].each{|x| Old_DB.from(x).truncate}
+    %i[users departments supervises].each { |x| Old_DB.from(x).truncate }
   end
-  
+
   test 'Normal assign and unassign' do
     @old_department = OldDepartment.create(name: @department.name, short_name: @department.code, status: 1)
     @department.sync_id = @old_department.id
@@ -37,9 +37,10 @@ class AssignOldTest < ActionDispatch::IntegrationTest
       post assign_path, params: { student_netID: ['stupid01'], supervisor_netID: ['stupid02'] }
     end
 
-    assert_difference 'OldRelation.count', -1 do
+    assert_difference 'OldRelation.count', 0 do
       post unassign_path, params: { student_netID: 'stupid01', supervisor_netID: 'stupid02' }
     end
-      
+
+    assert_equal 2, OldRelation[student_net_id: OldUser[net_id: 'stupid01'].id].status
   end
 end
