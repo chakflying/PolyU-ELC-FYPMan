@@ -26,6 +26,7 @@ class TodosController < ApplicationController
       @todo.sync_id = sync_id
       @todo.save
       flash.now[:success] = Array(flash.now[:success]).push('Todo item successfully added!')
+      @todo = Todo.new
     else
       if request.params[:todo][:eta].blank?
         flash.now[:danger] = Array(flash.now[:danger]).push('Todo date cannot be empty. Please set date.')
@@ -34,13 +35,13 @@ class TodosController < ApplicationController
       else
         flash.now[:danger] = Array(flash.now[:danger]).push('Create todo item unsuccessful.')
       end
+      @retry = true
     end
     if is_admin?
       @todo_list = Todo.all.order('eta ASC')
     else
       @todo_list = Todo.where(department: current_user.department).or(Todo.where(department: nil)).order('eta ASC')
     end
-    @retry = true
     @departments_list = get_departments_list
     render 'index'
   end
