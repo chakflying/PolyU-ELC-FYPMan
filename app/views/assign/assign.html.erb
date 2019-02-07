@@ -1,4 +1,9 @@
 <% provide(:title, 'Assign Students') %>
+<% content_for :page_packs do %>
+  <%= javascript_pack_tag 'vue_assign', 'data-turbolinks-track': 'reload', defer: true %>
+  <%= stylesheet_pack_tag 'vue_assign', 'data-turbolinks-track': 'reload' %>
+<% end %>
+
 <div class="container">
   <h2 class="display-2" style="margin:1em 0 0.5em 0">Assign Students</h2>
   <div class="row" style="margin-top:1em;">

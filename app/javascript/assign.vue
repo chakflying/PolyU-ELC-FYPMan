@@ -4,7 +4,7 @@
     <div class="col-md-6">
       <label for="student_netID">Assign student(s):</label>
       <template v-for="student_item in student_set">
-        <div class="form-group">
+        <div class="form-group" :key="student_item">
           <v-select :options="students" v-model="student_netID_response[student_item]"></v-select>
         </div>
       </template>
@@ -94,3 +94,9 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+.v-select .dropdown-toggle::after {
+  content: none !important;
+}
+</style>

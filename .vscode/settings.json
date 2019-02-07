@@ -2,6 +2,5 @@
     "terminal.integrated.shell.windows": "C:\\Windows\\System32\\bash.exe",
     "solargraph.commandPath": ".vscode\\solargraph.bat",
     "solargraph.formatting": true,
-    "vetur.validation.template": false,
     "editor.tabSize": 2,
 }

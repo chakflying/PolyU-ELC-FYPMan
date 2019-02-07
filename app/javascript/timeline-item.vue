@@ -11,7 +11,7 @@
         </p>
         <div class="timeline-panel-controls">
           <div class="controls">
-            <a v-for="control in item.controls" is="timeline-control" :control="control"></a>
+            <a v-for="control in item.controls" is="timeline-control" :control="control" :key="control.method"></a>
           </div>
           <div class="timestamp">
             <span class="text-muted">{{ item.eta }}</span>

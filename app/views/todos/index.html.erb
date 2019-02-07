@@ -1,4 +1,9 @@
 <% provide(:title, 'Todo List') %>
+<% content_for :page_packs do %>
+  <%= javascript_pack_tag 'vue_todo', 'data-turbolinks-track': 'reload', defer: true %>
+  <%= stylesheet_pack_tag 'vue_todo', 'data-turbolinks-track': 'reload' %>
+<% end %>
+
 <div class="container">
   <h2 class="display-2" style="margin:1em 0 0.4em 0">Todo List</h2>
   <% if is_admin? %>

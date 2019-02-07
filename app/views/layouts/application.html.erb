@@ -7,10 +7,11 @@
     <title><%= yield(:title) + " - PolyU FYP Management" %></title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-    <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,600,800" rel="stylesheet" crossorigin>
+    <%= javascript_pack_tag    'app', 'data-turbolinks-track': 'reload' %>
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag    'hello_vue', 'data-turbolinks-track': 'reload', defer: true %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload', defer: true %>
+    <%= yield :page_packs %>
+    <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,600,800" rel="stylesheet" crossorigin>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.2/animate.min.css" integrity="sha384-OHBBOqpYHNsIqQy8hL1U+8OXf9hH6QRxi0+EODezv82DfnZoV7qoHAZDwMwEJvSw" crossorigin="anonymous">
   </head>
