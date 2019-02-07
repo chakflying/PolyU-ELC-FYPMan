@@ -2,7 +2,7 @@ import LogRocket from "logrocket";
 LogRocket.init("tv4tfc/polyufypman-staging", {
   shouldCaptureIP: false,
   dom: {
-    isEnabled: false,
+    isEnabled: true,
   },
   network: {
     requestSanitizer: function (request) {
