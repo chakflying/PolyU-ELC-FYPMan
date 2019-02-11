@@ -21,7 +21,7 @@ class StudentDatatable < AjaxDatatablesRails::ActiveRecord
         id: record.id,
         name: record.name,
         netID: record.netID,
-        department: record.department.name,
+        department: (record.department.present? ? record.department.name : ''),
         fyp_year: record.fyp_year,
         supervisors: supervisors_list(record.supervisors, record.netID).html_safe,
         dt_action: action_edit(record.id).html_safe,

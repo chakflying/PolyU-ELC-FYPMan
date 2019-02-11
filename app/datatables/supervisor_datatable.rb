@@ -20,7 +20,7 @@ class SupervisorDatatable < AjaxDatatablesRails::ActiveRecord
         id: record.id,
         name: record.name,
         netID: record.netID,
-        department: record.department.name,
+        department: (record.department.present? ? record.department.name : ''),
         students: students_list(record.students, record.netID).html_safe,
         dt_action: action_edit(record.id).html_safe,
         DT_RowId: record.id
