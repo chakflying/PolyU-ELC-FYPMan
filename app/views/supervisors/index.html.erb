@@ -1,4 +1,7 @@
 <% provide(:title, 'Manage Supervisors') %>
+<% content_for :head do %>
+  <meta name="turbolinks-cache-control" content="no-cache">
+<% end %>
 <div class="container">
   <h2 class="display-2" style="margin:1em 0 0.4em 0">Manage Supervisors</h2>
   <% if is_admin? %>

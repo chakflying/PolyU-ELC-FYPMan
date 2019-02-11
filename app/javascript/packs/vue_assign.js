@@ -8,8 +8,7 @@ Vue.component("v-select", vSelect);
 Vue.use(TurbolinksAdapter);
 Vue.use(VueResource);
 
-
-document.addEventListener("turbolinks:load", () => {
+function loadVueAssign() {
   const el = document.getElementById("assign-form-vue");
   if (el == null) return;
   const parsed_props = JSON.parse(el.getAttribute("data"));
@@ -30,4 +29,10 @@ document.addEventListener("turbolinks:load", () => {
       render: h => h(Assign, { props })
     });
   }
+}
+
+document.addEventListener("turbolinks:load", () => {
+  loadVueAssign();
 });
+
+loadVueAssign();

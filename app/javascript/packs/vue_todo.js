@@ -6,7 +6,7 @@ import TurbolinksAdapter from "vue-turbolinks";
 Vue.use(TurbolinksAdapter);
 Vue.use(VueResource);
 
-document.addEventListener("turbolinks:load", () => {
+function loadVueTodo() {
   const el = document.getElementById("todo");
   if (el == null) return;
   const parsed_props = JSON.parse(el.getAttribute("data"));
@@ -37,4 +37,10 @@ document.addEventListener("turbolinks:load", () => {
       events: {}
     });
   }
+}
+
+document.addEventListener("turbolinks:load", () => {
+  loadVueTodo();
 });
+
+loadVueTodo();

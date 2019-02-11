@@ -116,15 +116,39 @@ input {
 }
 
 .dt-btn {
-  width:35px;
+  width: 35px;
 }
 
 .dt-btn-rm {
-  padding-top:0.1em;
-  border-radius:0.5rem;
+  padding-top: 0.1em;
+  border-radius: 0.5rem;
 }
 
 .dt-rel-row {
-  margin-bottom:0.3em;
-  margin-right:5px;
+  margin-bottom: 0.3em;
+  margin-right: 5px;
+}
+
+.tooltip-inner {
+  background-color: #212529 !important;
+}
+
+.bs-tooltip-top .arrow::before,
+.bs-tooltip-auto[x-placement^="top"] .arrow::before {
+  border-top-color: #212529 !important;
+}
+
+.bs-tooltip-right .arrow::before,
+.bs-tooltip-auto[x-placement^="right"] .arrow::before {
+  border-right-color: #212529 !important;
+}
+
+.bs-tooltip-bottom .arrow::before,
+.bs-tooltip-auto[x-placement^="bottom"] .arrow::before {
+  border-bottom-color: #212529 !important;
+}
+
+.bs-tooltip-left .arrow::before,
+.bs-tooltip-auto[x-placement^="left"] .arrow::before {
+  border-left-color: #212529 !important;
 }

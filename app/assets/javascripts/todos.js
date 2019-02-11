@@ -4,19 +4,20 @@ function toggleClassDelay(element, classname, delay) {
   }, delay);
 }
 
-$(document).on("click", ".todo-refresh-btn", function() {
-  window.todo_vue.$children[0].fetchItems();
+$(document).on("click", ".todo-refresh-btn", async function () {
+  $(this).tooltip("hide");
   $(this)
     .children()
     .first()
     .toggleClass("fa-spin");
-  toggleClassDelay(
-    $(this)
-      .children()
-      .first(),
-    "fa-spin",
-    2000
-  );
+  let status = await window.todo_vue.$children[0].fetchItems().promise;
+  $(this)
+    .children()
+    .first()
+    .toggleClass("fa-spin");
+  if (status !== 200) {
+    $(this).tooltip("show");
+  }
 });
 
 $(document).on("click", ".todo-toggle-past-btn", function() {
@@ -24,5 +25,5 @@ $(document).on("click", ".todo-toggle-past-btn", function() {
   var icon = $(this)
     .children()
     .first();
-  icon.toggleClass('far fas');
+  icon.toggleClass("far fas");
 });

@@ -37,12 +37,12 @@ export default {
       var csrfToken = document
         .querySelector('meta[name="csrf-token"]')
         .getAttribute("content");
-      this.$http
+      let response_status = this.$http
         .get("/todos", {}, { headers: { "X-CSRF-Token": csrfToken } })
         .then(
           response => {
             // get status
-            if (response.status != 200) Turbolinks.visit(window.location);
+            if (response.status != 200) return response.status;
             var items = response.body;
             items.map(obj => {
               obj.icon_class = "fas fa-book";
@@ -61,17 +61,14 @@ export default {
             });
 
             this.updateItems(items);
-
-            // get status text
-            // response.statusText;
-            // get 'Expires' header
-            // response.headers.get("Expires");
+            return response.status;
           },
           response => {
             // error callback
-            Turbolinks.visit(window.location);
+            return -1;
           }
         );
+        return response_status;
     }
   },
 

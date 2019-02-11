@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Be sure to restart your server when you modify this file.
 
 # Define an application-wide content security policy
@@ -29,7 +31,7 @@ Rails.application.config.content_security_policy do |policy|
     policy.connect_src :self, :https, 'http://localhost:3035', 'ws://localhost:3035'
     policy.worker_src :blob
   else
-    policy.script_src :self, :https
+    policy.script_src :self, :https, 'https://cdn.logrocket.io'
     policy.worker_src :blob
   end
 end
