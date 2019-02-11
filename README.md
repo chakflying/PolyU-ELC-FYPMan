@@ -3,22 +3,21 @@
 this is the repo for the PolyU FYP management system. It uses Ruby on Rails as the backend and Vue.js as some of the frontend.
 
 ## Ruby version
-``` ruby 2.5.1 ```
+``` ruby 2.6.1 ```
 
 ## System dependencies
-this repo is setup in Linux Subsystem for Windows. 
-Compatibility with other Linux install is untested.
+The Dev environment is setup in Linux Subsystem for Windows,  ``` Ubuntu 18.04.1 LTS ```.
 
-``` Ubuntu 16.04.4 LTS ```
+The deploy branch is setup to auto deploy to a SUSE 12 staging server.
 
 Node.js should be installed, perferably with at least the latest version of 8.X.X
 
-``` nvm ls ```
+``` nvm ls ``` will list the installed Node versions.
 
 
 ## Initial Configuration
 * clone the repository
-* install ruby 2.5.1
+* install ruby 2.6.1
 * install gems with  ``` bundle install ```
 * install node packages:
     ```
@@ -33,7 +32,7 @@ Node.js should be installed, perferably with at least the latest version of 8.X.
     rails db:create
     rails db:migrate
     ```
-* run server with ``` rails s --environment=development ``` 
+* run server with ``` rails s ```, and webpack server for development with ``` ./bin/webpack-dev-server ```
 
 ## Deployment instructions
 * Same as local configuration
