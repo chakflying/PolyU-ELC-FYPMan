@@ -16,5 +16,7 @@
 //= require jquery3.min
 //= require popper
 //= require bootstrap
+//= require datatables
+//= require pickadate
 
 //= require_tree .
