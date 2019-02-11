@@ -1,6 +1,9 @@
 <% provide(:title, "Log In") %>
 <div class="container">
-<h1 class="display-1 text-center" style="padding-top:1.3em">Log in</h1>
+<div class="d-flex justify-content-center" style="padding-top:1.3em">
+<%= image_tag "appicon.png", height: 300 %>
+</div>
+<h2 class="display-2 text-center">Log In</h2>
 <br>
 <div class="row">
   <div class="col-md-3">
@@ -20,7 +23,7 @@
       <br>
       <div class="form-group row">
         <div class="col-lg-6" style="margin-bottom:1em">
-        <%= f.submit "Login", class: "btn btn-primary btn-lg col-sm-12" %>
+        <%= f.submit "Log In", class: "btn btn-primary btn-lg col-sm-12" %>
         </div>
     <% end %>
         <div class="col-lg-6" style="margin-bottom:1em">

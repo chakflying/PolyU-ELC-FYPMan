@@ -9,11 +9,11 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
 
   test 'login with invalid information' do
     get root_path
-    assert_select 'h1', { count: 1, text: 'Log in' }, 'Wrong title or more than one h1 element before failed login'
+    assert_select 'h2', { count: 1, text: 'Log In' }, 'Wrong title or more than one h1 element before failed login'
     post login_path, params: { session: { username: '', password: '' } }
     assert_redirected_to root_path
     follow_redirect!
-    assert_select 'h1', { count: 1, text: 'Log in' }, 'Wrong title or more than one h1 element after failed login'
+    assert_select 'h2', { count: 1, text: 'Log In' }, 'Wrong title or more than one h1 element after failed login'
     assert_not flash.empty?
     get root_path
     assert flash.empty?

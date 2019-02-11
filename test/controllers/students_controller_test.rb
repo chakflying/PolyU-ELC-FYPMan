@@ -6,7 +6,7 @@ class StudentsControllerTest < ActionDispatch::IntegrationTest
   test 'Visitor should not get Students Page' do
     get students_url
     follow_redirect!
-    assert_select 'h1', { count: 1, text: 'Log in' }, 'Wrong title or more than one h1 element'
+    assert_select 'h2', { count: 1, text: 'Log In' }, 'Wrong title or more than one h2 element'
   end
 
   test 'should get index' do
