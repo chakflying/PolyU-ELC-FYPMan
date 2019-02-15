@@ -8,7 +8,7 @@ class SupervisorDatatable < AjaxDatatablesRails::ActiveRecord
       id: { source: 'Supervisor.id', cond: :eq },
       name: { source: 'Supervisor.name' },
       netID: { source: 'Supervisor.netID' },
-      department: { source: 'Department.name' },
+      department: { source: 'Department.code' },
       students: { source: 'Student.name' },
       dt_action: { searchable: false }
     }
@@ -20,7 +20,7 @@ class SupervisorDatatable < AjaxDatatablesRails::ActiveRecord
         id: record.id,
         name: record.name,
         netID: record.netID,
-        department: (record.department.present? ? record.department.name : ''),
+        department: (record.department.present? ? record.department.code : ''),
         students: students_list(record.students, record.netID).html_safe,
         dt_action: action_edit(record.id).html_safe,
         DT_RowId: record.id
@@ -29,9 +29,9 @@ class SupervisorDatatable < AjaxDatatablesRails::ActiveRecord
   end
 
   def students_list(students, sup_netID)
-    out = '<div class="col-sm-12">'
+    out = '<div>'
     students.each do |student|
-      out += format('<div class="row dt-rel-row"><div class="col-lg-5 col-md-6" style="overflow:hidden;">%s</div><div class="col-lg-4 col-md-6">%s</div><div class="col-md-3"><a rel="nofollow" data-method="post" href="/removeStudent?stu_netID=%s&amp;sup_netID=%s"><button class="btn btn-sm btn-light dt-btn-rm" aria-label="Remove Student">remove</button></a></div></div>', student.netID, student.fyp_year, CGI.escape(student.netID), CGI.escape(sup_netID))
+      out += format('<div class="row dt-rel-row"><div class="col-lg-7 col-sm-6" style="overflow:hidden;">%s</div><div class="col-lg-3 col-sm-4">%s</div><div class="col-sm-2"><a rel="nofollow" data-method="post" href="/removeStudent?stu_netID=%s&amp;sup_netID=%s"><button class="btn btn-sm btn-light dt-btn-rm" aria-label="Remove Student">remove</button></a></div></div>', student.netID, student.fyp_year, CGI.escape(student.netID), CGI.escape(sup_netID))
     end
     out += '</div>'
     out

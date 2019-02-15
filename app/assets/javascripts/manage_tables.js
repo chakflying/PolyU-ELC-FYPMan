@@ -1,14 +1,14 @@
 document.addEventListener("turbolinks:load", function() {
-  if ($(".manage-table").length) {
-    document.manage_dataTable = $(".manage-table").DataTable({
+  if ($(".admin-users-table").length) {
+    document.manage_dataTable = $(".admin-users-table").DataTable({
       stateSave: true,
       responsive: true,
       columnDefs: [
         { responsivePriority: 2, targets: 2 },
         { responsivePriority: 1, targets: -1 },
-        { width: "15px", targets: 0 },
-        { width: "25px", targets: -3 },
-        { width: "80px", targets: -1 }
+        { width: "1em", targets: 0 },
+        { width: "1.3em", targets: -3 },
+        { width: "5em", targets: -1 }
       ]
     });
   } else if ($(".admin-activity-table").length) {
@@ -49,11 +49,11 @@ document.addEventListener("turbolinks:load", function() {
       columnDefs: [
         { responsivePriority: 2, targets: 2 },
         { responsivePriority: 1, targets: -1 },
-        { width: "15px", targets: 0 },
-        { width: "120px", targets: 1 },
-        { width: "120px", targets: 2 },
-        { width: "280px", targets: -2 },
-        { width: "2.3rem", targets: -1 }
+        { width: "1em", targets: 0 },
+        { width: "10em", targets: 1 },
+        { width: "10em", targets: 2 },
+        { width: "20em", targets: -2 },
+        { width: "2em", targets: -1 }
       ],
       language: {
         emptyTable: "No students found in this catogory."
@@ -85,10 +85,10 @@ document.addEventListener("turbolinks:load", function() {
       columnDefs: [
         { responsivePriority: 2, targets: 2 },
         { responsivePriority: 1, targets: -1 },
-        { width: "15px", targets: 0 },
-        { width: "120px", targets: 1 },
-        { width: "480px", targets: -2 },
-        { width: "2.3rem", targets: -1 }
+        { width: "1em", targets: 0 },
+        { width: "10em", targets: 1 },
+        { width: "10em", targets: 2 },
+        { width: "2em", targets: -1 }
       ],
       language: {
         emptyTable: "No supervisors found in this catogory."
@@ -108,7 +108,7 @@ document.addEventListener("turbolinks:load", function() {
       columnDefs: [
         { responsivePriority: 2, targets: 1 },
         { responsivePriority: 1, targets: -1 },
-        { width: "15px", targets: 0 },
+        { width: "1em", targets: 0 },
         { width: "80px", targets: -1 }
       ],
       language: {
@@ -119,8 +119,8 @@ document.addEventListener("turbolinks:load", function() {
 });
 
 document.addEventListener("turbolinks:before-cache", function() {
-  if ($.fn.DataTable.isDataTable(".manage-table")) {
-    $(".manage-table")
+  if ($.fn.DataTable.isDataTable(".admin-users-table")) {
+    $(".admin-users-table")
       .dataTable()
       .fnDestroy();
   } else if ($.fn.DataTable.isDataTable(".students-table")) {

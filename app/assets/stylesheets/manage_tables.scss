@@ -1,0 +1,38 @@
+table.dataTable > tbody > tr.child ul.dtr-details {
+  display: block !important;
+}
+
+table.dataTable td {
+  vertical-align: middle !important;
+}
+
+table.dataTable td:first-child::before {
+  top: 18px !important;
+}
+
+.dt-btn {
+  width: 35px;
+}
+
+.dt-btn-rm {
+  border-radius: 0 !important;
+  line-height: 1.5em !important;
+}
+
+.dt-rel-row {
+  margin-right: 5px !important;
+}
+
+.dtr-details .dt-rel-row {
+  margin-top: 0.3em;
+}
+
+.dt-rel-name {
+  white-space: nowrap;
+  overflow: hidden;
+  line-height: 2.2em;
+}
+
+.dtr-details .dt-rel-name {
+  line-height: 2em;
+}

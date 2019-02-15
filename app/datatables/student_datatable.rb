@@ -8,7 +8,7 @@ class StudentDatatable < AjaxDatatablesRails::ActiveRecord
       id: { source: 'Student.id', cond: :eq },
       name: { source: 'Student.name' },
       netID: { source: 'Student.netID' },
-      department: { source: 'Department.name' },
+      department: { source: 'Department.code' },
       fyp_year: { source: 'Student.fyp_year' },
       supervisors: { source: 'Supervisor.name' },
       dt_action: { searchable: false }
@@ -21,7 +21,7 @@ class StudentDatatable < AjaxDatatablesRails::ActiveRecord
         id: record.id,
         name: record.name,
         netID: record.netID,
-        department: (record.department.present? ? record.department.name : ''),
+        department: (record.department.present? ? record.department.code : ''),
         fyp_year: record.fyp_year,
         supervisors: supervisors_list(record.supervisors, record.netID).html_safe,
         dt_action: action_edit(record.id).html_safe,
@@ -31,9 +31,9 @@ class StudentDatatable < AjaxDatatablesRails::ActiveRecord
   end
 
   def supervisors_list(supervisors, stu_netID)
-    out = '<div class="col-sm-12">'
+    out = '<div>'
     supervisors.each do |supervisor|
-      out += format('<div class="row dt-rel-row"><div class="col-sm-9">%s</div><div class="col-md-3"><a rel="nofollow" data-method="post" href="/removeSupervisor?stu_netID=%s&amp;sup_netID=%s"><button class="btn btn-sm btn-light dt-btn-rm" aria-label="Remove Supervisor">remove</button></a></div></div>', supervisor.name, CGI.escape(stu_netID), CGI.escape(supervisor.netID))
+      out += format('<div class="row dt-rel-row"><div class="col-sm-9 dt-rel-name">%s</div><div class="col-sm-3"><a rel="nofollow" data-method="post" href="/removeSupervisor?stu_netID=%s&amp;sup_netID=%s"><button class="btn btn-sm btn-light dt-btn-rm" aria-label="Remove Supervisor">remove</button></a></div></div>', supervisor.name, CGI.escape(stu_netID), CGI.escape(supervisor.netID))
     end
     out += '</div>'
     out
