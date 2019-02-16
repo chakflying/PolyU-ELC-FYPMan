@@ -15,12 +15,18 @@ table.dataTable td:first-child::before {
 }
 
 .dt-btn-rm {
-  border-radius: 0 !important;
   line-height: 1.5em !important;
 }
 
+.dt-rel {
+  margin-top: -0.4em;
+  margin-bottom: -0.4em;
+}
+
 .dt-rel-row {
-  margin-right: 5px !important;
+  margin-right: 1em !important;
+  margin-top: 0.4em;
+  margin-bottom: 0.4em;
 }
 
 .dtr-details .dt-rel-row {
@@ -33,6 +39,14 @@ table.dataTable td:first-child::before {
   line-height: 2.2em;
 }
 
+.dt-rel-fypyear {
+  line-height: 2.2em;
+}
+
 .dtr-details .dt-rel-name {
+  line-height: 2em;
+}
+
+.dtr-details .dt-rel-fypyear {
   line-height: 2em;
 }

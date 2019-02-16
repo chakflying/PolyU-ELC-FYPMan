@@ -35,7 +35,7 @@ class StudentsController < ApplicationController
       @student.sync_id = sync_id
       @student.save
       flash[:success] = Array(flash[:success]).push('Student successfully added!')
-      redirect_to '/students'
+      redirect_to students_url
     else
       if params[:student][:department_id].blank?
         flash.now[:danger] = Array(flash.now[:danger]).push("Please select the student's department.")
@@ -73,7 +73,7 @@ class StudentsController < ApplicationController
       if @student.update_attributes(student_params)
         @student.sync_id ? olddb_student_update(student_params) : false
         flash[:success] = Array(flash[:success]).push('Student updated.')
-        redirect_to '/students'
+        redirect_to students_url
       else
         if params[:student][:department_id].blank?
           flash.now[:danger] = Array(flash.now[:danger]).push("Please select the student's department.")
@@ -99,7 +99,7 @@ class StudentsController < ApplicationController
     else
       flash[:danger] = Array(flash[:danger]).push('Error deleting student.')
     end
-    redirect_to '/students'
+    redirect_to students_url
   end
 
   # Model specific unassign function to have customized flash messages.
@@ -109,16 +109,16 @@ class StudentsController < ApplicationController
     @student = Student.find_by(netID: stu_netid)
     sup = Supervisor.find_by(netID: sup_netid)
     if !@student
-      flash[:danger] = Array(flash[:danger]).push('Student not found')
-      redirect_back(fallback_location: students_url)
+      flash[:danger] = Array(flash[:danger]).push('Student not found.')
+      redirect_to students_url
     elsif !sup
-      flash[:danger] = Array(flash[:danger]).push('Supervisor not found')
-      redirect_back(fallback_location: students_url)
+      flash[:danger] = Array(flash[:danger]).push('Supervisor not found.')
+      redirect_to students_url
     else
       @student.supervisors.delete(sup)
       @student.sync_id && sup.sync_id ? olddb_student_removeSupervisor(stu_netid, sup_netid) : false
       flash[:success] = Array(flash[:success]).push('Supervisor removed successfully.')
-      redirect_back(fallback_location: students_url)
+      redirect_to students_url
     end
   end
 
@@ -178,7 +178,7 @@ class StudentsController < ApplicationController
       end
       flash[:success] = Array(flash[:success]).push('All students successfully created.')
       flash.delete(:students_list)
-      redirect_to '/students'
+      redirect_to students_url
     end
   end
 

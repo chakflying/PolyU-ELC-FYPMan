@@ -2,6 +2,6 @@
 
 class LandingPageController < ApplicationController
   def index
-    redirect_to '/students' if logged_in?
+    redirect_to students_url if logged_in?
   end
 end

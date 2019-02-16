@@ -22,7 +22,7 @@ class SupervisorsController < ApplicationController
       @supervisor.sync_id = sync_id
       @supervisor.save
       flash[:success] = Array(flash[:success]).push('Supervisor successfully added!')
-      redirect_to '/supervisors'
+      redirect_to supervisors_url
     else
       if params[:supervisor][:department_id].blank?
         flash.now[:danger] = Array(flash.now[:danger]).push("Please select the supervisor's department.")
@@ -56,7 +56,7 @@ class SupervisorsController < ApplicationController
       if @supervisor.update_attributes(supervisor_params)
         @supervisor.sync_id ? olddb_supervisor_update(supervisor_params) : false
         flash[:success] = Array(flash[:success]).push('Supervisor updated.')
-        redirect_to '/supervisors'
+        redirect_to supervisors_url
       else
         if params[:supervisor][:department_id].blank?
           flash.now[:danger] = Array(flash.now[:danger]).push("Please select the supervisor's department.")
@@ -79,7 +79,7 @@ class SupervisorsController < ApplicationController
     else
       flash[:danger] = Array(flash[:danger]).push('Error deleting supervisor.')
     end
-    redirect_to '/supervisors'
+    redirect_to supervisors_url
   end
 
   # Model specific unassign function to have customized flash messages.
@@ -91,15 +91,15 @@ class SupervisorsController < ApplicationController
     stu = Student.find_by(netID: stu_netid)
     if !@supervisor
       flash[:danger] = Array(flash[:danger]).push('Supervisor not found.')
-      redirect_to '/supervisors'
+      redirect_to supervisors_url
     elsif !stu
       flash[:danger] = Array(flash[:danger]).push('Student not found.')
-      redirect_to '/supervisors'
+      redirect_to supervisors_url
     else
       @supervisor.students.delete(stu)
       @supervisor.sync_id && stu.sync_id ? olddb_supervisor_removeStudent(stu_netid, sup_netid) : false
       flash[:success] = Array(flash[:success]).push('Student unassigned successfully.')
-      redirect_to '/supervisors'
+      redirect_to supervisors_url
     end
   end
 
@@ -156,7 +156,7 @@ class SupervisorsController < ApplicationController
       end
       flash[:success] = Array(flash[:success]).push('All supervisors successfully created.')
       flash.delete(:supervisors_list)
-      redirect_to '/supervisors'
+      redirect_to supervisors_url
     end
   end
 
