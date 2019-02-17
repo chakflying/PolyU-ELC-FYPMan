@@ -3,6 +3,9 @@
 module UsersHelper
   # Get user's icon from gravatar. Optionally specify icon size.
   def gravatar_for(user, size: 100)
+    if user.email.blank?
+      return nil
+    end
     gravatar_id = Digest::MD5.hexdigest(user.email.downcase)
     gravatar_url = "https://secure.gravatar.com/avatar/#{gravatar_id}?s=#{size}"
     image_tag(gravatar_url, alt: user.username, class: 'gravatar')

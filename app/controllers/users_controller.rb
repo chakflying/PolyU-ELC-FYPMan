@@ -17,6 +17,7 @@ class UsersController < ApplicationController
       flash[:success] = Array(flash[:success]).push('Profile updated.')
       redirect_to @user
     else
+      @departments_list = get_departments_list
       render 'edit'
       end
   end
