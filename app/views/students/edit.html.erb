@@ -16,15 +16,15 @@
         <div class="form-group">
           <%= f.label :department %>
           <% if is_admin? %>
-            <%= f.select :department_id, @departments_list, {include_blank: true}, {class: "form-control"} %>
+            <%= f.select :department_id, @departments_list, {include_blank: true}, {class: "custom-select"} %>
           <% else %>
-            <%= f.select :department_id, @departments_list, {include_blank: true}, {class: "form-control", disabled: true} %>
+            <%= f.select :department_id, @departments_list, {include_blank: true}, {class: "custom-select", disabled: true} %>
             <%= f.hidden_field :department_id, value: current_user.department.id %>
           <% end %>
         </div>
         <div class="form-group">
           <%= f.label :fyp_year %>
-          <%= f.select :fyp_year, @fyp_year_list, {}, {class: "form-control"} %>
+          <%= f.select :fyp_year, @fyp_year_list, {}, {class: "custom-select"} %>
         </div>
         <br>
         <%= f.submit "Save changes", class: "btn btn-primary" %>

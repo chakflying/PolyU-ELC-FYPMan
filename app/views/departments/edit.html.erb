@@ -11,12 +11,12 @@
           <%= f.text_field :name, class: 'form-control' %>
         </div>
         <div class="form-group">
-          <%= f.label :code, "NetID" %>
+          <%= f.label :code %>
           <%= f.text_field :code, class: 'form-control' %>
         </div>
         <div class="form-group">
           <%= f.label :faculty %>
-          <%= f.select :faculty_id, @faculties_list, {include_blank: true}, {class: "form-control"} %>
+          <%= f.select :faculty_id, @faculties_list, {include_blank: true}, {class: "custom-select"} %>
         </div>
         <br>
         <%= f.submit "Save changes", class: "btn btn-primary" %>

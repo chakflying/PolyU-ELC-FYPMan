@@ -18,7 +18,7 @@
     <% if is_admin? %>
       <div class="form-group">
         <%= f.label :department, "Adding Supervisors to Department:" %>
-        <%= f.select :department_id, options_for_select(@departments_list, ( flash[:supervisors_list] && flash[:supervisors_list][:department_id] ? flash[:supervisors_list][:department_id] : nil )), {prompt: "Select Department:", selected: (!flash[:supervisors_list].blank? && !flash[:supervisors_list][:department_id].blank?) }, {class: "form-control"} %>
+        <%= f.select :department_id, options_for_select(@departments_list, ( flash[:supervisors_list] && flash[:supervisors_list][:department_id] ? flash[:supervisors_list][:department_id] : nil )), {prompt: "Select Department:", selected: (!flash[:supervisors_list].blank? && !flash[:supervisors_list][:department_id].blank?) }, {class: "custom-select"} %>
       </div>
     <% else %>
       <%= f.hidden_field :department_id, value: current_user.department.id %>

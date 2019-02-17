@@ -24,7 +24,7 @@
       </div>
       <% if is_admin? %>
         <div class="form-group col-md-12">
-          <%= f.select :department_id, @departments_list, {prompt: "Select Department:"}, {class: "form-control", 'aria-label': "New supervisor department"} %>
+          <%= f.select :department_id, @departments_list, {prompt: "Select Department:"}, {class: "custom-select", 'aria-label': "New supervisor department"} %>
         </div>
       <% else %>
         <%= f.hidden_field :department_id, value: current_user.department.id %>

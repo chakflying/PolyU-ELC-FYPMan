@@ -10,6 +10,10 @@ table.dataTable td:first-child::before {
   top: 18px !important;
 }
 
+.dataTables_paginate {
+  padding-top: 0.85em !important;
+}
+
 .dt-btn {
   width: 35px;
 }

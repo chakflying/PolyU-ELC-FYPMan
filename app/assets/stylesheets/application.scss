@@ -12,6 +12,7 @@
  *
  *= require datatables
  *= require pickadate
+ *= require shards
  *
  *= require_tree .
  *= require_self
@@ -33,10 +34,6 @@
 body {
   font-family: "Nunito", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
     "Segoe UI Symbol", "Noto Color Emoji" !important;
-}
-
-h4 {
-  font-weight: 600 !important;
 }
 
 /* miscellaneous */

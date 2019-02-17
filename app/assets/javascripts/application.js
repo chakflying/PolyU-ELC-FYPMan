@@ -18,5 +18,6 @@
 //= require bootstrap
 //= require datatables
 //= require pickadate
+//= require shards
 
 //= require_tree .
