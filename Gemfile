@@ -72,7 +72,7 @@ end
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 # adding bootstrap for looks
-gem 'bootstrap', '~> 4.2.1'
+gem 'bootstrap', '~> 4.3.1'
 gem 'jquery-rails'
 
 gem 'bcrypt'
