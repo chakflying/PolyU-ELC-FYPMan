@@ -17,7 +17,7 @@
         </div>
         <div class="form-group">
           <%= f.label :department %>
-          <%= f.select :department_id, @departments_list, {prompt: "Select Department:"}, {class: "custom-select"} %>
+          <%= f.select :department_id, @departments_list, {prompt: "Select Department:"}, {class: "custom-select", required: true} %>
         </div>
         <div class="form-group">
           <%= f.label :password %>

@@ -7,13 +7,13 @@
     <p>Add new Department:</p>
     <div class="row">
       <div class="form-group col-md-8">
-        <%= f.text_field :name, class: "form-control", placeholder: "enter department name", 'aria-label': "New department name" %>
+        <%= f.text_field :name, class: "form-control", placeholder: "enter department name", required: true, 'aria-label': "New department name" %>
       </div>
       <div class="form-group col-md-4">
         <%= f.text_field :code, class: "form-control", placeholder: "enter department code", required: true, 'aria-label': "New department code" %>
       </div>
       <div class="form-group col-md-12">
-        <%= f.select :faculty_id, @faculties_list, {prompt: "Select Faculty:"}, {class: "custom-select", 'aria-label': "New department's faculty"} %>
+        <%= f.select :faculty_id, @faculties_list, {prompt: "Select Faculty:"}, {required: true, class: "custom-select", 'aria-label': "New department's faculty"} %>
       </div>
     </div>
     <%= button_tag(type: 'submit', class: "btn btn-primary") do %>
@@ -28,6 +28,7 @@
         <th scope="col">#</th>
         <th scope="col">Name</th>
         <th scope="col">code</th>
+        <th scope="col">Faculty</th>
         <th scope="col">Sync ID</th>
         <th scope="col"></th>
       </tr>
@@ -38,6 +39,7 @@
           <td scope="row"><%= department.id %></td>
           <td><%= department.name %></td>
           <td><%= department.code %></td>
+          <td><%= ( department.faculty.present? ? department.faculty.code : nil ) %></td>
           <td><%= department.sync_id %></td>
           <td>
             <%= link_to edit_department_path(department.id), method: :get, data: {} do %>

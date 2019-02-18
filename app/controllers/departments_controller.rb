@@ -4,7 +4,7 @@ class DepartmentsController < ApplicationController
   before_action :authenticate_admin_404!
 
   def index
-    @departments = Department.all
+    @departments = Department.all.includes(:faculty).references(:faculty)
     @department = Department.new
     @faculties_list = get_faculties_list
   end
@@ -49,7 +49,13 @@ class DepartmentsController < ApplicationController
     if request.patch?
       @department = Department.find(params[:id])
       if @department.update_attributes(department_params)
-        @department.sync_id ? olddb_department_update(department_params) : false
+        if @department.sync_id.present?
+          olddb_department_update(department_params)
+        else
+          sync_id = olddb_department_create(department_params)
+          @department.sync_id = sync_id
+          @department.save!
+        end
         flash[:success] = Array(flash[:success]).push('Department info updated.')
         redirect_to departments_url
       else

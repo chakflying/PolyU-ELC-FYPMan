@@ -16,7 +16,7 @@
         </div>
         <div class="form-group">
           <%= f.label :faculty %>
-          <%= f.select :faculty_id, @faculties_list, {include_blank: true}, {class: "custom-select"} %>
+          <%= f.select :faculty_id, @faculties_list, {include_blank: true}, {required: true, class: "custom-select"} %>
         </div>
         <br>
         <%= f.submit "Save changes", class: "btn btn-primary" %>

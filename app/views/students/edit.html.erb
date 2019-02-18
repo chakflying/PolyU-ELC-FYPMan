@@ -16,7 +16,7 @@
         <div class="form-group">
           <%= f.label :department %>
           <% if is_admin? %>
-            <%= f.select :department_id, @departments_list, {include_blank: true}, {class: "custom-select"} %>
+            <%= f.select :department_id, @departments_list, {include_blank: true}, {class: "custom-select", required: true} %>
           <% else %>
             <%= f.select :department_id, @departments_list, {include_blank: true}, {class: "custom-select", disabled: true} %>
             <%= f.hidden_field :department_id, value: current_user.department.id %>
