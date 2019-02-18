@@ -28,7 +28,7 @@ class PaperTrail::VersionDatatable < AjaxDatatablesRails::ActiveRecord
   end
 
   def get_raw_records
-    if options[:item_type] == ''
+    if options[:item_type].blank?
       PaperTrail::Version.all
     else
       PaperTrail::Version.where(item_type: options[:item_type])

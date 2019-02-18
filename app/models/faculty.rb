@@ -10,6 +10,6 @@ class Faculty < ApplicationRecord
   belongs_to :university
 
   def code=(val)
-    write_attribute(:code, val.upcase) unless val.nil?
+    write_attribute(:code, val.upcase) unless val.blank?
   end
 end

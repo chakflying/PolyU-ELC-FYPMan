@@ -89,13 +89,13 @@ class TodosController < ApplicationController
   end
 
   def olddb_todo_create(params)
-    @old_todo = OldTodo.create(issued_department: ((params[:department_id] != '') && !params[:department_id].nil? ? Department.find(params[:department_id]).sync_id : nil), status: 1, title: params[:title].squish, scope: 1, time: params[:eta], description: params[:description])
+    @old_todo = OldTodo.create(issued_department: (params[:department_id].present? ? Department.find(params[:department_id]).sync_id : nil), status: 1, title: params[:title].squish, scope: 1, time: params[:eta], description: params[:description])
     @old_todo.id
   end
 
   def olddb_todo_update(params, sync_id)
     @old_todo = OldTodo[sync_id]
-    @old_todo.update(issued_department: ((params[:department_id] != '') && !params[:department_id].nil? ? Department.find(params[:department_id]).sync_id : nil), status: 1, title: params[:title].squish, time: params[:eta], description: params[:description])
+    @old_todo.update(issued_department: (params[:department_id].present? ? Department.find(params[:department_id]).sync_id : nil), status: 1, title: params[:title].squish, time: params[:eta], description: params[:description])
   end
 
   def olddb_todo_destroy(sync_id)

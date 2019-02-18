@@ -2,7 +2,7 @@
 
 class OldDb < ActiveRecord::Base
   def self.department_check(dep_name)
-    return nil if (dep_name == '') || dep_name.nil?
+    return nil if dep_name.blank?
 
     @dep = OldDepartment.first(name: dep_name)
     @dep ||= OldDepartment.create(name: dep_name, status: 1)
@@ -74,7 +74,7 @@ class OldDb < ActiveRecord::Base
       else
         student.department_id = Department.check_synced(stu.department)
         student.name = stu.common_name
-        student.fyp_year = (stu.FYPyear == '' ? Time.now.year.to_s + '-' + (Time.now.year + 1).to_s : stu.FYPyear)
+        student.fyp_year = (stu.FYPyear.blank? ? Time.now.year.to_s + '-' + (Time.now.year + 1).to_s : stu.FYPyear)
         student.netID = stu.net_id
         student.save!
       end
@@ -95,9 +95,9 @@ class OldDb < ActiveRecord::Base
 
     # Create new Students/Supervisors according to old DB
     OldUser.each do |entry|
-      next if (entry.status != 1) || entry.department.nil?
+      next if (entry.status != 1) || entry.department.blank?
 
-      @fyp_year = if entry.FYPyear.nil? || (entry.FYPyear == '')
+      @fyp_year = if entry.FYPyear.blank?
                     Time.now.year.to_s + '-' + (Time.now.year + 1).to_s
                   else
                     entry.FYPyear
@@ -152,7 +152,7 @@ class OldDb < ActiveRecord::Base
       @todo = Todo.find_by(sync_id: old_todo.id)
       department_id = Department.check_synced(old_todo.issued_department)
 
-      if !@todo.nil?
+      if @todo.present?
         @todo.title = old_todo.title
         @todo.description = old_todo.description
         @todo.department_id = department_id

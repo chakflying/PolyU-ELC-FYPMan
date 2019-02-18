@@ -10,6 +10,6 @@ class University < ApplicationRecord
   has_many :faculties
 
   def code=(val)
-    write_attribute(:code, val.upcase) unless val.nil?
+    write_attribute(:code, val.upcase) unless val.blank?
   end
 end

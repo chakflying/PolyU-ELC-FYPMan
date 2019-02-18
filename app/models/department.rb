@@ -22,7 +22,7 @@ class Department < ApplicationRecord
   end
 
   def self.check_synced(sync_id)
-    return nil if sync_id.nil?
+    return nil if sync_id.blank?
     if dep = Department.find_by(sync_id: sync_id)
       return dep.id
     else

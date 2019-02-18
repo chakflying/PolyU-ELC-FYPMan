@@ -141,7 +141,7 @@ class SupervisorsController < ApplicationController
         end
         @supervisor = Supervisor.new(department_id: department_id, netID: netID, name: name)
         if !@supervisor.save
-          if name == ''
+          if name.blank?
             flash[:danger] = Array(flash[:danger]).push('Supervisor ' + netID.to_s + ' must have a name.')
           else
             flash[:danger] = Array(flash[:danger]).push('Error when saving supervisor ' + netID.to_s)
