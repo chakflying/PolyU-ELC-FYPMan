@@ -24,6 +24,8 @@ class DepartmentsController < ApplicationController
     else
       if params[:department][:name].blank?
         flash.now[:danger] = Array(flash.now[:danger]).push("Please enter department's name.")
+      elsif params[:department][:code].blank?
+        flash.now[:danger] = Array(flash.now[:danger]).push("Please enter department's code.")
       else
         flash.now[:danger] = Array(flash.now[:danger]).push('Error when creating department.')
       end
@@ -53,6 +55,8 @@ class DepartmentsController < ApplicationController
       else
         if params[:department][:name].blank?
           flash.now[:danger] = Array(flash.now[:danger]).push("Please enter department's name.")
+        elsif params[:department][:code].blank?
+          flash.now[:danger] = Array(flash.now[:danger]).push("Please enter department's code.")
         else
           flash.now[:danger] = Array(flash.now[:danger]).push('Error updating department info.')
         end
