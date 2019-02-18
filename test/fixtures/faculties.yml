@@ -4,6 +4,11 @@ one:
   id: 1
   name: Faculty of Engineering
   code: FENG
+  university_id: 1
 
 two:
-  name: MyString
+  id: 2
+  name: Faculty of Arts
+  code: FART
+  sync_id: 99
+  university_id: 2

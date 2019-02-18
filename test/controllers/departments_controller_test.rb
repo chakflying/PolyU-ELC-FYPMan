@@ -5,7 +5,12 @@ require 'test_helper'
 class DepartmentsControllerTest < ActionDispatch::IntegrationTest
   test 'Visitor should not get Departments Page' do
     assert_raise(ActionController::RoutingError) { get departments_url }
+  end
 
+  test 'Visitor should not create Department' do
+    assert_raise(ActionController::RoutingError) do
+      post departments_path, params: { department: { name: "Department of Justice", code: "DOJ", faculty_id: faculties(:one).id } }
+    end
   end
 
   test 'Non admin should not get Departments Page' do

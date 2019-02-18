@@ -1,9 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: MyString
-  code: MyString
+  name: The Chinese University of Hong Kong
+  code: CUHK
+  sync_id: 99
 
 two:
-  name: MyString
-  code: MyString
+  name: Hong Kong Polytechnic Univsersity
+  code: POLYU
+  sync_id: 100
