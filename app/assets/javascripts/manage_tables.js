@@ -2,6 +2,7 @@ document.addEventListener("turbolinks:load", function() {
   if ($(".admin-users-table").length) {
     document.manage_dataTable = $(".admin-users-table").DataTable({
       stateSave: true,
+      stateDuration: 60 * 60 * 24,
       responsive: true,
       columnDefs: [
         { responsivePriority: 2, targets: 2 },
@@ -14,6 +15,7 @@ document.addEventListener("turbolinks:load", function() {
   } else if ($(".admin-activity-table").length) {
     document.admin_activity_dataTable = $(".admin-activity-table").DataTable({
       stateSave: true,
+      stateDuration: 60 * 60 * 24,
       responsive: true,
       columnDefs: [{ responsivePriority: 10001, targets: -1 }],
       order: [[4, "desc"]],
@@ -36,6 +38,7 @@ document.addEventListener("turbolinks:load", function() {
       ajax: $(".students-table").data("source"),
       order: [[0, "asc"]],
       stateSave: true,
+      stateDuration: 60 * 60 * 24,
       responsive: true,
       columns: [
         { data: "id" },
@@ -73,6 +76,7 @@ document.addEventListener("turbolinks:load", function() {
       ajax: $(".supervisors-table").data("source"),
       order: [[0, "asc"]],
       stateSave: true,
+      stateDuration: 60 * 60 * 24,
       responsive: true,
       columns: [
         { data: "id" },
@@ -104,6 +108,7 @@ document.addEventListener("turbolinks:load", function() {
   } else if ($(".departments-table").length) {
     document.departments_dataTable = $(".departments-table").DataTable({
       stateSave: true,
+      stateDuration: 60 * 60 * 24,
       responsive: true,
       columnDefs: [
         { responsivePriority: 2, targets: 1 },

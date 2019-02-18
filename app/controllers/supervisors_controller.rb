@@ -17,12 +17,14 @@ class SupervisorsController < ApplicationController
 
   def create
     @supervisor = Supervisor.new(supervisor_params)
-    if @supervisor.save
+    if Supervisor.find_by(netID: params[:supervisor][:netID])
+      flash.now[:danger] = Array(flash.now[:danger]).push('Supervisor with this netID already exist.')
+    elsif @supervisor.save
       sync_id = olddb_supervisor_create(supervisor_params)
       @supervisor.sync_id = sync_id
       @supervisor.save
-      flash[:success] = Array(flash[:success]).push('Supervisor successfully added!')
-      redirect_to supervisors_url
+      flash.now[:success] = Array(flash.now[:success]).push('Supervisor successfully added!')
+      @supervisor = Supervisor.new
     else
       if params[:supervisor][:department_id].blank?
         flash.now[:danger] = Array(flash.now[:danger]).push("Please select the supervisor's department.")
@@ -31,14 +33,9 @@ class SupervisorsController < ApplicationController
       else
         flash.now[:danger] = Array(flash.now[:danger]).push('Error when creating supervisor.')
       end
-      if is_admin?
-        @supervisors = Supervisor.all
-        @departments_list = get_departments_list
-      else
-        @supervisors = Supervisor.where(department: current_user.department)
-      end
-      render 'index'
     end
+    @departments_list = get_departments_list if is_admin?
+    render 'index'
   end
 
   def supervisor_params

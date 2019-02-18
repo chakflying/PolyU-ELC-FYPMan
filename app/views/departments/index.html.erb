@@ -2,24 +2,33 @@
 <div class="container">
   <h2 class="display-2" style="margin:1em 0 0.4em 0">Manage Departments</h2>
   <br>
-  <%= form_for(@department, url: departments_path) do |f| %>
+  <div class="card">
+  <div class="card-header pb-2">Add new Department:</div>
+  <div class="card-body">
+  <%= form_for(@department, url: departments_path, html: {class: "needs-validation", novalidate: true}) do |f| %>
     <%= render 'shared/error_messages', obj: @department %>
-    <p>Add new Department:</p>
-    <div class="row">
+    <div class="form-row">
       <div class="form-group col-md-8">
         <%= f.text_field :name, class: "form-control", placeholder: "enter department name", required: true, 'aria-label': "New department name" %>
+        <div class="invalid-feedback">Please enter department name.</div>
       </div>
       <div class="form-group col-md-4">
         <%= f.text_field :code, class: "form-control", placeholder: "enter department code", required: true, 'aria-label': "New department code" %>
+        <div class="invalid-feedback">Please enter department code.</div>
       </div>
+    </div>
+    <div class="form-row">
       <div class="form-group col-md-12">
         <%= f.select :faculty_id, @faculties_list, {prompt: "Select Faculty:"}, {required: true, class: "custom-select", 'aria-label': "New department's faculty"} %>
+        <div class="invalid-feedback">Please select department faculty.</div>
       </div>
     </div>
     <%= button_tag(type: 'submit', class: "btn btn-primary") do %>
       <i class='fas fa-plus' style='font-size:79%'></i>&nbsp; Create Department
     <% end %>
   <% end %>
+  </div>
+  </div>
   <br>
   <br>
   <table class="table departments-table table-hover" style="font-size:14px; width:100%">

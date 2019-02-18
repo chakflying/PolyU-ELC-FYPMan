@@ -12,22 +12,29 @@
     <%= content_tag 'div', '', id: 'data', data: {admin: false} %>
   <% end %>
   <br>
-  <%= form_for(@student, url: students_path) do |f| %>
+  <div class="card">
+  <div class="card-header pb-2">Add new Student:</div>
+  <div class="card-body">
+  <%= form_for(@student, url: students_path, html: {class: "needs-validation", novalidate: true}) do |f| %>
     <%= render 'shared/error_messages', obj: @student %>
-    <p>Add new Student:</p>
-    <div class="row">
+    <div class="form-row">
       <div class="form-group col-md-4">
         <%= f.text_field :name, class: "form-control", placeholder: "enter student name", 'aria-label': "New student name" %>
       </div>
       <div class="form-group col-md-4">
-        <%= f.text_field :netID, class: "form-control", placeholder: "enter student netID", required: true, 'aria-label': "New student netID" %>
+        <%= f.email_field :netID, class: "form-control", placeholder: "enter student netID", required: true, 'aria-label': "New student netID" %>
+        <div class="invalid-feedback">Please enter student netID: netID@university</div>
       </div>
       <div class="form-group col-md-4">
         <%= f.select :fyp_year, @fyp_year_list, {prompt: "Select FYP Year:"}, {class: "custom-select", required: true, 'aria-label': "New student FYP Year"} %>
+        <div class="invalid-feedback">Please select student FYP year.</div>
       </div>
+    </div>
+    <div class="form-row">
       <% if is_admin? %>
         <div class="form-group col-md-12">
           <%= f.select :department_id, @departments_list, {prompt: "Select Department:"}, {class: "custom-select", 'aria-label': "New student Department", required: true} %>
+          <div class="invalid-feedback">Please select student department.</div>
         </div>
       <% else %>
         <%= f.hidden_field :department_id, value: current_user.department.id %>
@@ -38,6 +45,8 @@
     <% end %>
     <%= link_to "Batch Import&nbsp; <i class='fas fa-arrow-right' style='font-size:79%'></i>".html_safe, {action: "batch_import"}, {class: "btn btn-secondary"} %>
   <% end %>
+  </div>
+  </div>
   <br>
   <br>
   <table class="table students-table table-hover" data-source="<%= students_path(format: :json) %>" style="font-size:14px; width:100%">

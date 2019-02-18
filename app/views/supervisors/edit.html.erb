@@ -3,7 +3,7 @@
   <h2 class="display-2" style="margin:1em 0 0.5em 0">Edit Supervisor</h2>
   <div class="row">
     <div class="col-md-6 col-md-offset-3">
-      <%= form_for(@supervisor) do |f| %>
+      <%= form_for(@supervisor, html: {class: "needs-validation", novalidate: true}) do |f| %>
         <%= render 'shared/error_messages', obj: @supervisor %>
         <div class="form-group">
           <%= f.label :name %>
@@ -17,6 +17,7 @@
           <%= f.label :department %>
           <% if is_admin? %>
             <%= f.select :department_id, @departments_list, {include_blank: true}, {class: "custom-select", required: true} %>
+            <div class="invalid-feedback">Please select supervisor department.</div>
           <% else %>
             <%= f.select :department_id, @departments_list, {include_blank: true}, {class: "custom-select", disabled: true} %>
             <%= f.hidden_field :department_id, value: current_user.department.id %>

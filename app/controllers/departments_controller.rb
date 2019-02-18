@@ -29,7 +29,7 @@ class DepartmentsController < ApplicationController
       else
         flash.now[:danger] = Array(flash.now[:danger]).push('Error when creating department.')
       end
-      @departments = Department.all
+      @departments = Department.all.includes(:faculty).references(:faculty)
       @department = Department.new
       @faculties_list = get_faculties_list
       render 'index'

@@ -18,24 +18,14 @@ class StudentsController < ApplicationController
 
   def create
     @student = Student.new(student_params)
-    if Student.find_by(netID: params[:netID])
-      flash[:danger] = Array(flash[:danger]).push('Student with this netID already exist.')
-      if is_admin?
-        @students = Student.all
-        @departments_list = get_departments_list
-      else
-        @students = Student.where(department: current_user.department)
-      end
-      @fyp_year_list = get_fyp_years_list
-      render 'index'
-      return
-    end
-    if @student.save
+    if Student.find_by(netID: params[:student][:netID])
+      flash.now[:danger] = Array(flash.now[:danger]).push('Student with this netID already exist.')
+    elsif @student.save
       sync_id = olddb_student_create(student_params)
       @student.sync_id = sync_id
       @student.save
-      flash[:success] = Array(flash[:success]).push('Student successfully added!')
-      redirect_to students_url
+      flash.now[:success] = Array(flash.now[:success]).push('Student successfully added!')
+      @student = Student.new
     else
       if params[:student][:department_id].blank?
         flash.now[:danger] = Array(flash.now[:danger]).push("Please select the student's department.")
@@ -46,15 +36,10 @@ class StudentsController < ApplicationController
       else
         flash.now[:danger] = Array(flash.now[:danger]).push('Error when creating student.')
       end
-      if is_admin?
-        @students = Student.all
-        @departments_list = get_departments_list
-      else
-        @students = Student.where(department: current_user.department)
-      end
-      @fyp_year_list = get_fyp_years_list
-      render 'index'
     end
+    @departments_list = get_departments_list if is_admin?
+    @fyp_year_list = get_fyp_years_list
+    render 'index'
   end
 
   def student_params

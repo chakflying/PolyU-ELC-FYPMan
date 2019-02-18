@@ -2,23 +2,26 @@
 <div class="container">
   <h2 class="display-2" style="margin:1em 0 0.5em 0">User Profile</h2>
   <div class="card" style="max-width: 38rem;">
-    <ul class="list-group list-group-flush">
-      <li class="list-group-item">
-        <%= gravatar_for(@user,size: 200) %><br>
-        <small>Manage Avatar in <%= link_to "Gravatar", "https://www.gravatar.com" %></small>
-      </li>
-      <li class="list-group-item">
-        Username: &nbsp;&nbsp;&nbsp;&nbsp; <%= @user.username %>
-      </li>
-      <li class="list-group-item">
-        User ID: &nbsp;&nbsp;&nbsp;&nbsp; <%= @user.id %>
-      </li>
-      <li class="list-group-item">
-        Email: &nbsp;&nbsp;&nbsp;&nbsp; <%= @user.email %>
-      </li>
-      <li class="list-group-item">
-        Department: &nbsp;&nbsp;&nbsp;&nbsp; <%= @user.department.name %>
-      </li>
-    </ul>
+    <h5 class="card-header pb-2"><%= @user.username %></h5>
+    <div class="card-body">
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          <%= gravatar_for(@user,size: 200) %><br>
+          <small>Manage Avatar in <%= link_to "Gravatar", "https://www.gravatar.com" %></small>
+        </li>
+        <li class="list-group-item">
+          Username: &nbsp;&nbsp;&nbsp;&nbsp; <%= @user.username %>
+        </li>
+        <li class="list-group-item">
+          User ID: &nbsp;&nbsp;&nbsp;&nbsp; <%= @user.id %>
+        </li>
+        <li class="list-group-item">
+          Email: &nbsp;&nbsp;&nbsp;&nbsp; <%= @user.email %>
+        </li>
+        <li class="list-group-item">
+          Department: &nbsp;&nbsp;&nbsp;&nbsp; <%= @user.department.name %>
+        </li>
+      </ul>
+    </div>
   </div>
 </div>
