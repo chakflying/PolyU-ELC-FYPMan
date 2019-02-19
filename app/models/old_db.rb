@@ -167,5 +167,7 @@ class OldDb < ActiveRecord::Base
       @todo = OldTodo[todo_item.sync_id]
       todo_item.delete if @todo.nil?
     end
+    
+    return "Completed"
   end
 end
