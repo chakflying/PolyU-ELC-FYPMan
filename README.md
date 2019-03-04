@@ -36,6 +36,7 @@ Node.js should be installed, perferably with at least the latest version of 8.X.
 
 ## Deployment instructions
 * Same as local configuration
+* Setup apache passenger intergration ([reference](https://www.phusionpassenger.com/library/install/apache/install/oss/rubygems_rvm/)) and configure Apache VirtualHost to the cloned directory
 * Modify ```database.yml``` for platform specific settings
 * Make sure the database is updated to the latest schema with ``` rails db:migrate ```
 * Make sure the assets are compiled by running ``` rails assets:precompile ```
