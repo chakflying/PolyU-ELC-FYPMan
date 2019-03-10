@@ -169,11 +169,15 @@ class SupervisorsController < ApplicationController
 
   def olddb_supervisor_update(params)
     @old_supervisor = OldUser.first(net_id: params[:netID].squish)
+    return if @old_supervisor.blank?
+
     @old_supervisor.update(common_name: params[:name].squish, net_id: params[:netID].squish, department: Department.find(params[:department_id]).sync_id)
   end
 
   def olddb_supervisor_destroy(sync_id)
     @old_supervisor = OldUser[sync_id]
+    return if @old_supervisor.blank?
+
     @old_supervisor.update(status: 2)
   end
 
@@ -181,6 +185,8 @@ class SupervisorsController < ApplicationController
     @old_student = OldUser.first(net_id: stu_netID)
     @old_supervisor = OldUser.first(net_id: sup_netID)
     @old_rel = OldRelation.first(student_net_id: @old_student.id, supervisor_net_id: @old_supervisor.id)
+    return if @old_rel.blank?
+
     @old_rel.destroy
   end
 end

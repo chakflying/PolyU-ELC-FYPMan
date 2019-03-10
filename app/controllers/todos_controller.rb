@@ -95,11 +95,15 @@ class TodosController < ApplicationController
 
   def olddb_todo_update(params, sync_id)
     @old_todo = OldTodo[sync_id]
+    return if @old_todo.blank?
+
     @old_todo.update(issued_department: (params[:department_id].present? ? Department.find(params[:department_id]).sync_id : nil), status: 1, title: params[:title].squish, time: params[:eta], description: params[:description])
   end
 
   def olddb_todo_destroy(sync_id)
     @old_todo = OldTodo[sync_id]
+    return if @old_todo.blank?
+
     @old_todo.update(status: 2)
   end
 end

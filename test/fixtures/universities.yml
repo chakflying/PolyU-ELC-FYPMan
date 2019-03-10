@@ -3,9 +3,7 @@
 one:
   name: The Chinese University of Hong Kong
   code: CUHK
-  sync_id: 99
 
 two:
   name: Hong Kong Polytechnic Univsersity
   code: POLYU
-  sync_id: 100

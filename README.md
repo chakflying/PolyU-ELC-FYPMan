@@ -45,9 +45,12 @@ Node.js should be installed, perferably with at least the latest version of 8.X.
 * Same as local configuration
 * Setup apache passenger intergration ([reference](https://www.phusionpassenger.com/library/install/apache/install/oss/rubygems_rvm/)) and configure Apache VirtualHost to the cloned directory
 * Modify ```database.yml``` for platform specific settings
+* Run ``` rails credentials:edit ``` to configure database login and password if neccessary
+* Run ``` rails generate delayed_job:active_record ``` to setup DelayJob if there is error about it (should not be neccessary)
+* Run ``` rails db:create ``` for the first time
 * Make sure the database is updated to the latest schema with ``` rails db:migrate ```
 * Make sure the assets are compiled by running ``` rails assets:precompile ```
-* Run server with ``` rails s --environment=production ``` with other options if necessary. (not neccessary for apache integration)
+* Run server with ``` rails s --environment=production ``` with other options if needed. (not neccessary for apache integration)
 * Run background worker for Database sync with ``` nohup rake jobs:work & ```
 
 ## Database initialization
@@ -58,5 +61,10 @@ Node.js should be installed, perferably with at least the latest version of 8.X.
 ## How to run the test suite
 
 * Run available tests with ``` rails test ```
+* Test coverage is minimal, with OldDb sync tests located in test/integration
 
 ## Services (job queues, cache servers, search engines, etc.)
+
+* OldDb synchronization can be triggered manually in console with ``` OldDb.sync ```, or scheduled to run with background worker (already configured).
+* ```Department```, ```Student```, ```Supervisor```, ```Todo``` tables uses timestamp-based synchronization (the one with newer timestamp overrides the other), while ```Faculty``` and ```Unversity``` is one-sided sync from the OldDb.
+* After synchronization, updates in this application will also update OldDb (except Faculty and University).

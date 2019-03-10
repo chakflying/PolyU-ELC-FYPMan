@@ -13,6 +13,10 @@ class ActiveSupport::TestCase
     !session[:user_id].nil?
   end
 
+  def is_admin?
+    User.find(session[:user_id]).admin
+  end
+
   def login_as(user)
     post login_path, params: { session: { username: user.email, password: 'password' } }
   end

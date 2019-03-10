@@ -95,11 +95,15 @@ class DepartmentsController < ApplicationController
 
   def olddb_department_update(params)
     @old_department = OldDepartment[params[:sync_id]]
+    return if @old_department.blank?
+
     @old_department.update(name: params[:name].squish, short_name: params[:code], status: 1, faculty: Faculty.find(params[:faculty_id]).sync_id)
   end
 
   def olddb_department_destroy(sync_id)
     @old_department = OldDepartment[sync_id]
+    return if @old_department.blank?
+
     @old_department.update(status: 2)
   end
 end
