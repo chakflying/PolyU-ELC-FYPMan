@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/stympy/faker.git
-  revision: 9a688be2998bc17a2071ed80a4521f5ece67339e
+  revision: 7673ce34fa4aff368b2856be3d7eb16e1589fbe4
   branch: master
   specs:
     faker (1.9.3)
@@ -66,7 +66,7 @@ GEM
     arel (9.0.0)
     auto_strip_attributes (2.5.0)
       activerecord (>= 4.0)
-    autoprefixer-rails (9.4.10)
+    autoprefixer-rails (9.4.10.2)
       execjs
     bcrypt (3.1.12)
     bindex (0.5.0)
@@ -257,7 +257,7 @@ GEM
       activemodel (>= 5.0)
       bindex (>= 0.4.0)
       railties (>= 5.0)
-    webpacker (4.0.1)
+    webpacker (4.0.2)
       activesupport (>= 4.2)
       rack-proxy (>= 0.6.1)
       railties (>= 4.2)
@@ -296,7 +296,7 @@ DEPENDENCIES
   rack-attack
   rack-mini-profiler
   rails (~> 5.2.1)
-  redis (~> 4.1.0)
+  redis (>= 4.1.0)
   sassc-rails
   selenium-webdriver
   sequel
