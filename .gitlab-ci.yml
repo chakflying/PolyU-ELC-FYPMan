@@ -15,4 +15,6 @@ staging:
     - rails db:migrate
     - rails assets:precompile
     - sudo service apache2 reload
+    - sudo pkill -f "rake jobs:work"
+    - nohup rake jobs:work > /dev/null 2>&1 &
     - curl https://langcapadmin.edc.polyu.edu.hk -k
