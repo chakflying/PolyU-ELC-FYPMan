@@ -81,7 +81,7 @@ class OldDb < ActiveRecord::Base
     end
 
     # Update Supervisors according to old DB
-    Supervisor.where.not(sync_id: nil) do |supervisor|
+    Supervisor.where.not(sync_id: nil).each do |supervisor|
       sup = OldUser[supervisor.sync_id]
       if sup.nil?
         supervisor.delete
