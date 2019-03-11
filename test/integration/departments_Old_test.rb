@@ -7,7 +7,7 @@ class DepartmentOldTest < ActionDispatch::IntegrationTest
     @user = users(:one)
     @user2 = users(:two)
     @uni = universities(:one)
-    %i[departments faculties universities].each { |x| Old_DB.from(x).truncate }
+    %i[users departments faculties universities].each { |x| Old_DB.from(x).truncate }
     OldDb.sync
   end
 

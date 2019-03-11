@@ -183,6 +183,8 @@ class OldDb < ActiveRecord::Base
       end
 
       # Create/Update Students/Supervisors according to old DB
+      synced_students = Student.where(sync_id: OldUser.where(status: 1, role: 1).pluck(:id))
+      synced_supervisors = Supervisor.where(sync_id: OldUser.where(status: 1, role: 2).pluck(:id))
       puts('Updating Supervisors/Students...') unless Rails.env.test?
       OldUser.each do |entry|
         next if (entry.status != 1) || entry.department.blank?
@@ -201,7 +203,8 @@ class OldDb < ActiveRecord::Base
 
         if entry.role == '1'
           # is a student
-          if stu = Student.find_by(netID: entry.net_id)
+          stu = synced_students.select{ |x| x.netID == entry.net_id }.first
+          if stu.present?
             if stu.sync_id == entry.id
               next if (stu.updated_at - entry.date_modified).abs < 1
 
@@ -251,7 +254,8 @@ class OldDb < ActiveRecord::Base
           end
         elsif entry.role == '2'
           # is a supervisor
-          if sup = Supervisor.find_by(netID: entry.net_id)
+          sup = synced_supervisors.select{ |x| x.netID == entry.net_id }.first
+          if sup.present?
             if sup.sync_id == entry.id
               next if (sup.updated_at - entry.date_modified).abs < 1
 
@@ -350,18 +354,19 @@ class OldDb < ActiveRecord::Base
         old_todo = OldTodo[todo_item.sync_id]
         todo_item.delete if old_todo.blank?
       end
-
+      
+      synced_todos = Todo.where(sync_id: OldTodo.where(status: 1).pluck(:id))
       OldTodo.each do |old_todo|
         next if old_todo.status != 1
 
-        todo = Todo.find_by(sync_id: old_todo.id)
         department_id = Department.check_synced(old_todo.issued_department)
         if old_todo.time.blank? || old_todo.title.blank?
           puts('OldTodo item deleted because time/title is not set. ' + old_todo.values.to_s)
           old_todo.delete
           next
         end
-
+        
+        todo = synced_todos.select{ |x| x.sync_id == old_todo.id}.first
         if todo.present?
           next if (todo.updated_at - old_todo.date_modified).abs < 1
 
