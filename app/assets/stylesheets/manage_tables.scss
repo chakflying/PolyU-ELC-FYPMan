@@ -18,6 +18,13 @@ table.dataTable td:first-child::before {
   width: 35px;
 }
 
+@media only screen and (max-width: 767px) {
+  .dt-btn {
+    margin-top: 3px !important;
+    margin-bottom: 3px !important;
+  }
+}
+
 .dt-btn-rm {
   line-height: 1.5em !important;
 }

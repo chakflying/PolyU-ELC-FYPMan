@@ -7,7 +7,7 @@ class Todo < ApplicationRecord
   validates :eta, presence: true
   validates :color, presence: true, length: { maximum: 10 }
   belongs_to :department, optional: true
-  has_paper_trail
+  has_paper_trail on: [:create, :destroy, :update]
 
   def as_json(options = {})
     output = super

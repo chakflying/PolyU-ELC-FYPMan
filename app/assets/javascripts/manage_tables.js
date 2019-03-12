@@ -114,7 +114,7 @@ document.addEventListener("turbolinks:load", function() {
         { responsivePriority: 2, targets: 1 },
         { responsivePriority: 1, targets: -1 },
         { width: "1em", targets: 0 },
-        { width: "80px", targets: -1 }
+        { width: "4em", targets: -1 }
       ],
       language: {
         emptyTable: "No departments present."

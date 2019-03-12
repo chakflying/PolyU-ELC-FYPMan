@@ -3,6 +3,7 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!, only: %i[edit update destroy]
   before_action :correct_user!, only: %i[edit update destroy]
+  before_action :authenticate_admin_404!, only: %i[new create destroy]
 
   def show
     @user = User.find(params[:id])
@@ -31,7 +32,7 @@ class UsersController < ApplicationController
     @departments_list = get_departments_list
     @user = User.new(user_params)
     if @user.save
-      flash[:success] = Array(flash[:success]).push('Sign Up successful!')
+      flash[:success] = Array(flash[:success]).push('New user created successfully.')
       redirect_to @user
     else
       flash.now[:danger] = Array(flash.now[:danger]).push('Error when creating user.')
@@ -54,6 +55,6 @@ class UsersController < ApplicationController
 
   def correct_user!
     @user = User.find(params[:id])
-    if @user != current_user && !is_admin? then render_404 end
+    render_404 if @user != current_user && !is_admin?
   end
 end

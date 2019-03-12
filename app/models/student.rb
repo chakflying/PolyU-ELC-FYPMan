@@ -10,7 +10,7 @@ class Student < ApplicationRecord
   validates :fyp_year, presence: true, length: { maximum: 9 }
   has_and_belongs_to_many :supervisors
   belongs_to :department
-  has_paper_trail
+  has_paper_trail on: [:create, :destroy, :update]
 
   def netID_crossunique
     if Supervisor.find_by(netID: netID)

@@ -12,7 +12,7 @@ class User < ApplicationRecord
   has_secure_password
   validates :password, presence: true, length: { minimum: 8 }, if: -> { new_record? || changes[:password_digest] }
   belongs_to :department
-  has_paper_trail
+  has_paper_trail on: [:create, :destroy, :update]
 
   def self.digest(string)
     cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :

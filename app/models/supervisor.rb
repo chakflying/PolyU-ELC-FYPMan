@@ -9,7 +9,7 @@ class Supervisor < ApplicationRecord
   validate :netID_crossunique
   has_and_belongs_to_many :students
   belongs_to :department
-  has_paper_trail
+  has_paper_trail on: [:create, :destroy, :update]
 
   def netID_crossunique
     if Student.find_by(netID: netID)

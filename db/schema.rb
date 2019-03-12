@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_28_145940) do
+ActiveRecord::Schema.define(version: 2019_03_09_170252) do
 
   create_table "delayed_jobs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.integer "priority", default: 0, null: false
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 2019_01_28_145940) do
     t.bigint "faculty_id"
     t.integer "sync_id"
     t.index ["faculty_id"], name: "index_departments_on_faculty_id"
+    t.index ["sync_id"], name: "index_departments_on_sync_id"
   end
 
   create_table "faculties", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
@@ -44,6 +45,7 @@ ActiveRecord::Schema.define(version: 2019_01_28_145940) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "university_id"
+    t.index ["sync_id"], name: "index_faculties_on_sync_id"
     t.index ["university_id"], name: "index_faculties_on_university_id"
   end
 
@@ -56,6 +58,7 @@ ActiveRecord::Schema.define(version: 2019_01_28_145940) do
     t.integer "sync_id"
     t.bigint "department_id"
     t.index ["department_id"], name: "index_students_on_department_id"
+    t.index ["sync_id"], name: "index_students_on_sync_id"
   end
 
   create_table "students_supervisors", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
@@ -71,6 +74,7 @@ ActiveRecord::Schema.define(version: 2019_01_28_145940) do
     t.integer "sync_id"
     t.bigint "department_id"
     t.index ["department_id"], name: "index_supervisors_on_department_id"
+    t.index ["sync_id"], name: "index_supervisors_on_sync_id"
   end
 
   create_table "todos", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
@@ -80,7 +84,10 @@ ActiveRecord::Schema.define(version: 2019_01_28_145940) do
     t.integer "sync_id"
     t.bigint "department_id"
     t.string "color", limit: 10, default: "danger"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["department_id"], name: "index_todos_on_department_id"
+    t.index ["sync_id"], name: "index_todos_on_sync_id"
   end
 
   create_table "universities", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
@@ -89,6 +96,7 @@ ActiveRecord::Schema.define(version: 2019_01_28_145940) do
     t.integer "sync_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["sync_id"], name: "index_universities_on_sync_id"
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|

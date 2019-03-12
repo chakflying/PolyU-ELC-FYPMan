@@ -179,11 +179,15 @@ class StudentsController < ApplicationController
 
   def olddb_student_update(params)
     @old_student = OldUser.first(net_id: params[:netID].squish)
+    return if @old_student.blank?
+
     @old_student.update(common_name: params[:name].squish, net_id: params[:netID].squish, FYPyear: params[:fyp_year], department: Department.find(params[:department_id]).sync_id)
   end
 
   def olddb_student_destroy(sync_id)
     @old_student = OldUser[sync_id]
+    return if @old_student.blank?
+
     @old_student.update(status: 2)
   end
 
@@ -191,6 +195,8 @@ class StudentsController < ApplicationController
     @old_student = OldUser.first(net_id: stu_netID)
     @old_supervisor = OldUser.first(net_id: sup_netID)
     @old_rel = OldRelation.first(student_net_id: @old_student.id, supervisor_net_id: @old_supervisor.id)
+    return if @old_rel.blank?
+
     @old_rel.destroy
   end
 end
