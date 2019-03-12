@@ -106,24 +106,13 @@ class OldDb < ActiveRecord::Base
         end
       end
 
-<<<<<<< HEAD
-    # Update Supervisors according to old DB
-    Supervisor.where.not(sync_id: nil).each do |supervisor|
-      sup = OldUser[supervisor.sync_id]
-      if sup.nil?
-        supervisor.delete
-      else
-        supervisor.department_id = Department.check_synced(sup.department)
-        supervisor.name = sup.common_name
-        supervisor.netID = sup.net_id
-        supervisor.save!
-=======
+
       # Update Departments according to old DB
       puts('Updating Departments...') unless Rails.env.test?
       Department.where.not(sync_id: nil).each do |dep|
         old_dep = OldDepartment[dep.sync_id]
         dep.delete if old_dep.blank?
->>>>>>> deploy
+        
       end
 
       OldDepartment.each do |old_dep|
