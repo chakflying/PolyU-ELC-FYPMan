@@ -4,7 +4,7 @@ require 'test_helper'
 
 class OldDbSyncTest < ActionDispatch::IntegrationTest
   def setup
-    %i[users departments faculties universities].each { |x| Old_DB.from(x).truncate }
+    %i[users departments faculties universities todos].each { |x| Old_DB.from(x).truncate }
     OldDb.sync
   end
 
@@ -50,5 +50,39 @@ class OldDbSyncTest < ActionDispatch::IntegrationTest
     OldDb.sync
 
     assert_equal "Nope don't do it", Todo.first.title
+  end
+
+  test 'OldDb todo deleted' do
+    sleep 1
+    item = OldTodo[Todo.first.sync_id]
+
+    assert_difference 'Todo.count', -1 do
+      item.delete
+      OldDb.sync
+    end
+  end
+
+  test 'OldDb faculty deleted' do
+    sleep 1
+    assert_equal 2, OldFaculty.count
+
+    item = OldFaculty[Faculty.last.sync_id]
+    
+    assert_difference 'Faculty.count', -1 do
+      item.delete
+      OldDb.sync
+    end
+  end
+
+  test 'OldDb university deleted' do
+    sleep 1
+    assert_equal 2, OldUniversity.count
+
+    item = OldUniversity[University.last.sync_id]
+    
+    assert_difference 'University.count', -1 do
+      item.delete
+      OldDb.sync
+    end
   end
 end
