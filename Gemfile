@@ -100,3 +100,5 @@ gem 'ajax-datatables-rails'
 gem 'rack-mini-profiler', require: false
 # Generate database data
 gem 'faker', :git => 'https://github.com/stympy/faker.git', :branch => 'master'
+# Sentry for backend error tracking
+gem "sentry-raven"
