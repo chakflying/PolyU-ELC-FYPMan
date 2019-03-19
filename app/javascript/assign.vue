@@ -1,7 +1,7 @@
 <template>
   <div class="row" id="assign">
-    <div class="col-md-3"></div>
-    <div class="col-md-6">
+    <div class="col-lg-3"></div>
+    <div class="col-lg-6">
       <label for="student_netID">Assign student(s):</label>
       <template v-for="student_item in student_set">
         <div class="form-group" :key="student_item">
@@ -24,7 +24,7 @@
         aria-label="Submit"
       >Submit</button>
     </div>
-    <div class="col-md-3"></div>
+    <div class="col-lg-3"></div>
   </div>
 </template>
 
