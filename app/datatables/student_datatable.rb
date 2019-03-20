@@ -33,7 +33,7 @@ class StudentDatatable < AjaxDatatablesRails::ActiveRecord
   def supervisors_list(supervisors, stu_netID)
     out = '<div class="dt-rel">'
     supervisors.each do |supervisor|
-      out += format('<div class="row dt-rel-row"><div class="col-sm-9 dt-rel-name">%s</div><div class="col-sm-3"><a rel="nofollow" data-method="post" href="/removeSupervisor?stu_netID=%s&amp;sup_netID=%s"><button class="btn btn-sm btn-light dt-btn-rm" aria-label="Remove Supervisor">remove</button></a></div></div>', supervisor.name, CGI.escape(stu_netID), CGI.escape(supervisor.netID))
+      out += format('<div class="row dt-rel-row"><div class="col-sm-9 dt-rel-name">%s</div><div class="col-sm-3"><button class="btn btn-sm btn-light dt-btn-rm" data-stu_netID="%s" data-sup_netID="%s" aria-label="Remove Supervisor">remove</button></div></div>', supervisor.name, CGI.escape(stu_netID), CGI.escape(supervisor.netID))
     end
     out += '</div>'
     out

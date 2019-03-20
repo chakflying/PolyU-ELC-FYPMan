@@ -40,8 +40,8 @@ class AssignController < ApplicationController
 
   # Ajax Function to unassign student/supervisor. Not used yet.
   def unassign
-    sup_netid = request.params[:supervisor_netID]
-    stu_netid = request.params[:student_netID]
+    sup_netid = CGI::unescape(request.params[:supervisor_netID])
+    stu_netid = CGI::unescape(request.params[:student_netID])
     stu = Student.find_by(netID: stu_netid)
     sup = Supervisor.find_by(netID: sup_netid)
     if !stu || !sup
