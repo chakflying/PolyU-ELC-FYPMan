@@ -5,6 +5,7 @@ class AssignController < ApplicationController
 
   # Assign Function with the relevant existence checks. Parameters tailored for vue component with variable number of students submitted.
   def assign
+    # Pass data to Vue frontend
     if is_admin?
       @students = Student.all.select(:netID, :name).to_a
       @supervisors = Supervisor.all.select(:netID, :name).to_a
@@ -12,7 +13,7 @@ class AssignController < ApplicationController
       @students = Student.where(department: current_user.department).select(:netID, :name).to_a
       @supervisors = Supervisor.where(department: current_user.department).select(:netID, :name).to_a
     end
-    # Submitted Assign request
+    # Handle submitted Assign request
     if request.post?
       stu_ids = request.params[:student_netID]
       sup_id = request.params[:supervisor_netID][0]
@@ -38,7 +39,7 @@ class AssignController < ApplicationController
     end
   end
 
-  # Ajax Function to unassign student/supervisor. Not used yet.
+  # Ajax Function to unassign student/supervisor.
   def unassign
     sup_netid = CGI::unescape(request.params[:supervisor_netID])
     stu_netid = CGI::unescape(request.params[:student_netID])
@@ -49,7 +50,7 @@ class AssignController < ApplicationController
       return
     else
       stu.supervisors.delete(sup)
-      stu.sync_id && sup.sync_id ? olddb_unassign(stu_netid, sup_netid) : false
+      stu.sync_id.present? && sup.sync_id.present? ? olddb_unassign(stu_netid, sup_netid) : false
       render plain: 'submitted'
     end
   end
