@@ -102,3 +102,5 @@ gem 'rack-mini-profiler', require: false
 gem 'faker', :git => 'https://github.com/stympy/faker.git', :branch => 'master'
 # Sentry for backend error tracking
 gem "sentry-raven"
+# Bundler-Audit for dependencies management
+gem "bundler-audit"
