@@ -3,7 +3,7 @@
     <div class="col-lg-3"></div>
     <div class="col-lg-6">
       <label for="student_netID">Assign student(s):</label>
-      <template v-for="student_item in student_set">
+      <template v-for="student_item in student_fields">
         <div class="form-group" :key="student_item">
           <v-select :options="students" v-model="student_netID_response[student_item]"></v-select>
         </div>
@@ -33,8 +33,7 @@ export default {
   props: ["students", "supervisors"],
   data: function() {
     return {
-      student_set: [0],
-      student_count: 1,
+      student_fields: [0],
       student_netID_response: [],
       supervisor_netID_response: []
     };
@@ -44,8 +43,7 @@ export default {
       this.postFontSize += enlargeAmount;
     },
     add_student_field: function() {
-      this.student_set.push(this.student_count);
-      this.student_count++;
+      this.student_fields.push(this.student_fields.length);
     },
     clearError: function(event) {
       event.target.classList.remove("is-invalid");
@@ -94,9 +92,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss">
-.v-select .dropdown-toggle::after {
-  content: none !important;
-}
-</style>
