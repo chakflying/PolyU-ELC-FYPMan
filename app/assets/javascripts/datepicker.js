@@ -1,7 +1,6 @@
 document.addEventListener("turbolinks:load", function() {
-  $(".datepicker").pickadate({
-    formatSubmit: "yyyy/mm/dd",
-    hiddenName: true,
-    clear: false,
+  $(".datepicker").datepicker({
+    format: "yyyy/mm/dd",
+    autoclose: true,
   });
 });

@@ -11,11 +11,10 @@
  * It is generally better to create a new file per style scope.
  *
  *= require datatables
- *= require pickadate
- *= require shards
  *
  *= require_tree .
  *= require_self
+ *= require shards
  */
 @import "bootstrap";
 
@@ -27,7 +26,7 @@
 
 @media only screen and (max-width: 767px) {
   .display-2 {
-    font-size: 4.5rem !important;
+    font-size: 4.0rem !important;
   }
 }
 
@@ -137,4 +136,12 @@ input {
 .bs-tooltip-left .arrow::before,
 .bs-tooltip-auto[x-placement^="left"] .arrow::before {
   border-left-color: #212529 !important;
+}
+
+.dropdown-item {
+  padding: 0.25rem 1.5rem !important;
+}
+
+input.form-control.datepicker {
+  background: whitesmoke !important;
 }
