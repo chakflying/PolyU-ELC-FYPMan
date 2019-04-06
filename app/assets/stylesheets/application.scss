@@ -11,12 +11,37 @@
  * It is generally better to create a new file per style scope.
  *
  *= require datatables
- *
  *= require_tree .
- *= require_self
  *= require shards
+ *= require_self
+ *
  */
-@import "bootstrap";
+
+$font_weight: 400;
+
+body {
+  font-weight: $font_weight;
+}
+
+.form-control {
+  font-weight: $font_weight;
+}
+
+.custom-select {
+  font-weight: $font_weight;
+}
+
+.navbar {
+  padding: 0.25em 1.5em;
+}
+
+@media only screen and (max-width: 991px) {
+  .navbar {
+    padding: 0.75em 1.5em;
+  }
+}
+
+/* miscellaneous */
 
 @mixin box_sizing {
   -moz-box-sizing: border-box;
@@ -24,18 +49,15 @@
   box-sizing: border-box;
 }
 
+.display-2 {
+  font-size: 5rem !important;
+}
+
 @media only screen and (max-width: 767px) {
   .display-2 {
-    font-size: 4.0rem !important;
+    font-size: 4rem !important;
   }
 }
-
-body {
-  font-family: "Nunito", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-    "Segoe UI Symbol", "Noto Color Emoji" !important;
-}
-
-/* miscellaneous */
 
 .debug_dump {
   clear: both;
@@ -71,41 +93,11 @@ input {
 }
 
 .batch-import-box {
-  background-image: -webkit-linear-gradient(
-    white,
-    white 30px,
-    #ccc 30px,
-    #ccc 31px,
-    white 31px
-  );
-  background-image: -moz-linear-gradient(
-    white,
-    white 30px,
-    #ccc 30px,
-    #ccc 31px,
-    white 31px
-  );
-  background-image: -ms-linear-gradient(
-    white,
-    white 30px,
-    #ccc 30px,
-    #ccc 31px,
-    white 31px
-  );
-  background-image: -o-linear-gradient(
-    white,
-    white 30px,
-    #ccc 30px,
-    #ccc 31px,
-    white 31px
-  );
-  background-image: linear-gradient(
-    white,
-    white 30px,
-    #ccc 30px,
-    #ccc 31px,
-    white 31px
-  );
+  background-image: -webkit-linear-gradient(white, white 30px, #ccc 30px, #ccc 31px, white 31px);
+  background-image: -moz-linear-gradient(white, white 30px, #ccc 30px, #ccc 31px, white 31px);
+  background-image: -ms-linear-gradient(white, white 30px, #ccc 30px, #ccc 31px, white 31px);
+  background-image: -o-linear-gradient(white, white 30px, #ccc 30px, #ccc 31px, white 31px);
+  background-image: linear-gradient(white, white 30px, #ccc 30px, #ccc 31px, white 31px);
   background-size: 100% 31px;
   border: 1px solid #ced4da;
   border-radius: 5px;

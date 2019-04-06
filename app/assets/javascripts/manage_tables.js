@@ -9,7 +9,7 @@ document.addEventListener("turbolinks:load", function() {
         { responsivePriority: 1, targets: -1 },
         { width: "1em", targets: 0 },
         { width: "1.3em", targets: -3 },
-        { width: "5em", targets: -1 }
+        { width: "6.5em", targets: -1 }
       ]
     });
   } else if ($(".admin-activity-table").length) {
@@ -114,7 +114,7 @@ document.addEventListener("turbolinks:load", function() {
         { responsivePriority: 2, targets: 1 },
         { responsivePriority: 1, targets: -1 },
         { width: "1em", targets: 0 },
-        { width: "4em", targets: -1 }
+        { width: "6.5em", targets: -1 }
       ],
       language: {
         emptyTable: "No departments present."
