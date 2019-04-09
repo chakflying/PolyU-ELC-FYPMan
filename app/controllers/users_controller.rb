@@ -46,7 +46,7 @@ class UsersController < ApplicationController
     if f.destroy
       flash[:success] = Array(flash[:success]).push('User ' + name + ' deleted.')
     end
-    redirect_back_or(admin_users_url)
+    redirect_back_or(users_url)
   end
 
   def user_params
