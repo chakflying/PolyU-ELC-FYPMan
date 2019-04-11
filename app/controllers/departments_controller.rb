@@ -7,6 +7,7 @@ class DepartmentsController < ApplicationController
     @departments = Department.all.includes(:faculty).references(:faculty)
     @department = Department.new
     @faculties_list = get_faculties_list
+    raise "ERROR"
   end
 
   def new
