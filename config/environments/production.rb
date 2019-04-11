@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.configure do
   # Verifies that versions and hashed value of the package contents in the project's package.json
   config.webpacker.check_yarn_integrity = false
@@ -56,7 +58,7 @@ Rails.application.configure do
   config.log_level = :debug
 
   # Prepend all log lines with the following tags.
-  config.log_tags = [ :request_id ]
+  config.log_tags = [:request_id]
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
@@ -72,13 +74,13 @@ Rails.application.configure do
   host = 'langcapadmin.edc.polyu.edu.hk'
   config.action_mailer.default_url_options = { host: host }
   ActionMailer::Base.smtp_settings = {
-    :address        => 'smtp.sendgrid.net',
-    :port           => '587',
-    :authentication => :plain,
-    :user_name      => Rails.application.credentials.mailer[:user_name],
-    :password       => Rails.application.credentials.mailer[:password],
-    :domain         => 'edc.polyu.edu.hk',
-    :enable_starttls_auto => true
+    address: 'smtp.sendgrid.net',
+    port: '587',
+    authentication: :plain,
+    user_name: Rails.application.credentials.mailer[:user_name],
+    password: Rails.application.credentials.mailer[:password],
+    domain: 'edc.polyu.edu.hk',
+    enable_starttls_auto: true
   }
 
   # Ignore bad email addresses and do not raise email delivery errors.
@@ -99,7 +101,7 @@ Rails.application.configure do
   # require 'syslog/logger'
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
 
-  if ENV["RAILS_LOG_TO_STDOUT"].present?
+  if ENV['RAILS_LOG_TO_STDOUT'].present?
     logger           = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = config.log_formatter
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
@@ -113,8 +115,9 @@ Rails.application.configure do
   PaperTrail.config.version_limit = 100
 
   # Setup The Old Database connection using Sequel
-  Old_DB = Sequel.connect((Rails.configuration.database_configuration)["production_old"])
+  Old_DB = Sequel.connect(Rails.configuration.database_configuration['production_old'])
   Old_DB.extension(:connection_validator)
   Old_DB.pool.connection_validation_timeout = 300
 
+  config.exceptions_app = routes
 end

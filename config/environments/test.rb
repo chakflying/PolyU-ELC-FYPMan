@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -43,7 +45,7 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
-  
+
   # Setup The Old Database connection using Sequel
-  Old_DB = Sequel.connect((Rails.configuration.database_configuration)["test_old"])
+  Old_DB = Sequel.connect(Rails.configuration.database_configuration['test_old'])
 end
