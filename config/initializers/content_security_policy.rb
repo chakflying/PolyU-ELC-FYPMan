@@ -31,7 +31,7 @@ Rails.application.config.content_security_policy do |policy|
     policy.connect_src :self, :https, 'http://localhost:3035', 'ws://localhost:3035'
     policy.worker_src :blob
   else
-    policy.script_src :self, :https
-    policy.worker_src :blob
+    policy.script_src :self, 'https://cdn.logrocket.io'
+    policy.worker_src :blob, 'https://cdn.logrocket.io'
   end
 end
