@@ -16,7 +16,7 @@
     <button class="btn btn-secondary mr-auto" type="button" data-toggle="collapse" data-target="#addtodoform" aria-expanded="false" aria-controls="addtodoform">
       <i class="fas fa-plus" style="font-size:80%"></i>&ensp; New Todo Item
     </button>
-    <button class="btn btn-light todo-refresh-btn" style="margin-right:0.3em;" aria-label="Refresh Todo items" data-toggle="tooltip" data-placement="top" data-trigger="manual" title="Network error."><i class="fas fa-sync-alt" style="font-size:80%;"></i>
+    <button class="btn btn-light todo-refresh-btn" style="margin-right:0.3em;" aria-label="Refresh Todo items"><i class="fas fa-sync-alt" style="font-size:80%;"></i>
       <p class="d-none d-sm-none d-md-none d-lg-inline d-xl-inline">&nbsp;Refresh</p>
     </button>
     <button class="btn btn-light todo-toggle-past-btn" aria-label="Toggle Past Todo items"><i class="fas fa-clock" style="font-size:80%;"></i>
@@ -33,7 +33,8 @@
             <div class="invalid-feedback">Please enter Todo title.</div>
           </div>
           <div class="form-group col-md-4" style="margin:0 0 1em 0;">
-            <input name="todo[eta]" class="form-control datepicker" placeholder="Pick a Date">
+            <input name="todo[eta]" class="form-control datepicker" placeholder="Pick a Date" required>
+            <div class="invalid-feedback">Please choose the Todo date.</div>
           </div>
         </div>
         <div class="form-row">
@@ -68,7 +69,9 @@
             <%= f.text_area :description, {placeholder: "Enter description (Optional)", rows: 3, class: "form-control"} %>
           </div>
         </div>
-        <%= f.submit "Add to Todo List", class: "btn btn-primary" %>
+        <%= button_tag(type: 'submit', class: "btn btn-primary") do %>
+          <i class='fas fa-plus' style='font-size:79%'></i>&nbsp; Add to Todo
+        <% end %>
       <% end %>
     </div>
   </div>

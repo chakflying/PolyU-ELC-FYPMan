@@ -25,7 +25,7 @@ OldUniversity.plugin :touch, column: :date_modified
 class OldDbSyncTask
   include Delayed::RecurringJob
   run_every 2.minute
-  queue 'slow-jobs'
+  queue 'slow_jobs'
   def perform
     OldDb.sync
   end

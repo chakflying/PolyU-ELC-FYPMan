@@ -4,7 +4,7 @@ function toggleClassDelay(element, classname, delay) {
   }, delay);
 }
 
-$(document).on("click", ".todo-refresh-btn", async function () {
+$(document).on("click", ".todo-refresh-btn", async function() {
   $(this).tooltip("hide");
   $(this)
     .children()
@@ -16,6 +16,10 @@ $(document).on("click", ".todo-refresh-btn", async function () {
     .first()
     .toggleClass("fa-spin");
   if (status !== 200) {
+    $(this).tooltip({
+      trigger: "manual",
+      title: "Network Error. Please try again later."
+    });
     $(this).tooltip("show");
   }
 });

@@ -9,7 +9,7 @@ class TodosController < ApplicationController
       @todo_list = Todo.where(department: current_user.department).or(Todo.where(department: nil)).order('eta ASC').includes(:department)
     end
     @todo = Todo.new
-    @departments_list = get_departments_list
+    @departments_list = get_departments_list unless request.format.json?
     respond_to do |format|
       format.html
       format.json do

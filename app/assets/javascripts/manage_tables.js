@@ -9,7 +9,7 @@ document.addEventListener("turbolinks:load", function() {
         { responsivePriority: 1, targets: -1 },
         { width: "1em", targets: 0 },
         { width: "1.3em", targets: -3 },
-        { width: "5em", targets: -1 }
+        { width: "6.5em", targets: -1 }
       ]
     });
   } else if ($(".admin-activity-table").length) {
@@ -114,7 +114,7 @@ document.addEventListener("turbolinks:load", function() {
         { responsivePriority: 2, targets: 1 },
         { responsivePriority: 1, targets: -1 },
         { width: "1em", targets: 0 },
-        { width: "4em", targets: -1 }
+        { width: "6.5em", targets: -1 }
       ],
       language: {
         emptyTable: "No departments present."
@@ -199,4 +199,61 @@ $(document).on("click", "#db_f_departments", function() {
     .draw();
   $(".da-nav").removeClass("active");
   $("#db_f_departments").addClass("active");
+});
+
+$(document).on("click", ".dt-btn-rm", function() {
+  var csrfToken = document
+    .querySelector('meta[name="csrf-token"]')
+    .getAttribute("content");
+  $(this).prop("disabled", true);
+  $(this).html('<i class="fas fa-sync-alt fa-spin"></i>');
+
+  $.ajax({
+    url: "/unassign",
+    type: "POST",
+    context: this,
+    headers: { "X-CSRF-Token": csrfToken },
+    data: {
+      supervisor_netID: this.dataset.sup_netid,
+      student_netID: this.dataset.stu_netid
+    },
+    dataType: "text",
+    success: function(data) {
+      if (data == "submitted") {
+        $(this)
+          .parent()
+          .parent()
+          .fadeOut(function() {
+            var div = jQuery(
+              '<div class="row dt-rel-row"><div class="col-sm-12 dt-rel-name"><i class="fas fa-user-slash"></i>&nbsp; Unassigned successfully.</div></div>'
+            );
+            $(this).replaceWith(div);
+            $(this).fadeIn();
+          });
+      } else {
+        $(this)
+          .parent()
+          .parent()
+          .fadeOut(function() {
+            var div = jQuery(
+              '<div class="row dt-rel-row"><div class="col-sm-12 dt-rel-name" style="color:#721c24"><i class="fas fa-times"></i>&nbsp; Unassign error, please refresh.</div></div>'
+            );
+            $(this).replaceWith(div);
+            $(this).fadeIn();
+          });
+      }
+    },
+    error: function(data) {
+      $(this)
+        .parent()
+        .parent()
+        .fadeOut(function() {
+          var div = jQuery(
+            '<div class="row dt-rel-row"><div class="col-sm-12 dt-rel-name" style="color:#721c24"><i class="fas fa-times"></i>&nbsp; Network error, please try again.</div></div>'
+          );
+          $(this).replaceWith(div);
+          $(this).fadeIn();
+        });
+    }
+  });
 });

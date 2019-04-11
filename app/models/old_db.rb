@@ -17,11 +17,11 @@ class OldDb < ActiveRecord::Base
     ActiveRecord::Base.connection.cache do
       # Update Universities according to old DB
       puts('Updating Universities...') unless Rails.env.test?
-      University.where.not(sync_id: nil).each do |uni|
-        old_uni = OldDepartment[uni.sync_id]
-        uni.delete if old_uni.blank?
+      University.where.not(sync_id: nil).where.not(sync_id: OldUniversity.where(status: 1).pluck(:id)).each do |uni|
+        uni.delete
       end
 
+      synced_universities = University.where(sync_id: OldUniversity.where(status: 1).pluck(:id))
       OldUniversity.each do |old_uni|
         next if old_uni.status != 1
         if old_uni.date_modified.blank?
@@ -30,18 +30,22 @@ class OldDb < ActiveRecord::Base
         end
 
         # Previously Synced
-        if (uni = University.find_by(sync_id: old_uni.id))
+        uni = synced_universities.select{ |x| x.sync_id == old_uni.id }.first
+        if uni.present?
           uni.name = old_uni.name
           uni.code = old_uni.short_name
           next if uni.changed.blank?
 
           unless uni.save
             puts('[OldDB University] Sync failed on: ' + old_uni.values.to_s)
+            puts(uni.errors.full_messages)
             errors += 1
           end
         else
-          unless University.create(name: old_uni.name, code: old_uni.short_name, sync_id: old_uni.id)
+          new_uni = University.new(name: old_uni.name, code: old_uni.short_name, sync_id: old_uni.id)
+          unless new_uni.save
             puts('[New University] Sync failed on: ' + old_uni.values.to_s)
+            puts(new_uni.errors.full_messages)
             errors += 1
           end
         end
@@ -51,6 +55,7 @@ class OldDb < ActiveRecord::Base
         old_uni = OldUniversity.new(name: uni.name, short_name: uni.code, status: 1)
         if !old_uni.save
           puts('[New OldDB University] Sync failed on: ' + old_uni.values.to_s)
+          puts(old_uni.errors.full_messages)
         else
           uni.sync_id = old_uni.id
           unless uni.save
@@ -61,11 +66,11 @@ class OldDb < ActiveRecord::Base
 
       # Update Faculties according to old DB
       puts('Updating Faculties...') unless Rails.env.test?
-      Faculty.where.not(sync_id: nil).each do |fac|
-        old_fac = OldDepartment[fac.sync_id]
-        fac.delete if old_fac.blank?
+      Faculty.where.not(sync_id: nil).where.not(sync_id: OldFaculty.where(status: 1).pluck(:id)).each do |fac|
+        fac.delete
       end
 
+      synced_faculties = Faculty.where(sync_id: OldFaculty.where(status: 1).pluck(:id))
       OldFaculty.each do |old_fac|
         next if old_fac.status != 1 || old_fac.university.blank?
         if old_fac.date_modified.blank?
@@ -76,7 +81,8 @@ class OldDb < ActiveRecord::Base
         u_id = University.find_by(sync_id: old_fac.university).id unless University.find_by(sync_id: old_fac.university).blank?
 
         # Previously Synced
-        if (fac = Faculty.find_by(sync_id: old_fac.id))
+        fac = synced_faculties.select{ |x| x.sync_id == old_fac.id }.first
+        if fac.present?
           fac.name = old_fac.name
           fac.code = old_fac.short_name
           fac.university_id = u_id
@@ -84,11 +90,14 @@ class OldDb < ActiveRecord::Base
 
           unless fac.save
             puts('[OldDB Faculty] Sync failed on: ' + old_fac.values.to_s)
+            puts(fac.errors.full_messages)
             errors += 1
           end
         else
-          unless Faculty.create(name: old_fac.name, code: old_fac.short_name, university_id: (!u_id.blank? ? u_id : nil), sync_id: old_fac.id)
+          new_fac = Faculty.new(name: old_fac.name, code: old_fac.short_name, university_id: (!u_id.blank? ? u_id : nil), sync_id: old_fac.id)
+          unless new_fac.save
             puts('[New Faculty] Sync failed on: ' + old_fac.values.to_s)
+            puts(new_fac.errors.full_messages)
             errors += 1
           end
         end
@@ -98,6 +107,7 @@ class OldDb < ActiveRecord::Base
         old_fac = OldFaculty.new(name: fac.name, short_name: fac.code, university: (fac.university.present? ? fac.university.sync_id : nil), status: 1)
         if !old_fac.save
           puts('[New OldDB Faculty] Sync failed on: ' + old_fac.values.to_s)
+          puts(old_fac.errors.full_messages)
         else
           fac.sync_id = old_fac.id
           unless fac.save
@@ -109,12 +119,18 @@ class OldDb < ActiveRecord::Base
 
       # Update Departments according to old DB
       puts('Updating Departments...') unless Rails.env.test?
+<<<<<<< HEAD
       Department.where.not(sync_id: nil).each do |dep|
         old_dep = OldDepartment[dep.sync_id]
         dep.delete if old_dep.blank?
         
+=======
+      Department.where.not(sync_id: nil).where.not(sync_id: OldDepartment.where(status: 1).pluck(:id)).each do |dep|
+        dep.delete
+>>>>>>> deploy
       end
 
+      synced_departments = Department.where(sync_id: OldDepartment.where(status: 1).pluck(:id))
       OldDepartment.each do |old_dep|
         next if old_dep.status != 1 || old_dep.name.blank?
         if old_dep.date_modified.blank?
@@ -125,34 +141,45 @@ class OldDb < ActiveRecord::Base
         f_id = Faculty.find_by(sync_id: old_dep.faculty).id unless Faculty.find_by(sync_id: old_dep.faculty).blank?
 
         # Previously Synced
-        if (dep = Department.find_by(sync_id: old_dep.id))
+        dep = synced_departments.select{ |x| x.sync_id == old_dep.id }.first
+        if dep.present?
           next if (dep.updated_at - old_dep.date_modified).abs < 1
 
           if dep.updated_at < old_dep.date_modified
             # The OldDb one is newer
+            # puts("case 1") if Rails.env.development? || Rails.env.test?
             dep.name = old_dep.name
             dep.code = old_dep.short_name
             dep.faculty_id = f_id
-            next if dep.changed.blank?
 
-            unless dep.save && old_dep.touch
-              puts('[Department] Sync failed on: ' + dep.attributes.to_s)
-              errors += 1
+            if dep.changed.blank?
+              dep.touch && old_dep.touch
+            else
+              unless dep.save && old_dep.touch
+                puts('[Department] Sync failed on: ' + dep.attributes.to_s)
+                puts(dep.errors.full_messages)
+                errors += 1
+              end
             end
           else
             # This one is newer than the OldDb one
+            # puts("case 2") if Rails.env.development? || Rails.env.test?
             old_dep.name = dep.name
             old_dep.short_name = dep.code
             old_dep.faculty = ( dep.faculty.present? ? dep.faculty.sync_id : nil)
 
             unless old_dep.save && dep.touch
               puts('[OldDB Department] Sync failed on: ' + old_dep.values.to_s)
+              puts(old_dep.errors.full_messages)
               errors += 1
             end
           end
         else
-          unless Department.create(name: old_dep.name, code: old_dep.short_name, faculty_id: (!f_id.blank? ? f_id : nil), sync_id: old_dep.id)
+          # puts("case 3") if Rails.env.development? || Rails.env.test?
+          new_dep = Department.new(name: old_dep.name, code: old_dep.short_name, faculty_id: (!f_id.blank? ? f_id : nil), sync_id: old_dep.id)
+          unless new_dep.save
             puts('[New Department] Sync failed on: ' + old_dep.values.to_s)
+            puts(new_dep.errors.full_messages)
             errors += 1
           end
         end
@@ -162,6 +189,7 @@ class OldDb < ActiveRecord::Base
         old_dep = OldDepartment.new(name: dep.name, short_name: dep.code, faculty: (dep.faculty.present? ? dep.faculty.sync_id : nil), status: 1)
         if !old_dep.save
           puts('[New OldDB Department] Sync failed on: ' + old_dep.values.to_s)
+          puts(old_dep.errors.full_messages)
         else
           dep.sync_id = old_dep.id
           unless dep.save
@@ -169,21 +197,19 @@ class OldDb < ActiveRecord::Base
           end
         end
       end
-
+      
       # Remove Students according to old DB
       puts('Removing deleted students...') unless Rails.env.test?
-      Student.where.not(sync_id: nil).each do |stu|
-        old_stu = OldUser[stu.sync_id]
-        stu.delete if old_stu.blank?
+      Student.where.not(sync_id: nil).where.not(sync_id: OldUser.where(status: 1, role: 1).pluck(:id)).each do |stu|
+        stu.delete
       end
 
       # Remove Supervisors according to old DB
       puts('Removing deleted supervisors...') unless Rails.env.test?
-      Supervisor.where.not(sync_id: nil).each do |sup|
-        old_sup = OldUser[sup.sync_id]
-        sup.delete if old_sup.blank?
+      Supervisor.where.not(sync_id: nil).where.not(sync_id: OldUser.where(status: 1, role: 2).pluck(:id)).each do |sup|
+        sup.delete
       end
-
+      
       # Create/Update Students/Supervisors according to old DB
       synced_students = Student.where(sync_id: OldUser.where(status: 1, role: 1).pluck(:id))
       synced_supervisors = Supervisor.where(sync_id: OldUser.where(status: 1, role: 2).pluck(:id))
@@ -200,8 +226,10 @@ class OldDb < ActiveRecord::Base
                     else
                       entry.FYPyear
                     end
-        d_id = Department.check_synced(entry.department)
-        next unless d_id
+        
+        dep = synced_departments.select{ |x| x.sync_id == entry.department }.first
+        next unless dep
+        d_id = dep.id
 
         if entry.role == '1'
           # is a student
@@ -218,6 +246,7 @@ class OldDb < ActiveRecord::Base
                 entry.FYPyear = stu.fyp_year
                 unless entry.save && stu.touch
                   puts('[OldDB Student] Sync failed on: ' + entry.values.to_s)
+                  puts(entry.errors.full_messages)
                   errors += 1
                 end
               else
@@ -231,6 +260,7 @@ class OldDb < ActiveRecord::Base
                 else
                   unless stu.save && entry.touch
                     puts('[Student] Sync failed on: ' + stu.attributes.to_s)
+                    puts(stu.errors.full_messages)
                     errors += 1
                   end
                 end
@@ -242,6 +272,7 @@ class OldDb < ActiveRecord::Base
               new_stu = Student.new(netID: entry.net_id, name: entry.common_name, department_id: d_id, fyp_year: @fyp_year, sync_id: entry.id)
               unless new_stu.save && entry.touch
                 puts('[New Student] Sync failed on: ' + new_stu.attributes.to_s)
+                puts(new_stu.errors.full_messages)
                 errors += 1
               end
             end
@@ -251,6 +282,7 @@ class OldDb < ActiveRecord::Base
             new_stu = Student.new(netID: entry.net_id, name: entry.common_name, department_id: d_id, fyp_year: @fyp_year, sync_id: entry.id)
             unless new_stu.save && entry.touch
               puts('[New Student] Sync failed on: ' + new_stu.attributes.to_s)
+              puts(new_stu.errors.full_messages)
               errors += 1
             end
           end
@@ -268,6 +300,7 @@ class OldDb < ActiveRecord::Base
                 entry.department = sup.department.sync_id
                 unless entry.save && sup.touch
                   puts('[OldDB Supervisor] Sync failed on: ' + entry.values.to_s)
+                  puts(entry.errors.full_messages)
                   errors += 1
                 end
               else
@@ -280,6 +313,7 @@ class OldDb < ActiveRecord::Base
                 else
                   unless sup.save && entry.touch
                     puts('[Supervisor] Sync failed on: ' + sup.attributes.to_s)
+                    puts(sup.errors.full_messages)
                     errors += 1
                   end
                 end
@@ -291,6 +325,7 @@ class OldDb < ActiveRecord::Base
               new_sup = Supervisor.new(netID: entry.net_id, name: entry.common_name, department_id: d_id, sync_id: entry.id)
               unless new_sup.save && entry.touch
                 puts('[New Supervisor] Sync failed on: ' + new_sup.attributes.to_s)
+                puts(new_sup.errors.full_messages)
                 errors += 1
               end
             end
@@ -300,6 +335,7 @@ class OldDb < ActiveRecord::Base
             new_sup = Supervisor.new(netID: entry.net_id, name: entry.common_name, department_id: d_id, sync_id: entry.id)
             unless new_sup.save && entry.touch
               puts('[New Supervisor] Sync failed on: ' + new_sup.attributes.to_s)
+              puts(new_sup.errors.full_messages)
               errors += 1
             end
           end
@@ -322,6 +358,7 @@ class OldDb < ActiveRecord::Base
         old_sup = OldUser.new(common_name: sup.name, net_id: sup.netID, department: sup.department.sync_id, status: 1, role: 2, uuid: 0, program_code: 0, subject_code: 0, senior_year: 0)
         if !old_sup.save
           puts('[New OldDB Supervisor] Sync failed on: ' + old_sup.values.to_s)
+          puts(old_sup.errors.full_messages)
         else
           sup.sync_id = old_sup.id
           unless sup.save
@@ -352,16 +389,21 @@ class OldDb < ActiveRecord::Base
 
       # Update Todos according to old DB
       puts('Updating Todos...') unless Rails.env.test?
-      Todo.where.not(sync_id: nil).each do |todo_item|
-        old_todo = OldTodo[todo_item.sync_id]
-        todo_item.delete if old_todo.blank?
+      Todo.where.not(sync_id: nil).where.not(sync_id: OldTodo.where(status: 1).pluck(:id)).each do |todo_item|
+        todo_item.delete
       end
       
       synced_todos = Todo.where(sync_id: OldTodo.where(status: 1).pluck(:id))
       OldTodo.each do |old_todo|
         next if old_todo.status != 1
+        
+        if old_todo.issued_department.present?
+          dep = synced_departments.select{ |x| x.sync_id == old_todo.issued_department }.first
+          department_id = ( dep.present? ? dep.id : nil )
+        else
+          department_id = nil
+        end
 
-        department_id = Department.check_synced(old_todo.issued_department)
         if old_todo.time.blank? || old_todo.title.blank?
           puts('OldTodo item deleted because time/title is not set. ' + old_todo.values.to_s)
           old_todo.delete
@@ -381,6 +423,7 @@ class OldDb < ActiveRecord::Base
             old_todo.time = todo.eta.in_time_zone
             unless old_todo.save && todo.touch
               puts('[OldDB Todo] Sync failed on: ' + old_todo.values.to_s)
+              puts(old_todo.errors.full_messages)
               errors += 1
             end
           else
@@ -395,6 +438,7 @@ class OldDb < ActiveRecord::Base
             else
               unless todo.save && old_todo.touch
                 puts('[Todo] Sync failed on: ' + todo.attributes.to_s)
+                puts(todo.errors.full_messages)
                 errors += 1
               end
             end
@@ -405,6 +449,7 @@ class OldDb < ActiveRecord::Base
           new_todo = Todo.new(title: old_todo.title, description: old_todo.description, department_id: department_id, eta: old_todo.time, sync_id: old_todo.id)
           unless new_todo.save && old_todo.touch
             puts('[Todo] Sync failed on: ' + new_todo.attributes.to_s)
+            puts(new_todo.errors.full_messages)
             errors += 1
           end
         end

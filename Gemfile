@@ -65,7 +65,9 @@ group :test do
   gem 'capybara', '>= 2.15'
   gem 'selenium-webdriver'
   # Easy installation and use of chromedriver to run system tests with Chrome
-  gem 'chromedriver-helper'
+  # gem 'chromedriver-helper'
+  # chromedriver-helper is deprecated.
+  gem 'webdrivers'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -100,3 +102,7 @@ gem 'ajax-datatables-rails'
 gem 'rack-mini-profiler', require: false
 # Generate database data
 gem 'faker', :git => 'https://github.com/stympy/faker.git', :branch => 'master'
+# Sentry for backend error tracking
+gem "sentry-raven"
+# Bundler-Audit for dependencies management
+gem "bundler-audit"

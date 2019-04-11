@@ -7,7 +7,7 @@ class Faculty < ApplicationRecord
   validates :code, length: { maximum: 8 }
   validates_uniqueness_of :code, allow_blank: true
   has_many :departments
-  belongs_to :university
+  belongs_to :university, optional: true
 
   def code=(val)
     write_attribute(:code, val.upcase) unless val.blank?
