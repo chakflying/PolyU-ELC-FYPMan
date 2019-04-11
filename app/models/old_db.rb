@@ -119,15 +119,8 @@ class OldDb < ActiveRecord::Base
 
       # Update Departments according to old DB
       puts('Updating Departments...') unless Rails.env.test?
-<<<<<<< HEAD
-      Department.where.not(sync_id: nil).each do |dep|
-        old_dep = OldDepartment[dep.sync_id]
-        dep.delete if old_dep.blank?
-        
-=======
       Department.where.not(sync_id: nil).where.not(sync_id: OldDepartment.where(status: 1).pluck(:id)).each do |dep|
         dep.delete
->>>>>>> deploy
       end
 
       synced_departments = Department.where(sync_id: OldDepartment.where(status: 1).pluck(:id))
