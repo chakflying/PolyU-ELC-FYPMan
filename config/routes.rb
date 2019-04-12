@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   delete '/logout',  to: 'sessions#destroy'
   get    '/users',                to: 'admin#users'
   resources :users,               only: %i[new create show edit update destroy]
+  get    '/password_resets',  to: 'password_resets#new'
   resources :password_resets,     only: %i[new create edit update]
 
   get    '/students_batch_import', to: 'students#batch_import'

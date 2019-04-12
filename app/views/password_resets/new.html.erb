@@ -3,10 +3,13 @@
   <h2 class="display-2 aheading">Forgot Password?</h2>
   <div class="row">
     <div class="col-md-6 col-md-offset-3">
-      <%= form_for(:password_reset, url: password_resets_path) do |f| %>
+      <br>
+      <p>Please enter the email address of your account so we can send you an email where you can reset your password.</p>
+      <%= form_for(:password_reset, url: password_resets_path, html: {class: "needs-validation", novalidate: true}) do |f| %>
         <div class="form-group">
           <%= f.label :email %>
-          <%= f.email_field :email, class: 'form-control' %>
+          <%= f.email_field :email, class: 'form-control', required: true %>
+          <div class="invalid-feedback">Please enter a valid email address.</div>
         </div>
         <br>
         <%= f.submit "Submit", class: "btn btn-primary" %>
