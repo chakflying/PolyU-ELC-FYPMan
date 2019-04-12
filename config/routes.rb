@@ -38,6 +38,7 @@ Rails.application.routes.draw do
   scope '/admin' do
     get    '/',                     to: 'admin#activities'
     get    '/trails',               to: 'admin#activities'
+    get    '/console',               to: 'admin#webconsole'
     resources :departments
   end
 
