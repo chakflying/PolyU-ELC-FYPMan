@@ -12,7 +12,7 @@ staging:
     - git pull
     - bundle install
     - yarn install
-    - rails db:migrate
+    - rails db:migrate:reset
     - rails assets:precompile
     - sudo service apache2 reload
     - sudo pkill -f "rake jobs:work"
