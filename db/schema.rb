@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_13_190543) do
+ActiveRecord::Schema.define(version: 2019_04_12_131342) do
 
   create_table "delayed_jobs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.integer "priority", default: 0, null: false
@@ -61,9 +61,13 @@ ActiveRecord::Schema.define(version: 2019_03_13_190543) do
     t.index ["sync_id"], name: "index_students_on_sync_id"
   end
 
-  create_table "students_supervisors", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
-    t.bigint "student_id", null: false
-    t.bigint "supervisor_id", null: false
+  create_table "supervisions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.bigint "student_id"
+    t.bigint "supervisor_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["student_id"], name: "index_supervisions_on_student_id"
+    t.index ["supervisor_id"], name: "index_supervisions_on_supervisor_id"
   end
 
   create_table "supervisors", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
@@ -113,6 +117,15 @@ ActiveRecord::Schema.define(version: 2019_03_13_190543) do
     t.index ["department_id"], name: "index_users_on_department_id"
   end
 
+  create_table "version_associations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.integer "version_id"
+    t.string "foreign_key_name", null: false
+    t.integer "foreign_key_id"
+    t.string "foreign_type"
+    t.index ["foreign_key_name", "foreign_key_id", "foreign_type"], name: "index_version_associations_on_foreign_key"
+    t.index ["version_id"], name: "index_version_associations_on_version_id"
+  end
+
   create_table "versions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "item_type", limit: 191, null: false
     t.integer "item_id", null: false
@@ -121,7 +134,9 @@ ActiveRecord::Schema.define(version: 2019_03_13_190543) do
     t.text "object", limit: 4294967295
     t.datetime "created_at"
     t.text "object_changes", limit: 4294967295
+    t.integer "transaction_id"
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
+    t.index ["transaction_id"], name: "index_versions_on_transaction_id"
   end
 
 end

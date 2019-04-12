@@ -27,7 +27,8 @@ module SessionsHelper
 
   # Return 404 if not admin
   def authenticate_admin_404!
-    render_404 if current_user.nil? || !current_user.admin
+    redirect_to :root if current_user.nil?
+    render_404 if !current_user.admin
   end
 
   # Redirect to root if not logged in

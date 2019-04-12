@@ -174,6 +174,15 @@ $(document).on("click", "#db_f_supervisors", function() {
   $("#db_f_supervisors").addClass("active");
 });
 
+$(document).on("click", "#db_f_supervisions", function() {
+  document.admin_activity_dataTable
+    .columns(1)
+    .search("Supervision")
+    .draw();
+  $(".da-nav").removeClass("active");
+  $("#db_f_supervisions").addClass("active");
+});
+
 $(document).on("click", "#db_f_users", function() {
   document.admin_activity_dataTable
     .columns(1)

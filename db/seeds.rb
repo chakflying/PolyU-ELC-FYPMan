@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
 #
@@ -6,7 +8,7 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
- # Initialize with list updated in Oct 2018
+# Initialize with departments list updated in Oct 2018
 #  Department.create(name: "Department of Applied Biology and Chemical Technology", code: "ABCT")
 #  Department.create(name: "Department of Applied Mathematics", code: "AMA")
 #  Department.create(name: "Department of Applied Physics", code: "AP")
@@ -40,14 +42,16 @@
 #  Department.create(name: "School of Hotel and Tourism Management", code: "SHTM")
 
 require 'faker'
-Dep = Department.first.id
-10000.times do 
-  n = Faker::Name.name
-  netID = Faker::Internet.slug(n)
-  Student.create(
-    name: n,
-    netID: netID,
-    fyp_year: '2018-2019',
-    department_id: Dep
-  )
+if Department.first.present?
+  Dep = Department.first.id
+  2000.times do
+    n = Faker::Name.name
+    netID = Faker::Internet.slug(n)
+    Student.create(
+      name: n,
+      netID: netID,
+      fyp_year: '2018-2019',
+      department_id: Dep
+    )
+  end
 end
