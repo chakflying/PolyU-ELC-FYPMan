@@ -28,6 +28,4 @@ class AdminController < ApplicationController
   def users
     @users = User.all.includes(:department)
   end
-
-  def webconsole; end
 end
