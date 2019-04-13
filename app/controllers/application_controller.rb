@@ -14,6 +14,7 @@ class ApplicationController < ActionController::Base
 
   before_action :set_last_seen_at, if: proc { logged_in? && (current_user.last_seen_at.nil? || current_user.last_seen_at < 15.minutes.ago) }
   before_action :set_paper_trail_whodunnit
+  before_action :session_expires
   after_action :store_location
   before_action :set_raven_context
   # before_action :show_profiler

@@ -48,4 +48,6 @@ Rails.application.configure do
 
   # Setup The Old Database connection using Sequel
   Old_DB = Sequel.connect(Rails.configuration.database_configuration['test_old'])
+
+  config.session_expires_after = 5.minutes
 end
