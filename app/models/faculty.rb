@@ -5,7 +5,6 @@ class Faculty < ApplicationRecord
 
   validates :name, presence: true, length: { maximum: 255 }
   validates :code, length: { maximum: 8 }
-  validates_uniqueness_of :code, allow_blank: true
   has_many :departments
   belongs_to :university, optional: true
 
