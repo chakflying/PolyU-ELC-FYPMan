@@ -3,5 +3,5 @@
 if Rails.env.development?
   Rails.application.config.session_store :cookie_store, key: 'user_id', expire_after: 10.minutes
 else
-  Rails.application.config.session_store :cookie_store, key: 'user_id', expire_after: 3.hours
+  Rails.application.config.session_store :cookie_store, key: 'user_id'
 end

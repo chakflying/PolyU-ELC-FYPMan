@@ -1,0 +1,26 @@
+.errh {
+  font-size: 360px;
+  color: rgb(241, 241, 241);
+  line-height: 100%;
+  font-weight: 300 !important;
+}
+
+@media only screen and (max-width: 767px) {
+  .errh {
+    font-size: 150px !important;
+  }
+  .errhd {
+    padding: 8em 0 4em 0 !important;
+  }
+  .errd {
+    padding: 0 1em 0 1em !important;
+  }
+}
+
+.errhd {
+  padding: 8em 0 3em 0;
+}
+
+.errd {
+  text-align: center;
+}

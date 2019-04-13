@@ -5,19 +5,19 @@ class AdminController < ApplicationController
 
   # Function to show PaperTrail versions. Uses AJAX datables gem.
   def activities
-    if params[:students]
-      type = 'Student'
-    elsif params[:supervisors]
-      type = 'Supervisor'
-    elsif params[:users]
-      type = 'User'
-    elsif params[:departments]
-      type = 'Department'
-    elsif params[:todos]
-      type = 'Todo'
-    else
-      type = ''
-    end
+    type = if params[:students]
+             'Student'
+           elsif params[:supervisors]
+             'Supervisor'
+           elsif params[:users]
+             'User'
+           elsif params[:departments]
+             'Department'
+           elsif params[:todos]
+             'Todo'
+           else
+             ''
+           end
     respond_to do |format|
       format.html
       format.json { render json: PaperTrail::VersionDatatable.new(params, item_type: type) }

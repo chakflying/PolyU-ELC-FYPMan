@@ -49,4 +49,16 @@ class DepartmentsControllerTest < ActionDispatch::IntegrationTest
       follow_redirect! while redirect?
     end
   end
+
+  test 'Admin should create two departments with the same name' do
+    login_as users(:two)
+    assert_difference 'Department.count', 1 do
+      post departments_path, params: { department: { name: "Department of Intergration", code: "DOI", faculty_id: faculties(:one).id } }
+      follow_redirect! while redirect?
+    end
+    assert_difference 'Department.count', 1 do
+      post departments_path, params: { department: { name: "Department of Intergration", code: "DOI", faculty_id: faculties(:two).id } }
+      follow_redirect! while redirect?
+    end
+  end
 end

@@ -8,9 +8,10 @@ class Student < ApplicationRecord
   validates :netID, presence: true, length: { maximum: 255 }, uniqueness: { case_sensitive: false }
   validate :netID_crossunique
   validates :fyp_year, presence: true, length: { maximum: 9 }
-  has_and_belongs_to_many :supervisors
+  has_many :supervisions
+  has_many :supervisors, through: :supervisions
   belongs_to :department
-  has_paper_trail on: [:create, :destroy, :update]
+  has_paper_trail on: %i[create destroy update]
 
   def netID_crossunique
     if Supervisor.find_by(netID: netID)

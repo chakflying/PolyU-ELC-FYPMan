@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.configure do
   # Verifies that versions and hashed value of the package contents in the project's package.json
   config.webpacker.check_yarn_integrity = true
@@ -37,7 +39,7 @@ Rails.application.configure do
 
   config.action_mailer.delivery_method = :test
 
-  host = 'localhost:3000'                     # Local server
+  host = 'localhost:3000' # Local server
   config.action_mailer.default_url_options = { host: host, protocol: 'http' }
 
   config.action_mailer.perform_caching = false
@@ -69,7 +71,8 @@ Rails.application.configure do
   PaperTrail.config.version_limit = 10
 
   # Setup The Old Database connection using Sequel
-  Old_DB = Sequel.connect((Rails.configuration.database_configuration)["development_old"])
+  Old_DB = Sequel.connect(Rails.configuration.database_configuration['development_old'])
   Old_DB.extension(:connection_validator)
 
+  config.session_expires_after = 5.minutes
 end

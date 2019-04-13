@@ -60,6 +60,13 @@ class Rack::Attack
         req.params['session']['username'].presence
       end
     end
+
+    # Stop excessive password resets
+    throttle("password_resets/ip", limit: 4, period: 20.seconds) do |req|
+      if req.path.include?("/password_resets") && req.post?
+        req.ip
+      end
+    end
   
     ### Custom Throttle Response ###
   

@@ -17,6 +17,7 @@ module SessionsHelper
 
   def log_out
     session.delete(:user_id)
+    session.delete(:expires_at)
     @current_user = nil
   end
 
@@ -48,5 +49,15 @@ module SessionsHelper
   # Stores the URL trying to be accessed.
   def store_location
     session[:forwarding_url] = request.original_url if request.get?
+  end
+
+  def session_expires
+    if session[:expires_at] && session[:expires_at].to_time < Time.now
+      log_out
+      redirect_to :root
+    end
+    if logged_in?
+      session[:expires_at] = Rails.application.config.session_expires_after.from_now
+    end
   end
 end

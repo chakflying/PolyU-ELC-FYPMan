@@ -9,7 +9,7 @@ class OldDbSyncTest < ActionDispatch::IntegrationTest
   end
 
   test 'OldDb student modified' do
-    sleep 1
+    Timecop.travel 3.second.since
     john = OldUser[1]
     john.common_name = 'John Dee'
     john.save
@@ -20,7 +20,7 @@ class OldDbSyncTest < ActionDispatch::IntegrationTest
   end
 
   test 'NewDb student modified' do
-    sleep 1
+    Timecop.travel 3.second.since
     john = Student.find(1)
     john.name = 'John Derp'
     john.save
@@ -31,7 +31,7 @@ class OldDbSyncTest < ActionDispatch::IntegrationTest
   end
 
   test 'NewDb supervisor modified' do
-    sleep 1
+    Timecop.travel 3.second.since
     john = Supervisor.first
     john.department = Department.second
     john.save
@@ -42,7 +42,7 @@ class OldDbSyncTest < ActionDispatch::IntegrationTest
   end
 
   test 'OldDb todo modified' do
-    sleep 1
+    Timecop.travel 3.second.since
     item = OldTodo[Todo.first.sync_id]
     item.title = "Nope don't do it"
     item.save
@@ -53,7 +53,7 @@ class OldDbSyncTest < ActionDispatch::IntegrationTest
   end
 
   test 'OldDb todo deleted' do
-    sleep 1
+    Timecop.travel 3.second.since
     item = OldTodo[Todo.first.sync_id]
 
     assert_difference 'Todo.count', -1 do
@@ -63,7 +63,7 @@ class OldDbSyncTest < ActionDispatch::IntegrationTest
   end
 
   test 'OldDb faculty deleted' do
-    sleep 1
+    Timecop.travel 3.second.since
     assert_equal 2, OldFaculty.count
 
     item = OldFaculty[Faculty.last.sync_id]
@@ -75,7 +75,7 @@ class OldDbSyncTest < ActionDispatch::IntegrationTest
   end
 
   test 'OldDb university deleted' do
-    sleep 1
+    Timecop.travel 3.second.since
     assert_equal 2, OldUniversity.count
 
     item = OldUniversity[University.last.sync_id]

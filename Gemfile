@@ -54,10 +54,11 @@ end
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'listen', '>= 3.0.5', '< 3.2'
-  gem 'web-console', '>= 3.3.0'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+  gem "better_errors"
+  gem "binding_of_caller"
 end
 
 group :test do
@@ -84,6 +85,7 @@ gem 'rack-attack'
 
 # Paper Trail for tracking changes to models
 gem 'paper_trail'
+gem 'paper_trail-association_tracking'
 # Delay Job for async actions
 gem 'daemons'
 gem 'delayed_job_active_record'
@@ -101,8 +103,10 @@ gem 'ajax-datatables-rails'
 # Profiler for performance
 gem 'rack-mini-profiler', require: false
 # Generate database data
-gem 'faker', :git => 'https://github.com/stympy/faker.git', :branch => 'master'
+gem 'faker', git: 'https://github.com/stympy/faker.git', branch: 'master'
 # Sentry for backend error tracking
-gem "sentry-raven"
+gem 'sentry-raven'
 # Bundler-Audit for dependencies management
-gem "bundler-audit"
+gem 'bundler-audit'
+# TimeCop for faster testing
+gem 'timecop'

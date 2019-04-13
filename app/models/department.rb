@@ -3,9 +3,10 @@
 class Department < ApplicationRecord
   auto_strip_attributes :name, squish: true
 
-  validates :name, presence: true, length: { maximum: 255 }, uniqueness: { case_sensitive: false }
+  validates :name, presence: true, length: { maximum: 255 }
   validates :code, length: { maximum: 10 }
-  validates_uniqueness_of :code, allow_blank: true
+  validates :name, uniqueness: { scope: :faculty, message: ": There is already a department in this faculty with the same name", allow_blank: true }
+  validates :code, uniqueness: { scope: :faculty, message: ": There is already a department in this faculty with the same code", allow_blank: true }
   has_many :students
   has_many :supervisors
   has_many :users

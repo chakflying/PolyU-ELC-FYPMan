@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/stympy/faker.git
-  revision: a75dfa79dac413e2dbcbcbfaf2c930e81256cdf0
+  revision: 59a92644d5583828add1c68351074f6e52c6deb6
   branch: master
   specs:
     faker (1.9.3)
@@ -64,11 +64,16 @@ GEM
     arel (9.0.0)
     auto_strip_attributes (2.5.0)
       activerecord (>= 4.0)
-    autoprefixer-rails (9.5.0)
+    autoprefixer-rails (9.5.1)
       execjs
     bcrypt (3.1.12)
-    bindex (0.6.0)
-    bootsnap (1.4.2)
+    better_errors (2.5.1)
+      coderay (>= 1.0.0)
+      erubi (>= 1.0.0)
+      rack (>= 0.9.0)
+    binding_of_caller (0.8.0)
+      debug_inspector (>= 0.0.1)
+    bootsnap (1.4.3)
       msgpack (~> 1.0)
     bootstrap (4.3.1)
       autoprefixer-rails (>= 9.1.0)
@@ -79,7 +84,7 @@ GEM
       bundler (>= 1.2.0, < 3)
       thor (~> 0.18)
     byebug (11.0.1)
-    capybara (3.16.1)
+    capybara (3.16.2)
       addressable
       mini_mime (>= 0.1.3)
       nokogiri (~> 1.8)
@@ -89,6 +94,7 @@ GEM
       xpath (~> 3.2)
     childprocess (0.9.0)
       ffi (~> 1.0, >= 1.0.11)
+    coderay (1.1.2)
     coffee-rails (4.2.2)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0)
@@ -99,6 +105,7 @@ GEM
     concurrent-ruby (1.1.5)
     crass (1.0.4)
     daemons (1.3.1)
+    debug_inspector (0.0.3)
     delayed_job (4.1.5)
       activesupport (>= 3.0, < 5.3)
     delayed_job_active_record (4.1.3)
@@ -148,9 +155,10 @@ GEM
     nio4r (2.3.1)
     nokogiri (1.10.2)
       mini_portile2 (~> 2.4.0)
-    paper_trail (10.2.1)
+    paper_trail (10.3.0)
       activerecord (>= 4.2, < 6.1)
       request_store (~> 1.1)
+    paper_trail-association_tracking (2.0.0)
     passenger (5.3.7)
       rack
       rake (>= 0.8.1)
@@ -238,6 +246,7 @@ GEM
     thor (0.20.3)
     thread_safe (0.3.6)
     tilt (2.0.9)
+    timecop (0.9.1)
     tty-color (0.4.3)
     tty-pager (0.12.1)
       strings (~> 0.1.4)
@@ -255,11 +264,6 @@ GEM
       execjs (>= 0.3.0, < 3)
     unicode-display_width (1.5.0)
     unicode_utils (1.4.0)
-    web-console (3.7.0)
-      actionview (>= 5.0)
-      activemodel (>= 5.0)
-      bindex (>= 0.4.0)
-      railties (>= 5.0)
     webdrivers (3.7.2)
       net_http_ssl_fix
       nokogiri (~> 1.6)
@@ -284,6 +288,8 @@ DEPENDENCIES
   ajax-datatables-rails
   auto_strip_attributes (~> 2.5)
   bcrypt
+  better_errors
+  binding_of_caller
   bootsnap (>= 1.3.2)
   bootstrap (~> 4.3.1)
   bundler-audit
@@ -299,6 +305,7 @@ DEPENDENCIES
   listen (>= 3.0.5, < 3.2)
   mysql2 (~> 0.5.2)
   paper_trail
+  paper_trail-association_tracking
   passenger (~> 5.3.7)
   puma
   rack-attack
@@ -311,10 +318,10 @@ DEPENDENCIES
   sequel
   spring
   spring-watcher-listen (~> 2.0.0)
+  timecop
   turbolinks (~> 5.2.0)
   tzinfo-data
   uglifier (>= 1.3.0)
-  web-console (>= 3.3.0)
   webdrivers
   webpacker (>= 4.0)
   yajl-ruby

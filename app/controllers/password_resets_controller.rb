@@ -17,11 +17,11 @@ class PasswordResetsController < ApplicationController
       end
       @user.create_reset_digest
       @user.send_password_reset_email
-      flash[:success] = Array(flash[:success]).push('Email sent with password reset instructions.')
+      flash[:info] = Array(flash[:info]).push('If this user is present, an email will be sent with password reset instructions.')
       redirect_to root_url
     else
-      flash.now[:danger] = Array(flash.now[:danger]).push('Email address not found.')
-      render 'new'
+      flash[:info] = Array(flash[:info]).push('If this user is present, an email will be sent with password reset instructions.')
+      redirect_to root_url
     end
   end
 

@@ -20,6 +20,7 @@ class DepartmentsController < ApplicationController
       @department.sync_id = sync_id
       @department.save
       flash[:success] = Array(flash[:success]).push('Department successfully added.')
+      @department = Department.new
       redirect_to departments_url
     else
       if params[:department][:name].blank?
@@ -30,7 +31,6 @@ class DepartmentsController < ApplicationController
         flash.now[:danger] = Array(flash.now[:danger]).push('Error when creating department.')
       end
       @departments = Department.all.includes(:faculty).references(:faculty)
-      @department = Department.new
       @faculties_list = get_faculties_list
       render 'index'
     end
@@ -84,13 +84,8 @@ class DepartmentsController < ApplicationController
   end
 
   def olddb_department_create(params)
-    if exist = OldDepartment[name: params[:name].squish]
-      exist.update(name: params[:name].squish, short_name: params[:code], status: 1, faculty: Faculty.find(params[:faculty_id]).sync_id)
-      exist.id
-    else
-      @old_department = OldDepartment.create(name: params[:name].squish, short_name: params[:code], status: 1, faculty: Faculty.find(params[:faculty_id]).sync_id)
-      @old_department.id
-    end
+    @old_department = OldDepartment.create(name: params[:name].squish, short_name: params[:code], status: 1, faculty: Faculty.find(params[:faculty_id]).sync_id)
+    @old_department.id
   end
 
   def olddb_department_update(params)
