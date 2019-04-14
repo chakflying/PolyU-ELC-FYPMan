@@ -14,12 +14,12 @@
           <%= f.text_field :netID, class: 'form-control', readonly: true %>
         </div>
         <div class="form-group">
-          <%= f.label :department %>
+          <%= f.label :department, for: "validation_dp" %>
           <% if is_admin? %>
-            <%= f.select :department_id, @departments_list, {include_blank: true}, {class: "custom-select", required: true} %>
+            <%= f.select :department_id, @departments_list, {include_blank: true}, {class: "custom-select", id: "validation_dp", required: true} %>
             <div class="invalid-feedback">Please select supervisor department.</div>
           <% else %>
-            <%= f.select :department_id, @departments_list, {include_blank: true}, {class: "custom-select", disabled: true} %>
+            <%= f.select :department_id, @departments_list, {include_blank: true}, {class: "custom-select", id: "validation_dp", disabled: true} %>
             <%= f.hidden_field :department_id, value: current_user.department.id %>
           <% end %>
         </div>

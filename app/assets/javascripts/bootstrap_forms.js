@@ -14,4 +14,9 @@ document.addEventListener("turbolinks:load", function () {
       false
     );
   });
+
+  $(".datepicker").datepicker({
+    format: "dd MM, yyyy",
+    autoclose: true,
+  });
 });
