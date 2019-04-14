@@ -5,7 +5,7 @@
       <label for="student_netID">Assign student(s):</label>
       <template v-for="student_item in student_fields">
         <div class="form-group" :key="student_item">
-          <v-select :options="students" v-model="student_netID_response[student_item]"></v-select>
+          <v-select :options="students" v-model="student_netID_response[student_item]" placeholder="Search or Select..."></v-select>
         </div>
       </template>
       <button v-on:click="add_student_field()" class="btn btn-secondary">
@@ -15,7 +15,7 @@
       <br>
       <label for="student_netID">to supervisor:</label>
       <div class="form-group">
-        <v-select :options="supervisors" v-model="supervisor_netID_response[0]"></v-select>
+        <v-select :options="supervisors" v-model="supervisor_netID_response[0]" placeholder="Search or Select..."></v-select>
       </div>
       <button
         v-on:click="submit()"

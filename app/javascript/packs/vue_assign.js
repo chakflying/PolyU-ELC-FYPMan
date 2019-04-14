@@ -13,10 +13,18 @@ function loadVueAssign() {
   if (el == null) return;
   const parsed_props = JSON.parse(el.getAttribute("data"));
   let student_dropdown_list = parsed_props.students.map(function(a) {
-    return { value: a.netID, label: a.netID + "  -  " + a.name };
+    if (a.name == null || a.name == "") {
+      return { value: a.netID, label: a.netID };
+    } else {
+      return { value: a.netID, label: a.netID + "  -  " + a.name };
+    }
   });
   let supervisor_dropdown_list = parsed_props.supervisors.map(function(a) {
-    return { value: a.netID, label: a.netID + "  -  " + a.name };
+    if (a.name == null || a.name == "") {
+      return { value: a.netID, label: a.netID };
+    } else {
+      return { value: a.netID, label: a.netID + "  -  " + a.name };
+    }
   });
   const props = {
     students: student_dropdown_list,
