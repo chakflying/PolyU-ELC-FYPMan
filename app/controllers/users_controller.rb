@@ -10,7 +10,8 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @departments_list = get_departments_list
+    @universities_list = get_universities_list
+    @departments_list = get_departments_list(@user.university_id)
   end
 
   def update
@@ -26,6 +27,7 @@ class UsersController < ApplicationController
   def new
     @user = User.new
     @departments_list = get_departments_list
+    @universities_list = get_universities_list
   end
 
   def create

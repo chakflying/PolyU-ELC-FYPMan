@@ -4,6 +4,7 @@ class SupervisorsController < ApplicationController
   before_action :authenticate_user!
   def index
     @departments_list = get_departments_list if is_admin?
+    @universities_list = get_universities_list if is_admin?
     @supervisor = Supervisor.new
     respond_to do |format|
       format.html
@@ -35,6 +36,7 @@ class SupervisorsController < ApplicationController
       end
     end
     @departments_list = get_departments_list if is_admin?
+    @universities_list = get_universities_list if is_admin?
     render 'index'
   end
 
@@ -44,7 +46,8 @@ class SupervisorsController < ApplicationController
 
   def edit
     @supervisor = Supervisor.find(params[:id])
-    @departments_list = get_departments_list
+    @departments_list = get_departments_list(@supervisor.university_id) if is_admin?
+    @universities_list = get_universities_list if is_admin?
   end
 
   def update
@@ -62,7 +65,8 @@ class SupervisorsController < ApplicationController
         else
           flash.now[:danger] = Array(flash.now[:danger]).push('Error updating supervisor.')
         end
-        @departments_list = get_departments_list
+        @departments_list = get_departments_list(@supervisor.university_id)
+        @universities_list = get_universities_list if is_admin?
         render 'edit'
       end
     end
@@ -104,6 +108,7 @@ class SupervisorsController < ApplicationController
   def batch_import
     @supervisor = Supervisor.new
     @departments_list = get_departments_list if is_admin?
+    @universities_list = get_universities_list if is_admin?
 
     if request.post?
       flash[:supervisors_list] = request.params[:supervisors_list]

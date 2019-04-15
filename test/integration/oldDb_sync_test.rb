@@ -5,6 +5,7 @@ require 'test_helper'
 class OldDbSyncTest < ActionDispatch::IntegrationTest
   def setup
     %i[users departments faculties universities todos].each { |x| Old_DB.from(x).truncate }
+    OldDepartment.create(name: "Department of Justice", short_name: "DOJ", status: 1)
     OldDb.sync
   end
 
@@ -39,6 +40,16 @@ class OldDbSyncTest < ActionDispatch::IntegrationTest
     OldDb.sync
 
     assert_equal Department.second.sync_id, OldUser[Supervisor.first.sync_id].department
+  end
+
+  test 'OldDb todo created' do
+    Timecop.travel 3.second.since
+    item = OldTodo.create(title: "Sync is good?", time: 1.day.from_now, issued_department: OldDepartment[short_name: "DOJ"].id, status: 1)
+
+    OldDb.sync
+
+    assert_equal "Sync is good?", Todo.last.title
+    assert_equal "Department of Justice", Department.find(Todo.last.department.id).name
   end
 
   test 'OldDb todo modified' do

@@ -12,14 +12,11 @@ class Department < ApplicationRecord
   has_many :users
   has_many :todos
   belongs_to :faculty, optional: true
+  delegate :university, to: :faculty, allow_nil: true
   has_paper_trail on: [:create, :destroy, :update]
 
   def code=(val)
     write_attribute(:code, val.upcase) unless val.blank?
-  end
-
-  def university
-    faculty.university
   end
 
   def self.check_synced(sync_id)

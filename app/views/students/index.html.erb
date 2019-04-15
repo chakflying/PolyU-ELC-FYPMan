@@ -26,14 +26,18 @@
         <div class="invalid-feedback">Please enter student netID: netID@university</div>
       </div>
       <div class="form-group col-md-4">
-        <%= f.select :fyp_year, @fyp_year_list, {prompt: "Select FYP Year:"}, {class: "custom-select", required: true, 'aria-label': "New student FYP Year"} %>
+        <%= f.select :fyp_year, @fyp_year_list, {prompt: "Select FYP Year..."}, {class: "custom-select", required: true, 'aria-label': "New student FYP Year"} %>
         <div class="invalid-feedback">Please select student FYP year.</div>
       </div>
     </div>
     <div class="form-row">
       <% if is_admin? %>
+        <div class="form-group col-md-12" style="margin-bottom: 0.5em;">
+          <%= f.label :department, for: "validation_dp" %>
+          <%= f.select :university_id, @universities_list, {prompt: "Select University..."}, {id: "validation_uni", class: "custom-select"} %>
+        </div>
         <div class="form-group col-md-12">
-          <%= f.select :department_id, @departments_list, {prompt: "Select Department:"}, {class: "custom-select", 'aria-label': "New student Department", required: true} %>
+          <%= f.select :department_id, @departments_list, {prompt: "Select Department..."}, {id: "validation_dp", class: "custom-select", 'aria-label': "New student Department", required: true} %>
           <div class="invalid-feedback">Please select student department.</div>
         </div>
       <% else %>

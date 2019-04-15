@@ -12,6 +12,10 @@ class User < ApplicationRecord
   has_secure_password
   validates :password, presence: true, length: { minimum: 8 }, if: -> { new_record? || changes[:password_digest] }
   belongs_to :department
+  delegate :faculty, to: :department, allow_nil: true
+  delegate :faculty_id, to: :department, allow_nil: true
+  delegate :university, to: :faculty, allow_nil: true
+  delegate :university_id, to: :faculty, allow_nil: true
   has_paper_trail on: [:create, :destroy, :update]
 
   def self.digest(string)
@@ -19,7 +23,7 @@ class User < ApplicationRecord
                                                   BCrypt::Engine.cost
     BCrypt::Password.create(string, cost: cost)
   end
-
+  
   def create_reset_digest
     self.reset_token = User.new_token
     update_columns(reset_digest: User.digest(reset_token), reset_sent_at: Time.zone.now)

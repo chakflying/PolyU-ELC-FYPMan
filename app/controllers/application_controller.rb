@@ -11,6 +11,7 @@ class ApplicationController < ActionController::Base
   include TodosHelper
   include DepartmentsHelper
   include FacultiesHelper
+  include UniversitiesHelper
 
   before_action :set_last_seen_at, if: proc { logged_in? && (current_user.last_seen_at.nil? || current_user.last_seen_at < 15.minutes.ago) }
   before_action :set_paper_trail_whodunnit

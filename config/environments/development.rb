@@ -74,5 +74,5 @@ Rails.application.configure do
   Old_DB = Sequel.connect(Rails.configuration.database_configuration['development_old'])
   Old_DB.extension(:connection_validator)
 
-  config.session_expires_after = 5.minutes
+  config.session_expires_after = 15.minutes
 end

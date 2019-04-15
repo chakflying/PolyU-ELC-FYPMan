@@ -15,23 +15,29 @@
   </div>
   <br>
   <br>
-  <%= form_for :students_list, url: students_batch_import_path do |f| %>
+  <%= form_for(:students_list, url: students_batch_import_path, html: {class: "needs-validation", novalidate: true}) do |f| %>
     <% if is_admin? %>
+      <%= f.label :department, "Adding Students to Department:", for: "validation_dp" %>
+      <div class="form-group" style="margin-bottom: 0.5em;">
+            <%= f.select :university_id, @universities_list, {prompt: "Select University..."}, {id: "validation_uni", class: "custom-select"} %>
+      </div>
       <div class="form-group">
-        <%= f.label :department, "Adding Students to Department:" %>
-        <%= f.select :department_id, options_for_select(@departments_list, ( flash[:students_list] && flash[:students_list][:department_id] ? flash[:students_list][:department_id] : nil )), {prompt: "Select Department:", selected: (!flash[:students_list].blank? && !flash[:students_list][:department_id].blank?) }, {class: "custom-select"} %>
+        <%= f.select :department_id, options_for_select(@departments_list, ( flash[:students_list] && flash[:students_list][:department_id] ? flash[:students_list][:department_id] : nil )), {prompt: "Select Department...", selected: (!flash[:students_list].blank? && !flash[:students_list][:department_id].blank?)}, {id:"validation_dp", class: "custom-select", required: true} %>
+        <div class="invalid-feedback">Please select students' department.</div>
       </div>
     <% else %>
       <%= f.hidden_field :department_id, value: current_user.department.id %>
     <% end %>
     <div class="form-group">
       <%= f.label :fyp_year, "Select Students FYP Year:" %>
-      <%= f.select :fyp_year, options_for_select(@fyp_year_list, ( flash[:students_list] && flash[:students_list][:fyp_year] ? flash[:students_list][:fyp_year] : nil )), {prompt: "Select FYP Year:", selected: (!flash[:students_list].blank? && !flash[:students_list][:fyp_year].blank?) }, {class: "custom-select"} %>
+      <%= f.select :fyp_year, options_for_select(@fyp_year_list, ( flash[:students_list] && flash[:students_list][:fyp_year] ? flash[:students_list][:fyp_year] : nil )), {prompt: "Select FYP Year...", selected: (!flash[:students_list].blank? && !flash[:students_list][:fyp_year].blank?)}, {class: "custom-select", required: true} %>
+        <div class="invalid-feedback">Please select students' FYP year.</div>
     </div>
     <div class="row">
       <div class="form-group col-md-6">
         <%= f.label :netID_list, "List of netIDs:" %>
-        <%= f.text_area :netID_list, {rows: 15, class: "form-control batch-import-box", value: ( flash[:students_list] && flash[:students_list][:netID_list] ? flash[:students_list][:netID_list] : nil )} %>
+        <%= f.text_area :netID_list, {rows: 15, class: "form-control batch-import-box", value: ( flash[:students_list] && flash[:students_list][:netID_list] ? flash[:students_list][:netID_list] : nil ), required: true} %>
+        <div class="invalid-feedback">Please enter at lease 1 netID.</div>
       </div>
       <div class="form-group col-md-6">
         <%= f.label :name_list, "List of names:" %>

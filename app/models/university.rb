@@ -6,7 +6,7 @@ class University < ApplicationRecord
   validates :name, presence: true, length: { maximum: 255 }, uniqueness: { case_sensitive: false }
   validates :code, length: { maximum: 8 }
   validates_uniqueness_of :code, allow_blank: true
-  has_many :departments
+  has_many :departments, through: :faculties
   has_many :faculties
 
   def code=(val)

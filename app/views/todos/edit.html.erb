@@ -21,15 +21,20 @@
             <div class="invalid-feedback">Please enter Todo date.</div>
           </div>
         </div>
-        <div class="form-group">
           <%= f.label :department %>
           <% if is_admin? %>
-            <%= f.select :department_id, @departments_list, {include_blank: true}, {class: "custom-select"} %>
+          <div class="form-group" style="margin-bottom: 0.5em;">
+            <%= f.select :university_id, @universities_list, {prompt: "Select University..."}, {id: "validation_uni", class: "custom-select"} %>
+          </div>
+          <div class="form-group">
+            <%= f.select :department_id, @departments_list, {include_blank: true}, {id: "validation_dp", class: "custom-select"} %>
+          </div>
           <% else %>
-            <%= f.select :department_id, @departments_list, {include_blank: true}, {class: "custom-select", disabled: true} %>
-            <%= f.hidden_field :department_id, value: current_user.department.id %>
+          <div class="form-group">
+            <%= f.text_field :department, value: (@todo.department.present? ? @todo.department.name : "All Departments"), class: 'form-control', disabled: true %>
+            <%= f.hidden_field :department_id, value: (@todo.department.present? ? @todo.department.id : nil) %>
+          </div>
           <% end %>
-        </div>
         <div class="form-row mb-2">
         &nbsp;
           <label>
