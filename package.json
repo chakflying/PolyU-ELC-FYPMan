@@ -3,6 +3,7 @@
   "private": true,
   "dependencies": {
     "@rails/webpacker": "^4.0",
+    "animate.css": "^3.7.0",
     "caniuse-lite": "^1.0",
     "css-loader": "^2.1",
     "logrocket": "^0.6.19",
