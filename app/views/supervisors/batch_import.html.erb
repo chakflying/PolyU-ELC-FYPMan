@@ -1,6 +1,6 @@
 <% provide(:title, 'Batch Import Supervisors') %>
 <div class="container">
-  <h2 class="display-2 aheading">Batch Import Supervisors</h2>
+  <h2 class="display-2 aheading animated fadeInDown faster">Batch Import Supervisors</h2>
   <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#batchimporthelp" aria-expanded="false" aria-controls="batchimporthelp">
     <i class="fas fa-info" style='font-size:77%;position:relative;top:-1px'></i>&ensp; Need Help?
   </button>
@@ -17,13 +17,15 @@
   <%= form_for(:supervisors_list, url: supervisors_batch_import_path, html: {class: "needs-validation", novalidate: true}) do |f| %>
     <% if is_admin? %>
       <%= f.label :department, "Adding Supervisors to Department:", for: "validation_dp" %>
-      <div class="form-group" style="margin-bottom: 0.5em;">
-            <%= f.select :university_id, @universities_list, {prompt: "Select University..."}, {id: "validation_uni", class: "custom-select"} %>
-      </div>
-      <div class="form-group">
-        <%= f.select :department_id, options_for_select(@departments_list, ( flash[:supervisors_list] && flash[:supervisors_list][:department_id] ? flash[:supervisors_list][:department_id] : nil )), {prompt: "Select Department...", selected: (!flash[:supervisors_list].blank? && !flash[:supervisors_list][:department_id].blank?)}, {id: "validation_dp", class: "custom-select", required: true} %>
-        <div class="invalid-feedback">Please select supervisors' department.</div>
-      </div>
+      <div class="form-row">
+        <div class="form-group col-lg-5" style="margin-bottom: 0.5em;">
+              <%= f.select :university_id, @universities_list, {prompt: "Select University..."}, {id: "validation_uni", class: "custom-select"} %>
+        </div>
+        <div class="form-group col-lg-7">
+          <%= f.select :department_id, options_for_select(@departments_list, ( flash[:supervisors_list] && flash[:supervisors_list][:department_id] ? flash[:supervisors_list][:department_id] : nil )), {prompt: "Select Department...", selected: (!flash[:supervisors_list].blank? && !flash[:supervisors_list][:department_id].blank?)}, {id: "validation_dp", class: "custom-select", required: true, disabled: true} %>
+          <div class="invalid-feedback">Please select supervisors' department.</div>
+        </div>
+        </div>
     <% else %>
       <%= f.hidden_field :department_id, value: current_user.department.id %>
     <% end %>

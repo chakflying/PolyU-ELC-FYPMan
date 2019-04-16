@@ -41,5 +41,6 @@ document.addEventListener("turbolinks:load", function() {
       .fail(function() {
         $("#dp_load").append("&nbsp;<small>check your internet connection.</small>");
       });
+    $('#validation_dp').prop('disabled', false); 
   });
 });

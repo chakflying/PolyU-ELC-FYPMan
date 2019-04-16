@@ -1,6 +1,6 @@
 <% provide(:title, "Edit Profile") %>
 <div class="container">
-  <h2 class="display-2 aheading">Edit Profile</h2>
+  <h2 class="display-2 aheading animated fadeInDown faster">Edit Profile</h2>
   <div class="row">
     <div class="col-lg-3"></div>
     <div class="col-lg-6">
@@ -26,13 +26,13 @@
             <%= f.select :university_id, @universities_list, {prompt: "Select University..."}, {id: "validation_uni", class: "custom-select"} %>
           </div>
           <div class="form-group">
-            <%= f.select :department_id, @departments_list, {include_blank: true}, {id: "validation_dp", class: "custom-select", required: true} %>
+            <%= f.select :department_id, @departments_list, {include_blank: true}, {id: "validation_dp", class: "custom-select", required: true, disabled: true} %>
             <div class="invalid-feedback">Please select your department.</div>
           </div>
           <% else %>
           <div class="form-group">
-            <%= f.select :department_id, @departments_list, {include_blank: true}, {id: "validation_dp", class: "custom-select", disabled: true} %>
-            <%= f.hidden_field :department_id, value: current_user.department.id %>
+            <%= f.text_field :department, value: @user.department.name, class: "form-control", disabled: true %>
+            <%= f.hidden_field :department_id, value: @user.department.id %>
           </div>
           <% end %>
         <div class="form-group">

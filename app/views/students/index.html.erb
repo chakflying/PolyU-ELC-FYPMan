@@ -3,7 +3,7 @@
   <meta name="turbolinks-cache-control" content="no-cache">
 <% end %>
 <div class="container">
-  <h2 class="display-2 aheading">Manage Students</h2>
+  <h2 class="display-2 aheading animated fadeInDown faster">Manage Students</h2>
   <% if is_admin? %>
     <h5 class="display-5">You are viewing all students.</h5>
     <%= content_tag 'div', '', id: 'data', data: {admin: true} %>
@@ -30,20 +30,20 @@
         <div class="invalid-feedback">Please select student FYP year.</div>
       </div>
     </div>
+    <% if is_admin? %>
+    <%= f.label :department, for: "validation_dp" %>
     <div class="form-row">
-      <% if is_admin? %>
-        <div class="form-group col-md-12" style="margin-bottom: 0.5em;">
-          <%= f.label :department, for: "validation_dp" %>
+        <div class="form-group col-lg-5" style="margin-bottom: 0.5em;">
           <%= f.select :university_id, @universities_list, {prompt: "Select University..."}, {id: "validation_uni", class: "custom-select"} %>
         </div>
-        <div class="form-group col-md-12">
-          <%= f.select :department_id, @departments_list, {prompt: "Select Department..."}, {id: "validation_dp", class: "custom-select", 'aria-label': "New student Department", required: true} %>
+        <div class="form-group col-lg-7">
+          <%= f.select :department_id, @departments_list, {prompt: "Select Department..."}, {id: "validation_dp", class: "custom-select", 'aria-label': "New student Department", required: true, disabled: true} %>
           <div class="invalid-feedback">Please select student department.</div>
         </div>
+    </div>
       <% else %>
         <%= f.hidden_field :department_id, value: current_user.department.id %>
       <% end %>
-    </div>
     <%= button_tag(type: 'submit', class: "btn btn-primary") do %>
       <i class='fas fa-plus' style='font-size:79%'></i>&nbsp; Submit
     <% end %>
