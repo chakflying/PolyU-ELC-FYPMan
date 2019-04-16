@@ -19,7 +19,7 @@
     <% if is_admin? %>
       <%= f.label :department, "Adding Students to Department:", for: "validation_dp" %>
       <div class="form-group" style="margin-bottom: 0.5em;">
-            <%= f.select :university_id, @universities_list, {prompt: "Select University..."}, {id: "validation_uni", class: "custom-select"} %>
+            <%= f.select :university_id, @universities_list, {prompt: "Select University..."}, {id: "validation_uni", class: "custom-select", required: true} %>
       </div>
       <div class="form-group">
         <%= f.select :department_id, options_for_select(@departments_list, ( flash[:students_list] && flash[:students_list][:department_id] ? flash[:students_list][:department_id] : nil )), {prompt: "Select Department...", selected: (!flash[:students_list].blank? && !flash[:students_list][:department_id].blank?)}, {id:"validation_dp", class: "custom-select", required: true, disabled: true} %>

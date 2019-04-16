@@ -30,7 +30,7 @@
     <%= f.label :department, for: "validation_dp" %>
     <div class="form-row">
         <div class="form-group col-lg-5" style="margin-bottom: 0.5em;">
-          <%= f.select :university_id, @universities_list, {prompt: "Select University..."}, {id: "validation_uni", class: "custom-select"} %>
+          <%= f.select :university_id, @universities_list, {prompt: "Select University..."}, {id: "validation_uni", class: "custom-select", required: true} %>
         </div>
         <div class="form-group col-lg-7">
           <%= f.select :department_id, @departments_list, {prompt: "Select Department..."}, {id: "validation_dp", class: "custom-select", 'aria-label': "New supervisor department", required: true, disabled: true} %>
