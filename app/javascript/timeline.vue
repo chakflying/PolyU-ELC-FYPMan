@@ -1,6 +1,6 @@
 <template id="timeline-template">
   <ul class="timeline">
-    <li v-for="item in m_items" is="timeline-item" :item="item" :key="item.id"></li>
+    <li v-for="item in m_display_items" is="timeline-item" :item="item" :key="item.id"></li>
   </ul>
 </template>
 
@@ -16,6 +16,7 @@ export default {
   data: function() {
     return {
       m_items: [],
+      m_display_items: [],
       m_show_past: false
     };
   },
@@ -27,11 +28,12 @@ export default {
       this.m_show_past = !this.m_show_past;
       this.updateItems(this.m_items);
     },
-    updateItems: function(old_items) {
+    updateItems: function(in_items) {
+      this.m_items = in_items;
       var now = Date.now();
-      this.m_items = this.m_show_past
-        ? old_items.filter(item => Date.parse(item.eta) <= now)
-        : old_items.filter(item => Date.parse(item.eta) >= now);
+      this.m_display_items = this.m_show_past
+        ? in_items.filter(item => Date.parse(item.eta) <= now).sort(function (a, b) {return new Date(b.eta) - new Date(a.eta);})
+        : in_items.filter(item => Date.parse(item.eta) >= now);
     },
     fetchItems: function() {
       var csrfToken = document
