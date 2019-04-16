@@ -25,7 +25,7 @@ export default {
   methods: {
     toggleShowPast: function() {
       this.m_show_past = !this.m_show_past;
-      this.updateItems(this.items);
+      this.updateItems(this.m_items);
     },
     updateItems: function(old_items) {
       var now = Date.now();
