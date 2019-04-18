@@ -29,6 +29,7 @@ Rails.application.routes.draw do
 
   get    '/assign',   to: 'assign#assign'
   post   '/assign',   to: 'assign#assign'
+  post   '/ajaxassign',   to: 'assign#ajaxassign'
   post   '/unassign', to: 'assign#unassign'
   get    '/batch_assign', to: 'assign#batch_assign'
   post   '/batch_assign', to: 'assign#batch_assign'

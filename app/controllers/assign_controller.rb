@@ -39,6 +39,21 @@ class AssignController < ApplicationController
     end
   end
 
+  def ajaxassign
+    sup_netid = CGI::unescape(request.params[:supervisor_netID])
+    stu_netid = CGI::unescape(request.params[:student_netID])
+    stu = Student.find_by(netID: stu_netid)
+    sup = Supervisor.find_by(netID: sup_netid)
+    if !stu || !sup
+      render plain: 'failed'
+      return
+    else
+      Supervision.create(student_id: stu.id, supervisor_id: sup.id)
+      stu.sync_id.present? && sup.sync_id.present? ? olddb_assign(stu_netid, sup_netid) : false
+      render plain: 'submitted'
+    end
+  end
+
   # Ajax Function to unassign student/supervisor.
   def unassign
     sup_netid = CGI::unescape(request.params[:supervisor_netID])
