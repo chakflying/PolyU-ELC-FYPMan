@@ -218,8 +218,8 @@ $(document).on("click", ".dt-btn-rm", function() {
           .fadeOut(function() {
             var div = jQuery(
               '<div class="row dt-rel-row"><div class="col-9 dt-rel-name"><i class="fas fa-user-slash"></i>&nbsp; Unassigned successfully.</div><div class="col-3"><button class="btn btn-sm btn-light dt-btn-rmundo" data-stu_netID="{0}" data-sup_netID="{1}" aria-label="Undo">Undo</button></div></div>'.formatUnicorn(
-                this.children[2].children[0].dataset.stu_netid,
-                this.children[2].children[0].dataset.sup_netid
+                this.children[2] ? this.children[2].children[0].dataset.stu_netid : this.children[1].children[0].dataset.stu_netid,
+                this.children[2] ? this.children[2].children[0].dataset.sup_netid : this.children[1].children[0].dataset.sup_netid
               )
             );
             $(this).replaceWith(div);
@@ -268,7 +268,8 @@ $(document).on("click", ".dt-btn-rmundo", function() {
       if (data == "submitted") {
         if (document.students_dataTable != null) {
           document.students_dataTable.ajax.reload();
-        } else if (document.supervisors_dataTable != null) {
+        }
+        if (document.supervisors_dataTable != null) {
           document.supervisors_dataTable.ajax.reload();
         }
       } else {
