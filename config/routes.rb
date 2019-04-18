@@ -14,8 +14,8 @@ Rails.application.routes.draw do
   delete '/logout',  to: 'sessions#destroy'
   get    '/users',                to: 'admin#users'
   resources :users,               only: %i[new create show edit update destroy]
-  get    '/password_resets',  to: 'password_resets#new'
-  resources :password_resets,     only: %i[new create edit update]
+  get '/password_resets', to: 'password_resets#new'
+  resources :password_resets, only: %i[new create edit update]
 
   get    '/students_batch_import', to: 'students#batch_import'
   post   '/students_batch_import', to: 'students#batch_import'
@@ -29,6 +29,7 @@ Rails.application.routes.draw do
 
   get    '/assign',   to: 'assign#assign'
   post   '/assign',   to: 'assign#assign'
+  post   '/ajaxassign',   to: 'assign#ajaxassign'
   post   '/unassign', to: 'assign#unassign'
   get    '/batch_assign', to: 'assign#batch_assign'
   post   '/batch_assign', to: 'assign#batch_assign'
@@ -40,6 +41,7 @@ Rails.application.routes.draw do
     get    '/trails',               to: 'admin#activities'
     resources :departments
   end
+  get '/departments_list_by_uni', to: 'departments#get_departments_list_by_uni'
 
   get '/not_found', to: 'errors#show', code: 404
 

@@ -4,6 +4,7 @@ class StudentsController < ApplicationController
   before_action :authenticate_user!
   def index
     @departments_list = get_departments_list if is_admin?
+    @universities_list = get_universities_list if is_admin?
     @fyp_year_list = get_fyp_years_list
     @student = Student.new
     respond_to do |format|
@@ -38,6 +39,7 @@ class StudentsController < ApplicationController
       end
     end
     @departments_list = get_departments_list if is_admin?
+    @universities_list = get_universities_list if is_admin?
     @fyp_year_list = get_fyp_years_list
     render 'index'
   end
@@ -48,7 +50,8 @@ class StudentsController < ApplicationController
 
   def edit
     @student = Student.find(params[:id])
-    @departments_list = get_departments_list
+    @departments_list = get_departments_list(@student.university_id) if is_admin?
+    @universities_list = get_universities_list if is_admin?
     @fyp_year_list = get_fyp_years_list
   end
 
@@ -69,7 +72,8 @@ class StudentsController < ApplicationController
         else
           flash.now[:danger] = Array(flash.now[:danger]).push('Error updating student.')
         end
-        @departments_list = get_departments_list
+        @departments_list = get_departments_list(@student.university_id) if is_admin?
+        @universities_list = get_universities_list if is_admin?
         @fyp_year_list = get_fyp_years_list
         render 'edit'
       end
@@ -100,7 +104,7 @@ class StudentsController < ApplicationController
       flash[:danger] = Array(flash[:danger]).push('Supervisor not found.')
       redirect_to students_url
     else
-      @student.supervisors.delete(sup)
+      Supervision.find_by(student_id: @student.id, supervisor_id: sup.id).destroy
       @student.sync_id && sup.sync_id ? olddb_student_removeSupervisor(stu_netid, sup_netid) : false
       flash[:success] = Array(flash[:success]).push('Supervisor removed successfully.')
       redirect_to students_url
@@ -112,6 +116,7 @@ class StudentsController < ApplicationController
     @student = Student.new
     @fyp_year_list = get_fyp_years_list
     @departments_list = get_departments_list if is_admin?
+    @universities_list = get_universities_list if is_admin?
 
     if request.post?
       flash[:students_list] = request.params[:students_list]

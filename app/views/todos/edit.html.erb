@@ -4,31 +4,37 @@
 <% end %>
 
 <div class="container">
-  <h2 class="display-2 aheading">Edit Todo Item</h2>
+  <h2 class="display-2 aheading animated fadeInDown faster">Edit Todo Item</h2>
   <div class="row">
     <div class="col-md-6 col-md-offset-3">
       <%= form_for(@todo, html: {class: "needs-validation", novalidate: true}) do |f| %>
         <%= render 'shared/error_messages', obj: @todo %>
         <div class="form-group">
-          <%= f.label :title %>
-          <%= f.text_field :title, class: 'form-control', placeholder: "Enter title", required: true %>
+          <%= f.label :title, for: "validation_tt" %>
+          <%= f.text_field :title, class: 'form-control', id: "validation_tt", placeholder: "Enter title", required: true %>
           <div class="invalid-feedback">Please enter Todo title.</div>
         </div>
         <div class="form-group">
-          <%= f.label "Date" %>
+          <%= f.label "Date", for: "validation_dt" %>
           <div class="form-row" style="margin:0;">
-            <%= f.text_field :eta, class: 'form-control datepicker', required: true, value: @todo.eta.in_time_zone("Hong Kong").strftime("%d %B, %Y") %>
+            <%= f.text_field :eta, class: 'form-control datepicker', id: "validation_dt", required: true, value: @todo.eta.in_time_zone("Hong Kong").strftime("%d %B, %Y") %>
+            <div class="invalid-feedback">Please enter Todo date.</div>
           </div>
         </div>
-        <div class="form-group">
           <%= f.label :department %>
           <% if is_admin? %>
-            <%= f.select :department_id, @departments_list, {include_blank: true}, {class: "custom-select"} %>
+          <div class="form-group" style="margin-bottom: 0.5em;">
+            <%= f.select :university_id, @universities_list, {prompt: "Select University..."}, {id: "validation_uni", class: "custom-select", required: true} %>
+          </div>
+          <div class="form-group">
+            <%= f.select :department_id, @departments_list, {include_blank: true}, {id: "validation_dp", class: "custom-select", disabled: true} %>
+          </div>
           <% else %>
-            <%= f.select :department_id, @departments_list, {include_blank: true}, {class: "custom-select", disabled: true} %>
-            <%= f.hidden_field :department_id, value: current_user.department.id %>
+          <div class="form-group">
+            <%= f.text_field :department, value: (@todo.department.present? ? @todo.department.name : "All Departments"), class: 'form-control', disabled: true %>
+            <%= f.hidden_field :department_id, value: (@todo.department.present? ? @todo.department.id : nil) %>
+          </div>
           <% end %>
-        </div>
         <div class="form-row mb-2">
         &nbsp;
           <label>

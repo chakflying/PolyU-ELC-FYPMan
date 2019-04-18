@@ -10,6 +10,10 @@ class Supervisor < ApplicationRecord
   has_many :supervisions
   has_many :students, through: :supervisions
   belongs_to :department
+  delegate :faculty, to: :department, allow_nil: true
+  delegate :faculty_id, to: :department, allow_nil: true
+  delegate :university, to: :faculty, allow_nil: true
+  delegate :university_id, to: :faculty, allow_nil: true
   has_paper_trail on: %i[create destroy update]
 
   def netID_crossunique

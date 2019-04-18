@@ -83,6 +83,22 @@ class DepartmentsController < ApplicationController
     redirect_to departments_url
   end
 
+  def get_departments_list_by_uni
+    @departments_list = []
+    if params[:id].blank?
+      Department.all.each do |dep|
+        @departments_list.push([dep.name, dep.id])
+      end
+    else
+      University.find(params[:id]).faculties.includes(:departments).each do |fac|
+        fac.departments.each do |dep|
+          @departments_list.push([dep.name, dep.id])
+        end
+      end
+    end
+    render json: @departments_list
+  end
+
   def olddb_department_create(params)
     @old_department = OldDepartment.create(name: params[:name].squish, short_name: params[:code], status: 1, faculty: Faculty.find(params[:faculty_id]).sync_id)
     @old_department.id

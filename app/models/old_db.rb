@@ -18,7 +18,7 @@ class OldDb < ActiveRecord::Base
     ActiveRecord::Base.connection.cache do
       # Update Universities according to old DB
       puts('Updating Universities...') unless Rails.env.test?
-      University.where.not(sync_id: nil).where.not(sync_id: OldUniversity.where(status: 1).pluck(:id)).each(&:delete)
+      University.where.not(sync_id: nil).where.not(sync_id: OldUniversity.where(status: 1).pluck(:id)).each(&:destroy)
 
       synced_universities = University.where(sync_id: OldUniversity.where(status: 1).pluck(:id))
       OldUniversity.each do |old_uni|
@@ -69,7 +69,7 @@ class OldDb < ActiveRecord::Base
 
       # Update Faculties according to old DB
       puts('Updating Faculties...') unless Rails.env.test?
-      Faculty.where.not(sync_id: nil).where.not(sync_id: OldFaculty.where(status: 1).pluck(:id)).each(&:delete)
+      Faculty.where.not(sync_id: nil).where.not(sync_id: OldFaculty.where(status: 1).pluck(:id)).each(&:destroy)
 
       synced_faculties = Faculty.where(sync_id: OldFaculty.where(status: 1).pluck(:id))
       OldFaculty.each do |old_fac|
@@ -124,7 +124,7 @@ class OldDb < ActiveRecord::Base
 
       # Update Departments according to old DB
       puts('Updating Departments...') unless Rails.env.test?
-      Department.where.not(sync_id: nil).where.not(sync_id: OldDepartment.where(status: 1).pluck(:id)).each(&:delete)
+      Department.where.not(sync_id: nil).where.not(sync_id: OldDepartment.where(status: 1).pluck(:id)).each(&:destroy)
 
       synced_departments = Department.where(sync_id: OldDepartment.where(status: 1).pluck(:id))
       OldDepartment.each do |old_dep|
@@ -200,11 +200,11 @@ class OldDb < ActiveRecord::Base
 
       # Remove Students according to old DB
       puts('Removing deleted students...') unless Rails.env.test?
-      Student.where.not(sync_id: nil).where.not(sync_id: OldUser.where(status: 1, role: 1).pluck(:id)).each(&:delete)
+      Student.where.not(sync_id: nil).where.not(sync_id: OldUser.where(status: 1, role: 1).pluck(:id)).each(&:destroy)
 
       # Remove Supervisors according to old DB
       puts('Removing deleted supervisors...') unless Rails.env.test?
-      Supervisor.where.not(sync_id: nil).where.not(sync_id: OldUser.where(status: 1, role: 2).pluck(:id)).each(&:delete)
+      Supervisor.where.not(sync_id: nil).where.not(sync_id: OldUser.where(status: 1, role: 2).pluck(:id)).each(&:destroy)
 
       # Create/Update Students/Supervisors according to old DB
       synced_students = Student.where(sync_id: OldUser.where(status: 1, role: 1).pluck(:id))
@@ -266,7 +266,7 @@ class OldDb < ActiveRecord::Base
             else
               # The old one is deleted, and new one created with the same netID
               # puts("case 3") if Rails.env.development?
-              stu.delete
+              stu.destroy
               new_stu = Student.new(netID: entry.net_id, name: entry.common_name, department_id: d_id, fyp_year: @fyp_year, sync_id: entry.id)
               unless new_stu.save && entry.touch
                 errors_text.append('[New Student] Sync failed on: ' + new_stu.attributes.to_s)
@@ -319,7 +319,7 @@ class OldDb < ActiveRecord::Base
             else
               # The old one is deleted, and new one created with the same netID
               # puts("case 3") if Rails.env.development?
-              sup.delete
+              sup.destroy
               new_sup = Supervisor.new(netID: entry.net_id, name: entry.common_name, department_id: d_id, sync_id: entry.id)
               unless new_sup.save && entry.touch
                 errors_text.append('[New Supervisor] Sync failed on: ' + new_sup.attributes.to_s)
@@ -388,13 +388,13 @@ class OldDb < ActiveRecord::Base
         elsif !OldUser[old_rel.student_net_id.to_i] || !OldUser[old_rel.supervisor_net_id.to_i]
           # Delete if relation is invalid
           puts('Relation ' + old_rel.values.to_s + ' deleted because student or supervisor does not exist')
-          old_rel.delete
+          old_rel.destroy
         end
       end
 
       # Update Todos according to old DB
       puts('Updating Todos...') unless Rails.env.test?
-      Todo.where.not(sync_id: nil).where.not(sync_id: OldTodo.where(status: 1).pluck(:id)).each(&:delete)
+      Todo.where.not(sync_id: nil).where.not(sync_id: OldTodo.where(status: 1).pluck(:id)).each(&:destroy)
 
       synced_todos = Todo.where(sync_id: OldTodo.where(status: 1).pluck(:id))
       OldTodo.each do |old_todo|
@@ -409,7 +409,7 @@ class OldDb < ActiveRecord::Base
 
         if old_todo.time.blank? || old_todo.title.blank?
           puts('OldTodo item deleted because time/title is not set. ' + old_todo.values.to_s)
-          old_todo.delete
+          old_todo.destroy
           next
         end
 

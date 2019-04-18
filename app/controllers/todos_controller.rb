@@ -4,6 +4,7 @@ class TodosController < ApplicationController
   before_action :authenticate_user!
   def index
     if is_admin?
+      @universities_list = get_universities_list
       @todo_list = Todo.all.order('eta ASC').includes(:department)
     else
       @todo_list = Todo.where(department: current_user.department).or(Todo.where(department: nil)).order('eta ASC').includes(:department)
@@ -43,12 +44,14 @@ class TodosController < ApplicationController
       @todo_list = Todo.where(department: current_user.department).or(Todo.where(department: nil)).order('eta ASC')
     end
     @departments_list = get_departments_list
+    @universities_list = get_universities_list if is_admin?
     render 'index'
   end
 
   def edit
     @todo = Todo.find(params[:id])
-    @departments_list = get_departments_list
+    @departments_list = get_departments_list(@todo.university_id) if is_admin?
+    @universities_list = get_universities_list if is_admin?
   end
 
   def update

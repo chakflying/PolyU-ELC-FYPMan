@@ -6,6 +6,8 @@ class Faculty < ApplicationRecord
   validates :name, presence: true, length: { maximum: 255 }
   validates :code, length: { maximum: 8 }
   has_many :departments
+  has_many :students, through: :departments
+  has_many :supervisors, through: :departments
   belongs_to :university, optional: true
 
   def code=(val)
