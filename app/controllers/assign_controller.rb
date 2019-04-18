@@ -49,7 +49,7 @@ class AssignController < ApplicationController
       render plain: 'failed'
       return
     else
-      stu.supervisors.delete(sup)
+      Supervision.find_by(student_id: stu.id, supervisor_id: sup.id).destroy
       stu.sync_id.present? && sup.sync_id.present? ? olddb_unassign(stu_netid, sup_netid) : false
       render plain: 'submitted'
     end

@@ -97,7 +97,7 @@ class SupervisorsController < ApplicationController
       flash[:danger] = Array(flash[:danger]).push('Student not found.')
       redirect_to supervisors_url
     else
-      @supervisor.students.delete(stu)
+      Supervision.find_by(student_id: stu.id, supervisor_id: @supervisor.id).destroy
       @supervisor.sync_id && stu.sync_id ? olddb_supervisor_removeStudent(stu_netid, sup_netid) : false
       flash[:success] = Array(flash[:success]).push('Student unassigned successfully.')
       redirect_to supervisors_url

@@ -68,7 +68,7 @@ class OldDbSyncTest < ActionDispatch::IntegrationTest
     item = OldTodo[Todo.first.sync_id]
 
     assert_difference 'Todo.count', -1 do
-      item.delete
+      item.destroy
       OldDb.sync
     end
   end
@@ -80,7 +80,7 @@ class OldDbSyncTest < ActionDispatch::IntegrationTest
     item = OldFaculty[Faculty.last.sync_id]
     
     assert_difference 'Faculty.count', -1 do
-      item.delete
+      item.destroy
       OldDb.sync
     end
   end
@@ -92,7 +92,7 @@ class OldDbSyncTest < ActionDispatch::IntegrationTest
     item = OldUniversity[University.last.sync_id]
     
     assert_difference 'University.count', -1 do
-      item.delete
+      item.destroy
       OldDb.sync
     end
   end
