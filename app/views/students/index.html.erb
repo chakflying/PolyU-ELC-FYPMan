@@ -31,7 +31,6 @@
       </div>
     </div>
     <% if is_admin? %>
-    <%= f.label :department, for: "validation_dp" %>
     <div class="form-row">
         <div class="form-group col-lg-5" style="margin-bottom: 0.5em;">
           <%= f.select :university_id, @universities_list, {prompt: "Select University..."}, {id: "validation_uni", class: "custom-select", required: true} %>
