@@ -106,6 +106,37 @@ document.addEventListener("turbolinks:load", function() {
       }
     });
   }
+
+  if (document.admin_activity_dataTable != null) {
+    switch (document.admin_activity_dataTable.column(1).search()) {
+      case "":
+        break;
+      case "Student":
+        $(".da-nav").removeClass("active");
+        $("#db_f_students").addClass("active");
+        break;
+      case "Supervisor":
+        $(".da-nav").removeClass("active");
+        $("#db_f_supervisors").addClass("active");
+        break;
+      case "Supervision":
+        $(".da-nav").removeClass("active");
+        $("#db_f_supervisions").addClass("active");
+        break;
+      case "User":
+        $(".da-nav").removeClass("active");
+        $("#db_f_users").addClass("active");
+        break;
+      case "Todo":
+        $(".da-nav").removeClass("active");
+        $("#db_f_todos").addClass("active");
+        break;
+      case "Department":
+        $(".da-nav").removeClass("active");
+        $("#db_f_departments").addClass("active");
+        break;
+    }
+  }
 });
 
 document.addEventListener("turbolinks:before-cache", function() {
