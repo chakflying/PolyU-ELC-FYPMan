@@ -2,10 +2,10 @@
   <div class="row" id="assign">
     <div class="col-lg-3"></div>
     <div class="col-lg-6">
-      <label for="student_netID">Assign student(s):</label>
+      <label>Assign student(s):</label>
       <template v-for="student_item in student_fields">
         <div class="form-group" :key="student_item">
-          <v-select :options="students" v-model="student_netID_response[student_item]" placeholder="Search or Select..."></v-select>
+          <v-select :options="students" :reduce="student => student.value" v-model="student_netID_response[student_item]" placeholder="Search or Select..."></v-select>
         </div>
       </template>
       <button v-on:click="add_student_field()" class="btn btn-secondary">
@@ -13,10 +13,17 @@
       </button>
       <br>
       <br>
-      <label for="student_netID">to supervisor:</label>
-      <div class="form-group">
-        <v-select :options="supervisors" v-model="supervisor_netID_response[0]" placeholder="Search or Select..."></v-select>
-      </div>
+      <label>to supervisor(s):</label>
+      <template v-for="supervisor_item in supervisor_fields">
+        <div class="form-group" :key="supervisor_item">
+          <v-select :options="supervisors" :reduce="supervisor => supervisor.value" v-model="supervisor_netID_response[supervisor_item]" placeholder="Search or Select..."></v-select>
+        </div>
+      </template>
+      <button v-on:click="add_supervisor_field()" class="btn btn-secondary">
+        <i class="fas fa-plus" style="font-size:79%"></i>&nbsp;Add another supervisor
+      </button>
+      <br>
+      <br>
       <button
         v-on:click="submit()"
         class="btn btn-primary"
@@ -34,6 +41,7 @@ export default {
   data: function() {
     return {
       student_fields: [0],
+      supervisor_fields: [0],
       student_netID_response: [],
       supervisor_netID_response: []
     };
@@ -45,31 +53,28 @@ export default {
     add_student_field: function() {
       this.student_fields.push(this.student_fields.length);
     },
+    add_supervisor_field: function() {
+      this.supervisor_fields.push(this.supervisor_fields.length);
+    },
     clearError: function(event) {
       event.target.classList.remove("is-invalid");
     },
     submit: function() {
       var submit_btn = document.getElementById("assign_submit_btn");
       submit_btn.classList.add("disabled");
-      if (!this.supervisor_netID_response[0]) {
+      if (!this.supervisor_netID_response[0] || !this.student_netID_response[0]) {
         submit_btn.classList.remove("disabled");
         return 0;
       }
       var csrfToken = document
         .querySelector('meta[name="csrf-token"]')
         .getAttribute("content");
-      var post_sups = this.supervisor_netID_response.map(obj => {
-        return obj.value;
-      });
-      var post_stus = this.student_netID_response.map(obj => {
-        return obj.value;
-      });
       this.$http
         .post(
           "/assign",
           {
-            supervisor_netID: post_sups,
-            student_netID: post_stus
+            supervisor_netID: this.supervisor_netID_response,
+            student_netID: this.student_netID_response,
           },
           { headers: { "X-CSRF-Token": csrfToken } }
         )
@@ -92,3 +97,7 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+@import 'vue-select/dist/vue-select.css';
+</style>
