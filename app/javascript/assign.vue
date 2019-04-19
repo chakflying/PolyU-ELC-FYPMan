@@ -4,8 +4,13 @@
     <div class="col-lg-6">
       <label>Assign student(s):</label>
       <template v-for="student_item in student_fields">
-        <div class="form-group" :key="student_item">
-          <v-select :options="students" :reduce="student => student.value" v-model="student_netID_response[student_item]" placeholder="Search or Select..."></v-select>
+        <div class="form-group" :key="'stu'+student_item">
+          <v-select
+            :options="students"
+            :reduce="student => student.value"
+            v-model="student_netID_response[student_item]"
+            placeholder="Search or Select..."
+          ></v-select>
         </div>
       </template>
       <button v-on:click="add_student_field()" class="btn btn-secondary">
@@ -15,8 +20,13 @@
       <br>
       <label>to supervisor(s):</label>
       <template v-for="supervisor_item in supervisor_fields">
-        <div class="form-group" :key="supervisor_item">
-          <v-select :options="supervisors" :reduce="supervisor => supervisor.value" v-model="supervisor_netID_response[supervisor_item]" placeholder="Search or Select..."></v-select>
+        <div class="form-group" :key="'sup'+supervisor_item">
+          <v-select
+            :options="supervisors"
+            :reduce="supervisor => supervisor.value"
+            v-model="supervisor_netID_response[supervisor_item]"
+            placeholder="Search or Select..."
+          ></v-select>
         </div>
       </template>
       <button v-on:click="add_supervisor_field()" class="btn btn-secondary">
@@ -62,9 +72,12 @@ export default {
     submit: function() {
       var submit_btn = document.getElementById("assign_submit_btn");
       submit_btn.classList.add("disabled");
-      if (!this.supervisor_netID_response[0] || !this.student_netID_response[0]) {
+      if (
+        !this.supervisor_netID_response[0] ||
+        !this.student_netID_response[0]
+      ) {
         submit_btn.classList.remove("disabled");
-        return 0;
+        return;
       }
       var csrfToken = document
         .querySelector('meta[name="csrf-token"]')
@@ -74,7 +87,7 @@ export default {
           "/assign",
           {
             supervisor_netID: this.supervisor_netID_response,
-            student_netID: this.student_netID_response,
+            student_netID: this.student_netID_response
           },
           { headers: { "X-CSRF-Token": csrfToken } }
         )
@@ -99,5 +112,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import 'vue-select/dist/vue-select.css';
+@import "vue-select/dist/vue-select.css";
 </style>
