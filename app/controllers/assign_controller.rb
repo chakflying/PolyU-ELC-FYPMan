@@ -14,25 +14,33 @@ class AssignController < ApplicationController
       @supervisors = Supervisor.where(department: current_user.department).select(:netID, :name).to_a
     end
     # Handle submitted Assign request
+    # TODO: can be optimized by using the newer Supervisions model?
     if request.post?
       stu_ids = request.params[:student_netID]
-      sup_id = request.params[:supervisor_netID][0]
-      sup = Supervisor.find_by(netID: sup_id)
-      unless sup
-        flash[:danger] = Array(flash[:danger]).push('Supervisor with netID ' + sup_id + ' not found.')
-        render plain: 'submitted'
-        return
+      sup_ids = request.params[:supervisor_netID]
+      stu_ids.each do |stu_id|
+        if Student.find_by(netID: stu_id).blank?
+          flash[:danger] = Array(flash[:danger]).push('Student with netID ' + stu_id + ' not found.')
+          stu_ids.delete(stu_id)
+        end
+      end
+      sup_ids.each do |sup_id|
+        if Supervisor.find_by(netID: sup_id).blank?
+          flash[:danger] = Array(flash[:danger]).push('Supervisor with netID ' + sup_id + ' not found.')
+          sup_ids.delete(sup_id)
+        end
       end
       stu_ids.each do |stu_id|
         stu = Student.find_by(netID: stu_id)
-        if !stu
-          flash[:danger] = Array(flash[:danger]).push('Student with netID ' + stu_id + ' not found.')
-        elsif stu.supervisors.find_by(netID: sup_id)
-          flash[:info] = Array(flash[:info]).push('Student with netID ' + stu_id + ' already assigned.')
-        else
-          stu.supervisors << sup
-          olddb_assign(stu.netID, sup.netID)
-          flash[:success] = Array(flash[:success]).push('Student with netID ' + stu_id + ' assigned successfully.')
+        sup_ids.each do |sup_id|
+          sup = Supervisor.find_by(netID: sup_id)
+          if stu.supervisors.find_by(netID: sup_id)
+            flash[:info] = Array(flash[:info]).push('Student ' + stu_id + ' already assigned to '+ sup_id +'.')
+          else
+            stu.supervisors << sup
+            olddb_assign(stu_id, sup_id)
+            flash[:success] = Array(flash[:success]).push('Student ' + stu_id + ' assigned to ' + sup_id + ' successfully.')
+          end
         end
       end
       render plain: 'submitted'
