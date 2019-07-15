@@ -19,15 +19,13 @@ String.prototype.formatUnicorn =
 document.addEventListener("turbolinks:load", function() {
   if ($(".admin-users-table").length) {
     document.manage_dataTable = $(".admin-users-table").DataTable({
-      stateSave: true,
-      stateDuration: 60 * 60 * 24,
+      stateSave: false,
       responsive: true,
       columnDefs: [{ responsivePriority: 2, targets: 2 }, { responsivePriority: 1, targets: -1 }, { width: "1em", targets: 0 }, { width: "1.3em", targets: -3 }, { width: "6.5em", targets: -1 }]
     });
   } else if ($(".admin-activity-table").length) {
     document.admin_activity_dataTable = $(".admin-activity-table").DataTable({
-      stateSave: true,
-      stateDuration: 60 * 60 * 24,
+      stateSave: false,
       responsive: true,
       columnDefs: [{ responsivePriority: 10001, targets: -1 }],
       order: [[4, "desc"]],
@@ -42,8 +40,7 @@ document.addEventListener("turbolinks:load", function() {
       serverSide: true,
       ajax: $(".students-table").data("source"),
       order: [[0, "asc"]],
-      stateSave: true,
-      stateDuration: 60 * 60 * 24,
+      stateSave: false,
       responsive: true,
       columns: [{ data: "id" }, { data: "name" }, { data: "netID" }, { data: "department" }, { data: "fyp_year" }, { data: "supervisors" }, { data: "dt_action" }],
       columnDefs: [
@@ -72,8 +69,7 @@ document.addEventListener("turbolinks:load", function() {
       serverSide: true,
       ajax: $(".supervisors-table").data("source"),
       order: [[0, "asc"]],
-      stateSave: true,
-      stateDuration: 60 * 60 * 24,
+      stateSave: false,
       responsive: true,
       columns: [{ data: "id" }, { data: "name" }, { data: "netID" }, { data: "department" }, { data: "students" }, { data: "dt_action" }],
       columnDefs: [
@@ -97,8 +93,7 @@ document.addEventListener("turbolinks:load", function() {
     }
   } else if ($(".departments-table").length) {
     document.departments_dataTable = $(".departments-table").DataTable({
-      stateSave: true,
-      stateDuration: 60 * 60 * 24,
+      stateSave: false,
       responsive: true,
       columnDefs: [{ responsivePriority: 2, targets: 1 }, { responsivePriority: 1, targets: -1 }, { width: "1em", targets: 0 }, { width: "6.5em", targets: -1 }],
       language: {
