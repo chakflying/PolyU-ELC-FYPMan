@@ -3,7 +3,7 @@
     <div :class="'timeline-badge ' + item.icon_status">
       <i :class="item.icon_class"></i>
     </div>
-    <div class="timeline-panel" v-on:click="expanded = !expanded" v-bind:class="{active: expanded}">
+    <div class="timeline-panel card" v-on:click="expanded = !expanded" v-bind:class="{active: expanded}">
       <div class="timeline-heading">
         <h4 class="timeline-title col-lg-9 col-sm-8 col-xs-12">{{ item.title }}</h4>
         <p class="timeline-department">

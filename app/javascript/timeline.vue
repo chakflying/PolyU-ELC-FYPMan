@@ -115,7 +115,7 @@ export default {
     > .timeline-panel {
       border-radius: 6px;
       border: 1px solid #d4d4d4;
-      box-shadow: -1px 1px 2px rgba(100, 100, 100, 0.4);
+      // box-shadow: -1px 1px 2px rgba(100, 100, 100, 0.4);
       margin-left: 80px;
       padding: 20px;
       position: relative;
@@ -176,7 +176,7 @@ export default {
       top: 16px;
       width: 50px;
       z-index: 1;
-      box-shadow: -3px 3px 5px rgba(50, 50, 50, 0.37);
+      box-shadow: 0 .46875rem 2.1875rem rgba(90,97,105,.1),0 .9375rem 1.40625rem rgba(90,97,105,.1),0 .25rem .53125rem rgba(90,97,105,.12),0 .125rem .1875rem rgba(90,97,105,.1);
     }
 
     .timeline-badge + .timeline-panel {
