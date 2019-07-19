@@ -416,12 +416,12 @@ class OldDb < ActiveRecord::Base
         if todo.present?
           next if (todo.updated_at - old_todo.date_modified).abs < 1
 
-          if old_todo.scope != 1
+          if old_todo.scope != '1'
             # Remove Todo unrelated to department
             todo.destroy
           elsif old_todo.date_modified.blank? || todo.updated_at > old_todo.date_modified
             # Ours is newer
-            # puts("case 1") if Rails.env.development?
+            # puts("case 1") if Rails.env.test?
             old_todo.title = todo.title
             old_todo.description = todo.description
             old_todo.issued_department = (todo.department.present? ? todo.department.sync_id : nil)
@@ -433,7 +433,7 @@ class OldDb < ActiveRecord::Base
             end
           else
             # OldDb one is newer
-            # puts("case 2") if Rails.env.development?
+            # puts("case 2") if Rails.env.test?
             todo.title = old_todo.title
             todo.description = old_todo.description
             todo.department_id = department_id
@@ -448,9 +448,9 @@ class OldDb < ActiveRecord::Base
               end
             end
           end
-        elsif old_todo.scope == 1
+        elsif old_todo.scope == '1'
           # Totally new
-          puts('case 3') if Rails.env.development?
+          # puts('case 3') if Rails.env.test?
           new_todo = Todo.new(title: old_todo.title, description: old_todo.description, department_id: department_id, eta: old_todo.time, sync_id: old_todo.id)
           unless new_todo.save && old_todo.touch
             errors_text.append('[Todo] Sync failed on: ' + new_todo.attributes.to_s)

@@ -44,12 +44,20 @@ class OldDbSyncTest < ActionDispatch::IntegrationTest
 
   test 'OldDb todo created' do
     Timecop.travel 3.second.since
-    item = OldTodo.create(title: "Sync is good?", time: 1.day.from_now, issued_department: OldDepartment[short_name: "DOJ"].id, status: 1)
+    item = OldTodo.create(title: "Sync is good?", time: 1.day.from_now, issued_department: OldDepartment[short_name: "DOJ"].id, status: 1, scope: 1)
 
     OldDb.sync
 
     assert_equal "Sync is good?", Todo.last.title
     assert_equal "Department of Justice", Department.find(Todo.last.department.id).name
+  end
+
+  test 'OldDB non department todo does not sync' do
+    Timecop.travel 3.second.since
+    assert_difference 'Todo.count', 0 do
+      item = OldTodo.create(title: "Todo for students", time: 1.day.from_now, issued_department: OldDepartment[short_name: "DOJ"].id, status: 1, scope: 2)
+      OldDb.sync
+    end
   end
 
   test 'OldDb todo modified' do
