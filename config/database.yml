@@ -35,6 +35,14 @@ polyUServer: &polyUServer
   host: localhost
   port: 3306
 
+staging_test:
+  <<: *polyUServer
+  database: directus2_test
+
+staging_test_old:
+  <<: *polyUServer
+  database: directus_test
+
 production:
   <<: *polyUServer
   database: directus2
