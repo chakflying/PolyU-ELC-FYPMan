@@ -416,7 +416,10 @@ class OldDb < ActiveRecord::Base
         if todo.present?
           next if (todo.updated_at - old_todo.date_modified).abs < 1
 
-          if old_todo.date_modified.blank? || todo.updated_at > old_todo.date_modified
+          if old_todo.scope != 1
+            # Remove Todo unrelated to department
+            todo.destroy
+          elsif old_todo.date_modified.blank? || todo.updated_at > old_todo.date_modified
             # Ours is newer
             # puts("case 1") if Rails.env.development?
             old_todo.title = todo.title
@@ -445,7 +448,7 @@ class OldDb < ActiveRecord::Base
               end
             end
           end
-        else
+        elsif old_todo.scope == 1
           # Totally new
           puts('case 3') if Rails.env.development?
           new_todo = Todo.new(title: old_todo.title, description: old_todo.description, department_id: department_id, eta: old_todo.time, sync_id: old_todo.id)
