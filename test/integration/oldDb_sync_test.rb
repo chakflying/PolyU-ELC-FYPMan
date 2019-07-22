@@ -4,7 +4,9 @@ require 'test_helper'
 
 class OldDbSyncTest < ActionDispatch::IntegrationTest
   def setup
+    Old_DB["SET FOREIGN_KEY_CHECKS=0;"]
     %i[users departments faculties universities todos].each { |x| Old_DB.from(x).truncate }
+    Old_DB["SET FOREIGN_KEY_CHECKS=1;"]
     OldDepartment.create(name: "Department of Justice", short_name: "DOJ", status: 1)
     OldDb.sync
   end

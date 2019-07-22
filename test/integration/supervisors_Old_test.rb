@@ -8,7 +8,9 @@ class SupervisorsOldTest < ActionDispatch::IntegrationTest
     @user2 = users(:two)
     @supervisor = supervisors(:one)
     @department = Department.find(16)
+    Old_DB["SET FOREIGN_KEY_CHECKS=0;"]
     [:users, :departments].each{|x| Old_DB.from(x).truncate}
+    Old_DB["SET FOREIGN_KEY_CHECKS=1;"]
   end
   
   test 'Normal create and delete supervisors' do
