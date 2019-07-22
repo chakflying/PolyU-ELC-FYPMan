@@ -47,7 +47,11 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
 
   # Setup The Old Database connection using Sequel
-  Old_DB = Sequel.connect(Rails.configuration.database_configuration['test_old'])
+  if ENV['RAILS_STAGING_TEST'].present?
+    Old_DB = Sequel.connect(Rails.configuration.database_configuration['directus_test'])
+  else
+    Old_DB = Sequel.connect(Rails.configuration.database_configuration['test_old'])
+  end
 
   config.session_expires_after = 5.minutes
 end
