@@ -24,6 +24,10 @@ end
 
 OldUser.plugin :timestamps, create: :date_created, update: :date_modified, update_on_create: true
 OldUser.plugin :touch, column: :date_modified
+OldChatRoom.plugin :timestamps, create: :date_created, update: :date_modified, update_on_create: true
+OldChatRoom.plugin :touch, column: :date_modified
+OldChatRoomMember.plugin :timestamps, create: :date_created, update: :date_modified, update_on_create: true
+OldChatRoomMember.plugin :touch, column: :date_modified
 OldRelation.plugin :timestamps, create: :date_created, update: :date_modified, update_on_create: true
 OldRelation.plugin :touch, column: :date_modified
 OldTodo.plugin :timestamps, create: :date_created, update: :date_modified, update_on_create: true
