@@ -48,8 +48,7 @@ Rails.application.configure do
 
   # Setup The Old Database connection using Sequel
   if ENV['RAILS_STAGING_TEST'].present?
-    ActiveRecord::Base.establish_connection(:staging_test)
-    Old_DB = Sequel.connect(Rails.configuration.database_configuration['directus_test'])
+    Old_DB = Sequel.connect(Rails.configuration.database_configuration['staging_test_old'])
   else
     Old_DB = Sequel.connect(Rails.configuration.database_configuration['test_old'])
   end

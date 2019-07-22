@@ -8,6 +8,14 @@ default: &default
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   # timeout: 5000
 
+polyUServer: &polyUServer
+  adapter: mysql2
+  encoding: utf8mb4
+  username: <%= Rails.application.credentials.mysql[:username] %>
+  password: <%= Rails.application.credentials.mysql[:password] %>
+  host: localhost
+  port: 3306
+
 development:
   <<: *default
   database: PolyFYPman_dev
@@ -24,16 +32,8 @@ test_old:
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
-  <<: *default
+  <<: <%= if ENV['RAILS_STAGING_TEST'].present? then "*polyUServer" else "*default" end %>
   database: PolyFYPman_test
-
-polyUServer: &polyUServer
-  adapter: mysql2
-  encoding: utf8mb4
-  username: <%= Rails.application.credentials.mysql[:username] %>
-  password: <%= Rails.application.credentials.mysql[:password] %>
-  host: localhost
-  port: 3306
 
 staging_test:
   <<: *polyUServer
