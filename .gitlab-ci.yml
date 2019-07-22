@@ -16,4 +16,5 @@ staging:
     - rails assets:precompile
     - sudo service apache2 reload
     - sudo pkill -f "rake jobs:work"
+    - RAILS_STAGING_TEST=true rails test
     - curl https://langcapadmin.edc.polyu.edu.hk -k
