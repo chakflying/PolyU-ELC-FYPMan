@@ -7,9 +7,9 @@ class AssignOldTest < ActionDispatch::IntegrationTest
     @user = users(:one)
     @user2 = users(:two)
     @department = Department.find(16)
-    Old_DB["SET FOREIGN_KEY_CHECKS=0;"]
-    %i[users departments supervises].each { |x| Old_DB.from(x).truncate }
-    Old_DB["SET FOREIGN_KEY_CHECKS=1;"]
+    Old_DB.run("SET FOREIGN_KEY_CHECKS=0;")
+    %i[chat_rooms chat_rooms_members users departments supervises].each { |x| Old_DB.from(x).truncate }
+    Old_DB.run("SET FOREIGN_KEY_CHECKS=1;")
   end
 
   test 'Normal assign and unassign' do

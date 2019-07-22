@@ -2,12 +2,25 @@
 
 Sequel::Model.plugin :touch
 
-class OldUser < Sequel::Model(Old_DB[:users]); end
-class OldDepartment < Sequel::Model(Old_DB[:departments]); end
+class OldUser < Sequel::Model(Old_DB[:users])
+  one_to_many :chat_room_members, class: :OldChatRoomMember
+end
+class OldChatRoom < Sequel::Model(Old_DB[:chat_rooms]); end
+class OldChatRoomMember < Sequel::Model(Old_DB[:chat_rooms_members])
+  many_to_one :user, key: :user_id, class: :OldUser
+end
 class OldRelation < Sequel::Model(Old_DB[:supervises]); end
 class OldTodo < Sequel::Model(Old_DB[:todos]); end
-class OldFaculty < Sequel::Model(Old_DB[:faculties]); end
-class OldUniversity < Sequel::Model(Old_DB[:universities]); end
+class OldDepartment < Sequel::Model(Old_DB[:departments])
+  many_to_one :m_faculty, key: :faculty, class: :OldFaculty
+end
+class OldFaculty < Sequel::Model(Old_DB[:faculties])
+  one_to_many :departments, class: :OldDepartment
+  many_to_one :m_university, key: :university, class: :OldUniversity
+end
+class OldUniversity < Sequel::Model(Old_DB[:universities])
+  one_to_many :faculties, class: :OldFaculty
+end
 
 OldUser.plugin :timestamps, create: :date_created, update: :date_modified, update_on_create: true
 OldUser.plugin :touch, column: :date_modified

@@ -4,9 +4,9 @@ require 'test_helper'
 
 class OldDbSyncTest < ActionDispatch::IntegrationTest
   def setup
-    Old_DB["SET FOREIGN_KEY_CHECKS=0;"]
-    %i[users departments faculties universities todos].each { |x| Old_DB.from(x).truncate }
-    Old_DB["SET FOREIGN_KEY_CHECKS=1;"]
+    Old_DB.run("SET FOREIGN_KEY_CHECKS=0;")
+    %i[chat_rooms chat_rooms_members users departments faculties universities todos].each { |x| Old_DB.from(x).truncate }
+    Old_DB.run("SET FOREIGN_KEY_CHECKS=1;")
     OldDepartment.create(name: "Department of Justice", short_name: "DOJ", status: 1)
     OldDb.sync
   end
@@ -90,6 +90,7 @@ class OldDbSyncTest < ActionDispatch::IntegrationTest
     item = OldFaculty[Faculty.last.sync_id]
     
     assert_difference 'Faculty.count', -1 do
+      OldDepartment.where(faculty: item.id).destroy
       item.destroy
       OldDb.sync
     end
@@ -102,6 +103,10 @@ class OldDbSyncTest < ActionDispatch::IntegrationTest
     item = OldUniversity[University.last.sync_id]
     
     assert_difference 'University.count', -1 do
+      OldFaculty.where(university: item.id).each do |fac|
+        OldDepartment.where(faculty: fac.id).destroy
+        fac.destroy
+      end
       item.destroy
       OldDb.sync
     end
