@@ -15,6 +15,7 @@ module DepartmentsHelper
         end
       end
     end
+    @departments_list.sort_by! { |i| i[0] }
     @departments_list
   end
 end

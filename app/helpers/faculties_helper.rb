@@ -7,7 +7,7 @@ module FacultiesHelper
     Faculty.all.each do |fac|
       @faculties_list.push(["#{fac.university.code} - #{fac.name}", fac.id])
     end
-    @faculties_list.sort_by!{ |i| i[0] }
+    @faculties_list.sort_by! { |i| i[0] }
     @faculties_list
   end
 end

@@ -84,18 +84,7 @@ class DepartmentsController < ApplicationController
   end
 
   def get_departments_list_by_uni
-    @departments_list = []
-    if params[:id].blank?
-      Department.all.each do |dep|
-        @departments_list.push([dep.name, dep.id])
-      end
-    else
-      University.find(params[:id]).faculties.includes(:departments).each do |fac|
-        fac.departments.each do |dep|
-          @departments_list.push([dep.name, dep.id])
-        end
-      end
-    end
+    @departments_list = get_departments_list(params[:id])
     render json: @departments_list
   end
 
