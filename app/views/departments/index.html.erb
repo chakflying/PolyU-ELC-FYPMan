@@ -19,7 +19,7 @@
     </div>
     <div class="form-row">
       <div class="form-group col-md-12">
-        <%= f.select :faculty_id, @faculties_list, {prompt: "Select Faculty:"}, {required: true, class: "custom-select", 'aria-label': "New department's faculty"} %>
+        <%= f.select :faculty_id, @faculties_list, {prompt: "Select Faculty..."}, {required: true, class: "custom-select", 'aria-label': "New department's faculty"} %>
         <div class="invalid-feedback">Please select department faculty.</div>
       </div>
     </div>
@@ -38,6 +38,7 @@
         <th scope="col">Name</th>
         <th scope="col">code</th>
         <th scope="col">Faculty</th>
+        <th scope="col">University</th>
         <th scope="col">Sync ID</th>
         <th scope="col"></th>
       </tr>
@@ -49,6 +50,7 @@
           <td><%= department.name %></td>
           <td><%= department.code %></td>
           <td><%= ( department.faculty.present? ? department.faculty.code : nil ) %></td>
+          <td><%= ( department.university.present? ? department.university.code : nil ) %></td>
           <td><%= department.sync_id %></td>
           <td>
             <%= link_to edit_department_path(department.id), method: :get, data: {} do %>

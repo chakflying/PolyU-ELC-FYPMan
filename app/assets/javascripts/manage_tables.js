@@ -95,7 +95,15 @@ document.addEventListener("turbolinks:load", function() {
     document.departments_dataTable = $(".departments-table").DataTable({
       stateSave: false,
       responsive: true,
-      columnDefs: [{ responsivePriority: 2, targets: 1 }, { responsivePriority: 1, targets: -1 }, { width: "1em", targets: 0 }, { width: "6.5em", targets: -1 }],
+      columnDefs: [
+        { responsivePriority: 2, targets: 1 },
+        { responsivePriority: 1, targets: -1 },
+        { width: "1em", targets: 0 },
+        { width: "6.5em", targets: -1 },
+        { width: "2em", targets: -2 },
+        { width: "2em", targets: -3 },
+        { width: "2em", targets: -4 }
+      ],
       language: {
         emptyTable: "No departments present."
       }
