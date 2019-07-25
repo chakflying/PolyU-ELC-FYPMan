@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  resources :groups
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   get 'password_resets/new'
   get 'password_resets/edit'
