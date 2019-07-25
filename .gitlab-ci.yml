@@ -13,6 +13,7 @@ staging:
     - bundle install
     - yarn install
     - rails db:migrate
+    - RAILS_STAGING_TEST=true rails db:migrate RAILS_ENV=test
     - rails assets:precompile
     - sudo service apache2 reload
     - sudo pkill -f "rake jobs:work"
