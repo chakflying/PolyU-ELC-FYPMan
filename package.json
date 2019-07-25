@@ -14,9 +14,14 @@
     "vue-select": "^3.0",
     "vue-template-compiler": "^2.6.8",
     "vue-turbolinks": "^2.0.4",
+    "vuepress": "^1.0.2",
     "webpack": "^4.29.6"
   },
   "devDependencies": {
     "webpack-dev-server": "^3.2.1"
+  },
+  "scripts": {
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs"
   }
 }
