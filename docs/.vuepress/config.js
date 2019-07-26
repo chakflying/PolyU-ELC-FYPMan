@@ -6,8 +6,7 @@ module.exports = {
     docsDir: 'docs',
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Guide', link: '/guide/' },
-      { text: 'External', link: 'https://google.com' },
+      { text: 'Gitlab', link: 'https://gitlab.com/chakflying/PolyFYPman/' },
     ],
     sidebar: 'auto'
   }
