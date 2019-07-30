@@ -13,7 +13,7 @@
   <% end %>
   <br>
   <div class="card">
-  <div class="card-header pb-2">Add new Supervisor:</div>
+  <div class="card-header pb-2 pt-2">Add new Supervisor:</div>
   <div class="card-body">
   <%= form_for(@supervisor, url: supervisors_path, html: {class: "needs-validation", novalidate: true}) do |f| %>
     <%= render 'shared/error_messages', obj: @supervisor %>
