@@ -91,6 +91,25 @@ document.addEventListener("turbolinks:load", function() {
       document.supervisors_dataTable.column(3).visible(true);
       document.supervisors_dataTable.columns.adjust().draw();
     }
+  } else if ($(".groups-table").length) {
+    document.groups_dataTable = $(".groups-table").DataTable({
+      processing: true,
+      serverSide: true,
+      ajax: $(".groups-table").data("source"),
+      order: [[0, "asc"]],
+      stateSave: false,
+      responsive: true,
+      columns: [{ data: "number" }, { data: "students" }, { data: "dt_action" }],
+      columnDefs: [
+        { responsivePriority: 1, targets: -1 },
+        { responsivePriority: 2, targets: -2 },
+        { width: "1em", targets: 0 },
+        { width: "42px", targets: -1 }
+      ],
+      language: {
+        emptyTable: "No groups found in this catogory."
+      }
+    });
   } else if ($(".departments-table").length) {
     document.departments_dataTable = $(".departments-table").DataTable({
       stateSave: false,
@@ -161,6 +180,10 @@ document.addEventListener("turbolinks:before-cache", function() {
       .fnDestroy();
   } else if ($.fn.DataTable.isDataTable(".departments-table")) {
     $(".departments-table")
+      .dataTable()
+      .fnDestroy();
+  } else if ($.fn.DataTable.isDataTable(".groups-table")) {
+    $(".groups-table")
       .dataTable()
       .fnDestroy();
   }
@@ -283,6 +306,62 @@ $(document).on("click", ".dt-btn-rm", function() {
   });
 });
 
+$(document).on("click", ".dt-btn-gp-rm-stu", function() {
+  var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
+  $(this).prop("disabled", true);
+  $(this).html('<i class="fas fa-sync-alt fa-spin"></i>');
+
+  $.ajax({
+    url: "/groups_students",
+    type: "DELETE",
+    context: this,
+    headers: { "X-CSRF-Token": csrfToken },
+    data: {
+      groups_student: {
+        student_id: this.dataset.stu_id,
+        group_id: this.dataset.gp_id
+      }
+    },
+    dataType: "text",
+    success: function(data) {
+      if (data == "submitted") {
+        $(this)
+          .parent()
+          .parent()
+          .fadeOut(function() {
+            var div = jQuery(
+              '<div class="row dt-gp-stu-row"><div class="col-9"><i class="fas fa-user-slash"></i>&nbsp; Removed successfully.</div><div class="col-3"><button class="btn btn-sm btn-light dt-btn-gp-rm-stu-undo" data-stu_id="{0}" data-gp_id="{1}" aria-label="Undo">Undo</button></div></div>'.formatUnicorn(
+                this.children[3].children[0].dataset.stu_id,
+                this.children[3].children[0].dataset.gp_id
+              )
+            );
+            $(this).replaceWith(div);
+            $(this).fadeIn();
+          });
+      } else {
+        $(this)
+          .parent()
+          .parent()
+          .fadeOut(function() {
+            var div = jQuery('<div class="row dt-gp-stu-row"><div class="col-sm-12" style="color:#721c24"><i class="fas fa-times"></i>&nbsp; Remove error, please refresh.</div></div>');
+            $(this).replaceWith(div);
+            $(this).fadeIn();
+          });
+      }
+    },
+    error: function(data) {
+      $(this)
+        .parent()
+        .parent()
+        .fadeOut(function() {
+          var div = jQuery('<div class="row dt-gp-stu-row"><div class="col-sm-12" style="color:#721c24"><i class="fas fa-times"></i>&nbsp; Network error, please try again.</div></div>');
+          $(this).replaceWith(div);
+          $(this).fadeIn();
+        });
+    }
+  });
+});
+
 $(document).on("click", ".dt-btn-rmundo", function() {
   var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
   $(this).prop("disabled", true);
@@ -311,7 +390,7 @@ $(document).on("click", ".dt-btn-rmundo", function() {
           .parent()
           .parent()
           .fadeOut(function() {
-            var div = jQuery('<div class="row dt-rel-row"><div class="col-sm-12 dt-rel-name" style="color:#721c24"><i class="fas fa-times"></i>&nbsp; Unassign error, please refresh.</div></div>');
+            var div = jQuery('<div class="row dt-rel-row"><div class="col-sm-12 dt-rel-name" style="color:#721c24"><i class="fas fa-times"></i>&nbsp; Undo error, please refresh.</div></div>');
             $(this).replaceWith(div);
             $(this).fadeIn();
           });
@@ -326,6 +405,77 @@ $(document).on("click", ".dt-btn-rmundo", function() {
           $(this).replaceWith(div);
           $(this).fadeIn();
         });
+    }
+  });
+});
+
+$(document).on("click", ".dt-btn-gp-rm-stu-undo", function() {
+  var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
+  $(this).prop("disabled", true);
+  $(this).html('<i class="fas fa-sync-alt fa-spin"></i>');
+
+  $.ajax({
+    url: "/groups_students",
+    type: "POST",
+    context: this,
+    headers: { "X-CSRF-Token": csrfToken },
+    data: {
+      groups_student: {
+        student_id: this.dataset.stu_id,
+        group_id: this.dataset.gp_id
+      }
+    },
+    dataType: "text",
+    success: function(data) {
+      if (data == "submitted") {
+        document.groups_dataTable.ajax.reload();
+      } else {
+        $(this)
+          .parent()
+          .parent()
+          .fadeOut(function() {
+            var div = jQuery('<div class="row dt-gp-stu-row"><div class="col-sm-12" style="color:#721c24"><i class="fas fa-times"></i>&nbsp; Undo error, please refresh.</div></div>');
+            $(this).replaceWith(div);
+            $(this).fadeIn();
+          });
+      }
+    },
+    error: function(data) {
+      $(this)
+        .parent()
+        .parent()
+        .fadeOut(function() {
+          var div = jQuery('<div class="row dt-gp-stu-row"><div class="col-sm-12" style="color:#721c24"><i class="fas fa-times"></i>&nbsp; Network error, please try again.</div></div>');
+          $(this).replaceWith(div);
+          $(this).fadeIn();
+        });
+    }
+  });
+});
+
+$(document).on("click", ".dt-btn-gp-rm", function() {
+  var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
+  $(this).prop("disabled", true);
+  $(this).html('<i class="fas fa-sync-alt fa-spin"></i>');
+
+  $.ajax({
+    url: "/groups/" + this.dataset.id,
+    type: "DELETE",
+    context: this,
+    headers: { "X-CSRF-Token": csrfToken },
+    data: {
+    },
+    dataType: "text",
+    success: function(data) {
+      if (data == "submitted") {
+        // document.groups_dataTable.ajax.reload();
+        $(this).parent().parent().html('<td></td><td class="row justify-content-center text-success">&nbsp;Group removed successfully.</td><td></td>');
+      } else {
+        $(this).parent().parent().html('<td></td><td class="row justify-content-center" style="color:#721c24">&nbsp;<i class="fas fa-times-circle" style="padding-top:4px"></i>&nbsp;&nbsp;Server Error. Please Refresh.</td><td></td>');
+      }
+    },
+    error: function(data) {
+      $(this).parent().parent().html('<td></td><td class="row justify-content-center" style="color:#721c24">&nbsp;<i class="fas fa-times-circle" style="padding-top:4px"></i>&nbsp;&nbsp;Network Error. Please check your connection.</td><td></td>');
     }
   });
 });

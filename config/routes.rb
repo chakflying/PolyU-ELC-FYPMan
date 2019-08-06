@@ -1,8 +1,13 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  resources :groups
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  resources :groups
+  post    '/create_group_and_add', to: 'groups#create_group_and_add'
+  post   '/groups_students',      to: 'groups_students#create'
+  patch  '/groups_students',      to: 'groups_students#update'
+  delete '/groups_students',      to: 'groups_students#destroy'
+
   get 'password_resets/new'
   get 'password_resets/edit'
 

@@ -1,31 +1,47 @@
-<p id="notice"><%= notice %></p>
+<% provide(:title, 'Manage Groups') %>
+<% content_for :head do %>
+  <meta name="turbolinks-cache-control" content="no-cache">
+<% end %>
+<% content_for :page_packs do %>
+  <%= javascript_pack_tag 'vue_create_group', 'data-turbolinks-track': 'reload', defer: true %>
+  <%= stylesheet_pack_tag 'vue_create_group', 'data-turbolinks-track': 'reload' %>
+<% end %>
 
-<h1>Groups</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Type</th>
-      <th>Sync</th>
-      <th>Number</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @groups.each do |group| %>
+<div class="container">
+  <h4 class="display-4 aheading animated fadeInDown faster">Manage Groups</h4>
+  <% if is_admin? %>
+    <h5 class="display-5">You are viewing all groups.</h5>
+    <%= content_tag 'div', '', id: 'data', data: {admin: true} %>
+  <% else %>
+    <h5 class="display-5">You are viewing groups from <%= current_user.department.name %>.</h5>
+    <%= content_tag 'div', '', id: 'data', data: {admin: false} %>
+  <% end %>
+  <br>
+  <div class="card">
+    <div class="card-header pb-2 pt-2">Create new Group:</div>
+    <div class="card-body">
+      <%= content_tag :div,
+      id: 'createGroup-form-vue',
+      data: {
+        students: @students,
+      }.to_json() do %>
+      <div class="d-flex justify-content-center">
+        <h4 style="margin-top:1em;color:lightgrey"><i class="fas fa-sync-alt fa-spin" style="font-size:80%;"></i>&nbsp;&nbsp;Loading create Group form...</h4>
+      </div>
+      <% end %>
+    </div>
+  </div>
+  <br>
+  <br>
+  <table class="table groups-table table-hover" data-source="<%= groups_path(format: :json) %>" style="font-size:14px; width:100%">
+    <thead>
       <tr>
-        <td><%= group.type %></td>
-        <td><%= group.sync_id %></td>
-        <td><%= group.number %></td>
-        <td><%= link_to 'Show', group %></td>
-        <td><%= link_to 'Edit', edit_group_path(group) %></td>
-        <td><%= link_to 'Destroy', group, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <th scope="col">Number</th>
+        <th scope="col">Students</th>
+        <th scope="col"></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Group', new_group_path %>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+</div>

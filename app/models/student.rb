@@ -11,7 +11,7 @@ class Student < ApplicationRecord
   has_many :supervisions
   has_many :supervisors, through: :supervisions
   belongs_to :department
-  has_many :groups_students
+  has_many :groups_students, dependent: :destroy
   has_many :groups, through: :groups_students
 
   delegate :faculty, to: :department, allow_nil: true
