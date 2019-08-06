@@ -21,7 +21,7 @@ class DepartmentsControllerTest < ActionDispatch::IntegrationTest
   test 'Admin should get Departments Index' do
     login_as users(:two)
     get departments_url
-    assert_select 'h2', { count: 1, text: 'Manage Departments' }, 'Wrong title or more than one h2 element'
+    assert_select 'h4', { count: 1, text: 'Manage Departments' }, 'Wrong title or more than one h4 element'
   end
 
   test 'Admin should not create Department with no name' do
@@ -35,7 +35,7 @@ class DepartmentsControllerTest < ActionDispatch::IntegrationTest
   test 'Admin should get edit department' do
     login_as users(:two)
     get edit_department_path(departments(:one).id)
-    assert_select 'h2', { count: 1, text: 'Edit Department' }, 'Wrong title or more than one h2 element'
+    assert_select 'h4', { count: 1, text: 'Edit Department' }, 'Wrong title or more than one h4 element'
   end
 
   test 'Admin should create and destroy department' do

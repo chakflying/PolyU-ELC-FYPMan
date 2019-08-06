@@ -6,13 +6,13 @@ class TodosControllerTest < ActionDispatch::IntegrationTest
   test 'Visitor should not get Todos Page' do
     get todos_url
     follow_redirect!
-    assert_select 'h2', { count: 1, text: 'Log In' }, 'Wrong title or more than one h1 element'
+    assert_select 'h4', { count: 1, text: 'Log In' }, 'Wrong title or more than one h4 element'
   end
 
   test 'should get index' do
     login_as users(:one)
     get todos_url
-    assert_select 'h2', { count: 1, text: 'Todo List' }, 'Wrong title or more than one h2 element'
+    assert_select 'h4', { count: 1, text: 'Todo List' }, 'Wrong title or more than one h4 element'
   end
 
   test 'should not create Todo item with no time' do
@@ -21,7 +21,7 @@ class TodosControllerTest < ActionDispatch::IntegrationTest
       post todos_path, params: { todo: { title: 'Short Life, too much To Do', description: 'damn.', department_id: departments(:one).id } }
       follow_redirect! while redirect?
     end
-    assert_select 'h2', { count: 1, text: 'Todo List' }, 'Wrong title or more than one h2 element'
+    assert_select 'h4', { count: 1, text: 'Todo List' }, 'Wrong title or more than one h4 element'
     assert_equal ['Todo date cannot be empty. Please set date.'], flash[:danger]
   end
 
@@ -31,7 +31,7 @@ class TodosControllerTest < ActionDispatch::IntegrationTest
       post todos_path, params: { todo: { color: 'success', description: 'damn.', eta: 3.days.from_now.to_s(:db), department_id: departments(:one).id } }
       follow_redirect! while redirect?
     end
-    assert_select 'h2', { count: 1, text: 'Todo List' }, 'Wrong title or more than one h2 element'
+    assert_select 'h4', { count: 1, text: 'Todo List' }, 'Wrong title or more than one h4 element'
     assert_equal ['Todo title cannot be empty. Please enter title.'], flash[:danger]
   end
 
@@ -41,7 +41,7 @@ class TodosControllerTest < ActionDispatch::IntegrationTest
       post todos_path, params: { todo: { title: 'Short Life, too much To Do', color: 'success', description: 'damn.', eta: 3.days.from_now.to_s(:db), department_id: departments(:one).id } }
       follow_redirect! while redirect?
     end
-    assert_select 'h2', { count: 1, text: 'Todo List' }, 'Wrong title or more than one h2 element'
+    assert_select 'h4', { count: 1, text: 'Todo List' }, 'Wrong title or more than one h4 element'
     assert_equal ['Todo item successfully added!'], flash[:success]
 
     assert_difference 'Todo.count', -1 do

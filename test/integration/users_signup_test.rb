@@ -20,7 +20,7 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
                                          department_id: 16 } }
     end
     follow_redirect!
-    assert_select 'h2', { count: 1, text: 'User Profile' }, 'Wrong title or more than one h2 element after Signed up'
+    assert_select 'h4', { count: 1, text: 'User Profile' }, 'Wrong title or more than one h4 element after Signed up'
     assert_not flash.empty?
   end
 end
