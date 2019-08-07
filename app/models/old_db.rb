@@ -11,6 +11,7 @@ class OldDb < ActiveRecord::Base
 
   # Simple old database sync
   def self.sync
+    @record = SyncRecord.create(started_at: Time.now)
     errors = 0
     errors_text = []
     puts('') unless Rails.env.test?
@@ -476,10 +477,7 @@ class OldDb < ActiveRecord::Base
         end
       end
 
-      puts('---------------------------------------------') unless Rails.env.test?
-      errors_text.each do |text|
-        puts(text) unless Rails.env.test?
-      end
+      @record.update(num_errors: errors, errors_text: errors_text, ended_at: Time.now)
       raise format('OldDb sync failed with %d %s.', errors, 'error'.pluralize(errors)) if (errors > 0) && Rails.env.production?
 
       return format('Completed with %d %s.', errors, 'error'.pluralize(errors))

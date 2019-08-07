@@ -34,6 +34,17 @@ document.addEventListener("turbolinks:load", function() {
       ajax: $(".admin-activity-table").data("source"),
       columns: [{ data: "id" }, { data: "item_type" }, { data: "event" }, { data: "whodunnit" }, { data: "created_at" }, { data: "changeset" }]
     });
+  } else if ($(".admin-sync-records-table").length) {
+    document.admin_sync_records_dataTable = $(".admin-sync-records-table").DataTable({
+      stateSave: false,
+      responsive: true,
+      columnDefs: [{ responsivePriority: 10001, targets: 0 }],
+      order: [[4, "desc"]],
+      processing: true,
+      serverSide: true,
+      ajax: $(".admin-sync-records-table").data("source"),
+      columns: [{ data: "id" }, { data: "started_at" }, { data: "ended_at" }, { data: "duration" }, { data: "num_errors" }, { data: "errors_text" }]
+    });
   } else if ($(".students-table").length) {
     document.students_dataTable = $(".students-table").DataTable({
       processing: true,
@@ -176,6 +187,10 @@ document.addEventListener("turbolinks:before-cache", function() {
       .fnDestroy();
   } else if ($.fn.DataTable.isDataTable(".admin-activity-table")) {
     $(".admin-activity-table")
+      .dataTable()
+      .fnDestroy();
+  } else if ($.fn.DataTable.isDataTable(".admin-sync-records-table")) {
+    $(".admin-sync-records-table")
       .dataTable()
       .fnDestroy();
   } else if ($.fn.DataTable.isDataTable(".departments-table")) {

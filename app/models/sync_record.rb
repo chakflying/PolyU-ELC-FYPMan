@@ -1,0 +1,2 @@
+class SyncRecord < ApplicationRecord
+end

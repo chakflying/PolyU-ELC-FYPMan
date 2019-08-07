@@ -24,6 +24,13 @@ class AdminController < ApplicationController
     end
   end
 
+  def sync_records
+    respond_to do |format|
+      format.html
+      format.json { render json: SyncRecordDatatable.new(params) }
+    end
+  end
+
   # Function to show all users. Living here instead of the users controller for now.
   def users
     @users = User.all.includes(:department)

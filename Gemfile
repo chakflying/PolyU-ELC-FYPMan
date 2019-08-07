@@ -112,3 +112,5 @@ gem 'sentry-raven'
 gem 'bundler-audit'
 # TimeCop for faster testing
 gem 'timecop'
+# Chronic Duration for time parsing
+gem 'chronic_duration', '~> 0.10.6'

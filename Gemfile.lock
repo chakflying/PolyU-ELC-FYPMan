@@ -90,6 +90,8 @@ GEM
       xpath (~> 3.2)
     childprocess (1.0.1)
       rake (< 13.0)
+    chronic_duration (0.10.6)
+      numerizer (~> 0.1.1)
     coderay (1.1.2)
     coffee-rails (4.2.2)
       coffee-script (>= 2.2.0)
@@ -147,6 +149,7 @@ GEM
     nio4r (2.4.0)
     nokogiri (1.10.3)
       mini_portile2 (~> 2.4.0)
+    numerizer (0.1.1)
     paper_trail (10.3.0)
       activerecord (>= 4.2, < 6.1)
       request_store (~> 1.1)
@@ -269,6 +272,7 @@ DEPENDENCIES
   bundler-audit
   byebug
   capybara (>= 2.15)
+  chronic_duration (~> 0.10.6)
   coffee-rails (~> 4.2)
   daemons
   delayed_job_active_record

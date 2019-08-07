@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_29_161218) do
+ActiveRecord::Schema.define(version: 2019_08_07_011825) do
 
   create_table "delayed_jobs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.integer "priority", default: 0, null: false
@@ -96,6 +96,15 @@ ActiveRecord::Schema.define(version: 2019_07_29_161218) do
     t.bigint "department_id"
     t.index ["department_id"], name: "index_supervisors_on_department_id"
     t.index ["sync_id"], name: "index_supervisors_on_sync_id"
+  end
+
+  create_table "sync_records", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.datetime "started_at"
+    t.datetime "ended_at"
+    t.integer "num_errors"
+    t.text "errors_text"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "todos", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
