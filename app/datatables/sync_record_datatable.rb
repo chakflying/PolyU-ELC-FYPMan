@@ -20,7 +20,7 @@ class SyncRecordDatatable < AjaxDatatablesRails::ActiveRecord
         id: record.id,
         started_at: record.started_at,
         ended_at: record.ended_at,
-        duration: ChronicDuration.output(record.ended_at - record.started_at, :format => :short),
+        duration: (record.ended_at.present? ? ChronicDuration.output(record.ended_at - record.started_at, format: :short) : ''),
         num_errors: record.num_errors,
         errors_text: record.errors_text
       }

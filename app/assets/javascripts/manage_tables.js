@@ -111,12 +111,7 @@ document.addEventListener("turbolinks:load", function() {
       stateSave: false,
       responsive: true,
       columns: [{ data: "number" }, { data: "students" }, { data: "dt_action" }],
-      columnDefs: [
-        { responsivePriority: 1, targets: -1 },
-        { responsivePriority: 2, targets: -2 },
-        { width: "1em", targets: 0 },
-        { width: "42px", targets: -1 }
-      ],
+      columnDefs: [{ responsivePriority: 1, targets: -1 }, { responsivePriority: 2, targets: -2 }, { width: "1em", targets: 0 }, { width: "42px", targets: -1 }],
       language: {
         emptyTable: "No groups found in this catogory."
       }
@@ -478,19 +473,31 @@ $(document).on("click", ".dt-btn-gp-rm", function() {
     type: "DELETE",
     context: this,
     headers: { "X-CSRF-Token": csrfToken },
-    data: {
-    },
+    data: {},
     dataType: "text",
     success: function(data) {
       if (data == "submitted") {
         // document.groups_dataTable.ajax.reload();
-        $(this).parent().parent().html('<td></td><td class="row justify-content-center text-success">&nbsp;Group removed successfully.</td><td></td>');
+        $(this)
+          .parent()
+          .parent()
+          .html('<td></td><td class="row justify-content-center text-success">&nbsp;Group removed successfully.</td><td></td>');
       } else {
-        $(this).parent().parent().html('<td></td><td class="row justify-content-center" style="color:#721c24">&nbsp;<i class="fas fa-times-circle" style="padding-top:4px"></i>&nbsp;&nbsp;Server Error. Please Refresh.</td><td></td>');
+        $(this)
+          .parent()
+          .parent()
+          .html(
+            '<td></td><td class="row justify-content-center" style="color:#721c24">&nbsp;<i class="fas fa-times-circle" style="padding-top:4px"></i>&nbsp;&nbsp;Server Error. Please Refresh.</td><td></td>'
+          );
       }
     },
     error: function(data) {
-      $(this).parent().parent().html('<td></td><td class="row justify-content-center" style="color:#721c24">&nbsp;<i class="fas fa-times-circle" style="padding-top:4px"></i>&nbsp;&nbsp;Network Error. Please check your connection.</td><td></td>');
+      $(this)
+        .parent()
+        .parent()
+        .html(
+          '<td></td><td class="row justify-content-center" style="color:#721c24">&nbsp;<i class="fas fa-times-circle" style="padding-top:4px"></i>&nbsp;&nbsp;Network Error. Please check your connection.</td><td></td>'
+        );
     }
   });
 });
