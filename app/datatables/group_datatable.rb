@@ -37,9 +37,9 @@ class GroupDatatable < AjaxDatatablesRails::ActiveRecord
 
   def get_raw_records
     if options[:admin]
-      Group.all.includes(students: :department).references(:students).order(:netID)
+      Group.all.includes(students: :department).references(:students)
     else
-      Group.includes(:students).where(students: {department: options[:current_user_department]}).references(:students).order(:netID)
+      Group.includes(:students).where(students: {department: options[:current_user_department]}).references(:students)
     end
   end
 end
