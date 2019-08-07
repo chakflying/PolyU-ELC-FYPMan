@@ -85,7 +85,16 @@
         is_admin: is_admin?,
     }.to_json() do %>
   <div class="d-flex justify-content-center">
-    <h4 style="margin-top:2em;color:lightgrey"><i class="fas fa-sync-alt fa-spin" style="font-size:80%;"></i>&nbsp;&nbsp;Loading Todo items...</h4>
+    <div class="spinner-grow text-primary" role="status">
+    </div>
+    <div class="spinner-grow text-secondary" role="status">
+    </div>
+    <div class="spinner-grow text-success" role="status">
+    </div>
+    <div class="spinner-grow text-danger" role="status">
+    </div>
+    <div class="spinner-grow text-warning" role="status">
+    </div>
   </div>
   <% end %>
 </div>
