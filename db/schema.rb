@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_07_011825) do
+ActiveRecord::Schema.define(version: 2019_08_07_172749) do
 
   create_table "delayed_jobs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.integer "priority", default: 0, null: false
@@ -64,6 +64,15 @@ ActiveRecord::Schema.define(version: 2019_08_07_011825) do
     t.datetime "updated_at", null: false
     t.index ["group_id"], name: "index_groups_students_on_group_id"
     t.index ["student_id"], name: "index_groups_students_on_student_id"
+  end
+
+  create_table "groups_supervisors", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.bigint "group_id"
+    t.bigint "supervisor_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["group_id"], name: "index_groups_supervisors_on_group_id"
+    t.index ["supervisor_id"], name: "index_groups_supervisors_on_supervisor_id"
   end
 
   create_table "students", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
@@ -167,4 +176,6 @@ ActiveRecord::Schema.define(version: 2019_08_07_011825) do
 
   add_foreign_key "groups_students", "groups"
   add_foreign_key "groups_students", "students"
+  add_foreign_key "groups_supervisors", "groups"
+  add_foreign_key "groups_supervisors", "supervisors"
 end
