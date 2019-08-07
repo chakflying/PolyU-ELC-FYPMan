@@ -10,6 +10,9 @@ class Supervisor < ApplicationRecord
   has_many :supervisions
   has_many :students, through: :supervisions
   belongs_to :department
+  has_many :groups_supervisors, dependent: :destroy
+  has_many :groups, through: :groups_supervisors
+
   delegate :faculty, to: :department, allow_nil: true
   delegate :faculty_id, to: :department, allow_nil: true
   delegate :university, to: :faculty, allow_nil: true

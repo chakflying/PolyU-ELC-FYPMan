@@ -39,7 +39,7 @@ class GroupDatatable < AjaxDatatablesRails::ActiveRecord
     if options[:admin]
       Group.all.includes(students: :department).references(:students)
     else
-      Group.includes(:students).where(students: {department: options[:current_user_department]}).references(:students)
+      Group.where(students: {department: options[:current_user_department]}).includes(students: :department).references(:students)
     end
   end
 end
