@@ -55,6 +55,7 @@ document.addEventListener("turbolinks:load", function() {
       responsive: true,
       columns: [{ data: "id" }, { data: "name" }, { data: "netID" }, { data: "department" }, { data: "fyp_year" }, { data: "supervisors" }, { data: "dt_action" }],
       columnDefs: [
+        { orderable: false, targets: -1 },
         { responsivePriority: 2, targets: 2 },
         { responsivePriority: 1, targets: -1 },
         { width: "1em", targets: 0 },
@@ -84,6 +85,7 @@ document.addEventListener("turbolinks:load", function() {
       responsive: true,
       columns: [{ data: "id" }, { data: "name" }, { data: "netID" }, { data: "department" }, { data: "students" }, { data: "dt_action" }],
       columnDefs: [
+        { orderable: false, targets: -1 },
         { responsivePriority: 2, targets: 2 },
         { responsivePriority: 1, targets: -1 },
         { width: "1em", targets: 0 },
@@ -111,7 +113,7 @@ document.addEventListener("turbolinks:load", function() {
       stateSave: false,
       responsive: true,
       columns: [{ data: "number" }, { data: "students" }, { data: "supervisors" }, { data: "dt_action" }],
-      columnDefs: [{ responsivePriority: 1, targets: -1 }, { width: "10px", targets: 0 }],
+      columnDefs: [{ orderable: false, targets: -1 }, { responsivePriority: 1, targets: -1 }, { width: "10px", targets: 0 }],
       language: {
         emptyTable: "No groups found in this catogory."
       }
@@ -121,6 +123,7 @@ document.addEventListener("turbolinks:load", function() {
       stateSave: false,
       responsive: true,
       columnDefs: [
+        { orderable: false, targets: -1 },
         { responsivePriority: 2, targets: 1 },
         { responsivePriority: 1, targets: -1 },
         { width: "1em", targets: 0 },
