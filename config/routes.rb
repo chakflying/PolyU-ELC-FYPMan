@@ -7,6 +7,9 @@ Rails.application.routes.draw do
   post   '/groups_students',      to: 'groups_students#create'
   patch  '/groups_students',      to: 'groups_students#update'
   delete '/groups_students',      to: 'groups_students#destroy'
+  post   '/groups_supervisors',      to: 'groups_supervisors#create'
+  patch  '/groups_supervisors',      to: 'groups_supervisors#update'
+  delete '/groups_supervisors',      to: 'groups_supervisors#destroy'
 
   get 'password_resets/new'
   get 'password_resets/edit'
