@@ -39,9 +39,9 @@ document.addEventListener("turbolinks:load", function() {
       stateSave: false,
       responsive: true,
       columnDefs: [{ responsivePriority: 10001, targets: 0 }],
-      order: [[4, "desc"]],
       processing: true,
       serverSide: true,
+      order: [[1, "desc"]],
       ajax: $(".admin-sync-records-table").data("source"),
       columns: [{ data: "id" }, { data: "started_at" }, { data: "ended_at" }, { data: "duration" }, { data: "num_errors" }, { data: "errors_text" }]
     });
