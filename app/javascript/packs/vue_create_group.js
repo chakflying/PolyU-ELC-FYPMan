@@ -19,8 +19,16 @@ function loadVueCreateGroup() {
       return { value: a.id, label: a.netID + "  -  " + a.name };
     }
   });
+  let supervisor_dropdown_list = parsed_props.supervisors.map(function(a) {
+    if (a.name == null || a.name == "") {
+      return { value: a.id, label: a.netID };
+    } else {
+      return { value: a.id, label: a.netID + "  -  " + a.name };
+    }
+  });
   const props = {
     students: student_dropdown_list,
+    supervisors: supervisor_dropdown_list
   };
 
   if (props != null) {

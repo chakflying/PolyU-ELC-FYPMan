@@ -2,15 +2,17 @@
 
 class GroupsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_group, only: [:show, :edit, :update, :destroy]
+  before_action :set_group, only: %i[show edit update destroy]
 
   # GET /groups
   # GET /groups.json
   def index
     if is_admin?
       @students = Student.all.select(:id, :netID, :name).to_a
+      @supervisors = Supervisor.all.select(:id, :netID, :name).to_a
     else
       @students = Student.where(department: current_user.department).select(:id, :netID, :name).to_a
+      @supervisors = Supervisor.where(department: current_user.department).select(:id, :netID, :name).to_a
     end
     @group = Group.new
     respond_to do |format|
@@ -21,8 +23,7 @@ class GroupsController < ApplicationController
 
   # GET /groups/1
   # GET /groups/1.json
-  def show
-  end
+  def show; end
 
   # GET /groups/new
   def new
@@ -30,8 +31,7 @@ class GroupsController < ApplicationController
   end
 
   # GET /groups/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /groups
   # POST /groups.json
@@ -68,7 +68,7 @@ class GroupsController < ApplicationController
   def destroy
     @group.destroy
     respond_to do |format|
-      format.text { render plain: "submitted" }
+      format.text { render plain: 'submitted' }
       format.html { redirect_to groups_url, notice: 'Group was successfully destroyed.' }
       format.json { head :no_content }
     end
@@ -86,6 +86,14 @@ class GroupsController < ApplicationController
           return
         end
       end
+      params[:supervisor_ids].each do |sup_id|
+        if Supervisor.find(sup_id).present?
+          GroupsSupervisor.create(group_id: @group.id, supervisor_id: sup_id)
+        else
+          render plain: 'failed'
+          return
+        end
+      end
       render plain: 'submitted'
     else
       render plain: 'failed'
@@ -93,13 +101,14 @@ class GroupsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_group
-      @group = Group.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def group_params
-      params.require(:group).permit(:type, :sync_id, :number)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_group
+    @group = Group.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def group_params
+    params.require(:group).permit(:type, :sync_id, :number)
+  end
 end

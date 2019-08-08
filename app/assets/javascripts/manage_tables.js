@@ -110,8 +110,8 @@ document.addEventListener("turbolinks:load", function() {
       order: [[0, "asc"]],
       stateSave: false,
       responsive: true,
-      columns: [{ data: "number" }, { data: "students" }, { data: "dt_action" }],
-      columnDefs: [{ responsivePriority: 1, targets: -1 }, { responsivePriority: 2, targets: -2 }, { width: "1em", targets: 0 }, { width: "42px", targets: -1 }],
+      columns: [{ data: "number" }, { data: "students" }, { data: "supervisors" }, { data: "dt_action" }],
+      columnDefs: [{ responsivePriority: 1, targets: -1 }, { width: "10px", targets: 0 }],
       language: {
         emptyTable: "No groups found in this catogory."
       }

@@ -24,6 +24,7 @@
       id: 'createGroup-form-vue',
       data: {
         students: @students,
+        supervisors: @supervisors,
       }.to_json() do %>
       <div class="d-flex justify-content-center">
         <div class="spinner-grow text-primary" role="status">
@@ -45,8 +46,9 @@
   <table class="table groups-table table-hover" data-source="<%= groups_path(format: :json) %>" style="font-size:14px; width:100%">
     <thead>
       <tr>
-        <th scope="col">Number</th>
+        <th scope="col">#</th>
         <th scope="col">Students</th>
+        <th scope="col">Supervisors</th>
         <th scope="col"></th>
       </tr>
     </thead>
