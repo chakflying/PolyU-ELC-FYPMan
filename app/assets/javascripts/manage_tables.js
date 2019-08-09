@@ -386,7 +386,7 @@ $(document).on("click", ".dt-btn-gp-rm-sup", function() {
     context: this,
     headers: { "X-CSRF-Token": csrfToken },
     data: {
-      groups_student: {
+      groups_supervisor: {
         supervisor_id: this.dataset.sup_id,
         group_id: this.dataset.gp_id
       }
@@ -399,7 +399,7 @@ $(document).on("click", ".dt-btn-gp-rm-sup", function() {
           .parent()
           .fadeOut(function() {
             var div = jQuery(
-              '<div class="row dt-gp-mem-row"><div class="col-9"><i class="fas fa-user-slash"></i>&nbsp; Removed successfully.</div><div class="col-3"><button class="btn btn-sm btn-light dt-btn-gp-rm-stu-undo" data-stu_id="{0}" data-gp_id="{1}" aria-label="Undo">Undo</button></div></div>'.formatUnicorn(
+              '<div class="row dt-gp-mem-row"><div class="col-9"><i class="fas fa-user-slash"></i>&nbsp; Removed successfully.</div><div class="col-3"><button class="btn btn-sm btn-light dt-btn-gp-rm-sup-undo" data-sup_id="{0}" data-gp_id="{1}" aria-label="Undo">Undo</button></div></div>'.formatUnicorn(
                 this.children[3].children[0].dataset.sup_id,
                 this.children[3].children[0].dataset.gp_id
               )
@@ -491,6 +491,50 @@ $(document).on("click", ".dt-btn-gp-rm-stu-undo", function() {
     data: {
       groups_student: {
         student_id: this.dataset.stu_id,
+        group_id: this.dataset.gp_id
+      }
+    },
+    dataType: "text",
+    success: function(data) {
+      if (data == "submitted") {
+        document.groups_dataTable.ajax.reload();
+      } else {
+        $(this)
+          .parent()
+          .parent()
+          .fadeOut(function() {
+            var div = jQuery('<div class="row dt-gp-mem-row"><div class="col-sm-12" style="color:#721c24"><i class="fas fa-times"></i>&nbsp; Undo error, please refresh.</div></div>');
+            $(this).replaceWith(div);
+            $(this).fadeIn();
+          });
+      }
+    },
+    error: function(data) {
+      $(this)
+        .parent()
+        .parent()
+        .fadeOut(function() {
+          var div = jQuery('<div class="row dt-gp-mem-row"><div class="col-sm-12" style="color:#721c24"><i class="fas fa-times"></i>&nbsp; Network error, please try again.</div></div>');
+          $(this).replaceWith(div);
+          $(this).fadeIn();
+        });
+    }
+  });
+});
+
+$(document).on("click", ".dt-btn-gp-rm-sup-undo", function() {
+  var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
+  $(this).prop("disabled", true);
+  $(this).html('<i class="fas fa-sync-alt fa-spin"></i>');
+
+  $.ajax({
+    url: "/groups_supervisors",
+    type: "POST",
+    context: this,
+    headers: { "X-CSRF-Token": csrfToken },
+    data: {
+      groups_supervisor: {
+        supervisor_id: this.dataset.sup_id,
         group_id: this.dataset.gp_id
       }
     },
