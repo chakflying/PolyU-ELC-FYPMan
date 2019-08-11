@@ -137,7 +137,7 @@ export default {
               this.formSuccess = false;
               this.formError = true;
               this.status =
-                '<i class="fas fa-check mr-2" style="font-size:80%;"></i>Error processing request. Please refresh.';
+                '<i class="fas fa-times mr-2" style="font-size:80%;"></i>Error processing request. Please refresh.';
             }
             // get status text
             response.statusText;
@@ -148,7 +148,7 @@ export default {
             this.formSuccess = false;
             this.formError = true;
             this.status =
-              '<i class="fas fa-check mr-2" style="font-size:80%;"></i>Network error, please try again later.';
+              '<i class="fas fa-times mr-2" style="font-size:80%;"></i>Network error, please try again later.';
           }
         );
       submit_btn.classList.remove("disabled");

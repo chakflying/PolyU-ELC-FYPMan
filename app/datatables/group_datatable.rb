@@ -18,7 +18,7 @@ class GroupDatatable < AjaxDatatablesRails::ActiveRecord
         number: record.number,
         students: students_list(record.students, record.id).html_safe,
         supervisors: supervisors_list(record.supervisors, record.id).html_safe,
-        dt_action: action_edit(record.id).html_safe,
+        dt_action: action_edit(record.id).html_safe + action_add_mem(record.id).html_safe,
         DT_RowId: record.id
       }
     end
@@ -46,11 +46,23 @@ class GroupDatatable < AjaxDatatablesRails::ActiveRecord
     format('<button class="btn btn-sm btn-danger dt-btn dt-btn-gp-rm" aria-label="Remove Group" data-toggle="tooltip" data-placement="right" title="Remove Group" data-id="%s"><i class="fas fa-trash"></i></button>', id)
   end
 
+  def action_add_mem(id)
+    template = format('<div class="dropleft">
+                  <button class="btn btn-sm btn-secondary dt-btn" style="margin-top:0.4em" type="button" id="addgpmembtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-gp_id="%d">
+                    <i class="fas fa-user-plus"></i>
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="addgpmembtn">
+                    <a class="dropdown-item" href="#" id="addgpmem-vue%d">Action</a>
+                  </div>
+                </div>', id, id)
+    template
+  end
+
   def get_raw_records
     if options[:admin]
       Group.all.includes(students: :department, supervisors: :department).references(:students, :supervisors)
     else
-      Group.where(students: {department: options[:current_user_department]}).includes(students: :department, supervisors: :department).references(:students, :supervisors)
+      Group.where(students: { department: options[:current_user_department] }).includes(students: :department, supervisors: :department).references(:students, :supervisors)
     end
   end
 end
