@@ -111,4 +111,33 @@ class OldDbSyncTest < ActionDispatch::IntegrationTest
       OldDb.sync
     end
   end
+
+  test 'OldDb group created and destroyed' do
+    Timecop.travel 3.second.since
+    group = OldChatRoom.create(status: 1, room_type: "group")
+    assert_difference 'Group.count', 1 do
+      OldDb.sync
+    end
+    assert_difference 'Group.count', -1 do
+      group.update(status: 2)
+      OldDb.sync
+    end
+  end
+
+  test 'OldDb group add and remove member' do
+    Timecop.travel 3.second.since
+    group = OldChatRoom.create(status: 1, room_type: "group")
+    assert_difference 'GroupsStudent.count', 1 do
+      OldChatRoomMember.create(status: 1, chat_room_id: group.id, user_id: Student.first.sync_id)
+      OldDb.sync
+    end
+    assert_difference 'GroupsSupervisor.count', 1 do
+      OldChatRoomMember.create(status: 1, chat_room_id: group.id, user_id: Supervisor.first.sync_id)
+      OldDb.sync
+    end
+    assert_difference 'GroupsSupervisor.count', -1 do
+      OldChatRoomMember[chat_room_id: group.id, user_id: Supervisor.first.sync_id].update(status: 2)
+      OldDb.sync
+    end
+  end
 end

@@ -7,8 +7,7 @@ class GroupsStudentsController < ApplicationController
 
   def create
     @groups_student = GroupsStudent.new(groups_student_params)
-    
-    if @groups_student.save
+    if @groups_student.save && olddb_create_group_student(groups_student_params)
       render plain: 'submitted'
     else
       render plain: 'failed'
@@ -30,11 +29,29 @@ class GroupsStudentsController < ApplicationController
 
   def destroy
     @groups_student = GroupsStudent.find_by(groups_student_params)
-    if @groups_student.destroy
+    if @groups_student.destroy && olddb_destroy_group_student(groups_student_params)
       render plain: 'submitted'
     else
       render plain: 'failed'
     end
+  end
+
+  def olddb_create_group_student(params)
+    return if Group.find(params[:group_id]).sync_id.blank? || Student.find(params[:student_id]).sync_id.blank?
+
+    @old_group_member = OldChatRoomMember[chat_room_id: Group.find(params[:group_id]).sync_id, user_id: Student.find(params[:student_id]).sync_id]
+    if @old_group_member.present?
+      @old_group_member.update(status: 1)
+    else
+      @old_group_member = OldChatRoomMember.create(chat_room_id: Group.find(params[:group_id]).sync_id, user_id: Student.find(params[:student_id]).sync_id, status: 1)
+    end
+  end
+
+  def olddb_destroy_group_student(params)
+    return if Group.find(params[:group_id]).sync_id.blank? || Student.find(params[:student_id]).sync_id.blank?
+
+    @old_group_member = OldChatRoomMember[chat_room_id: Group.find(params[:group_id]).sync_id, user_id: Student.find(params[:student_id]).sync_id]
+    @old_group_member.update(status: 2) if @old_group_member.present?
   end
 
   private

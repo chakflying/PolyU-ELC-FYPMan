@@ -37,6 +37,10 @@ class GroupsController < ApplicationController
   # POST /groups.json
   def create
     @group = Group.new(group_params)
+    if @group.save
+      sync_id = olddb_group_create(group_params)
+      @group.sync_id = sync_id
+    end
 
     respond_to do |format|
       if @group.save
@@ -52,8 +56,13 @@ class GroupsController < ApplicationController
   # PATCH/PUT /groups/1
   # PATCH/PUT /groups/1.json
   def update
+    success = false
+    if @group.update_attributes(group_params)
+      @group.sync_id.present? ? olddb_group_update(group_params) : false
+      success = true
+    end
     respond_to do |format|
-      if @group.update(group_params)
+      if success
         format.html { redirect_to @group, notice: 'Group was successfully updated.' }
         format.json { render :show, status: :ok, location: @group }
       else
@@ -66,7 +75,11 @@ class GroupsController < ApplicationController
   # DELETE /groups/1
   # DELETE /groups/1.json
   def destroy
-    @group.destroy
+    sync_id = @group.sync_id
+    if @group.destroy
+      sync_id ? olddb_group_destroy(sync_id) : false
+    end
+
     respond_to do |format|
       format.text { render plain: 'submitted' }
       format.html { redirect_to groups_url, notice: 'Group was successfully destroyed.' }
@@ -75,12 +88,14 @@ class GroupsController < ApplicationController
   end
 
   def create_group_and_add
-    puts params
     @group = Group.new(group_params)
     if @group.save
+      sync_id = olddb_group_create(group_params)
+      @group.update(sync_id: sync_id)
       params[:student_ids].each do |stu_id|
         if Student.find(stu_id).present?
           GroupsStudent.create(group_id: @group.id, student_id: stu_id)
+          sync_id.present? && Student.find(stu_id).sync_id.present? ? olddb_group_add_member(chat_room_id: sync_id, user_id: Student.find(stu_id).sync_id) : false
         else
           render plain: 'failed'
           return
@@ -89,6 +104,7 @@ class GroupsController < ApplicationController
       params[:supervisor_ids].each do |sup_id|
         if Supervisor.find(sup_id).present?
           GroupsSupervisor.create(group_id: @group.id, supervisor_id: sup_id)
+          sync_id.present? && Supervisor.find(sup_id).sync_id.present? ? olddb_group_add_member(chat_room_id: sync_id, user_id: Supervisor.find(sup_id).sync_id) : false
         else
           render plain: 'failed'
           return
@@ -98,6 +114,41 @@ class GroupsController < ApplicationController
     else
       render plain: 'failed'
     end
+  end
+
+  def olddb_group_create(params)
+    @old_group = OldChatRoom.create(status: 1, room_type: "group")
+    @old_group.id
+  end
+
+  def olddb_group_update(params)
+    @old_group = OldChatRoom[params[:id]]
+    return if @old_group.blank?
+
+    @old_group.update(status: (params[:status].present? ? params[:status] : 1))
+  end
+
+  def olddb_group_destroy(sync_id)
+    @old_group = OldChatRoom[sync_id]
+    return if @old_group.blank?
+
+    @old_group.update(status: 2)
+  end
+
+  def olddb_group_add_member(chat_room_id:, user_id:)
+    @old_group_member = OldChatRoomMember[chat_room_id: chat_room_id, user_id: user_id]
+    if @old_group_member.present?
+      @old_group_member.update(status: 1)
+    else
+      @old_group_member = OldChatRoomMember.create(status: 1, chat_room_id: chat_room_id, user_id: user_id)
+    end
+  end
+
+  def olddb_group_remove_member(chat_room_id:, user_id:)
+    @old_group_member = OldChatRoomMember[chat_room_id: chat_room_id, user_id: user_id]
+    if @old_group_member.present?
+      @old_group_member.update(status: 2)
+    end    
   end
 
   private
