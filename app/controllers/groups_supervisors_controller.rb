@@ -6,11 +6,15 @@ class GroupsSupervisorsController < ApplicationController
   def show; end
 
   def create
-    @groups_supervisor = GroupsSupervisor.new(groups_supervisor_params)
-    if @groups_supervisor.save && olddb_create_group_supervisor(groups_supervisor_params)
+    if GroupsSupervisor.find_by(groups_supervisor_params)
       render plain: 'submitted'
     else
-      render plain: 'failed'
+      @groups_supervisor = GroupsSupervisor.new(groups_supervisor_params)
+      if @groups_supervisor.save && olddb_create_group_supervisor(groups_supervisor_params)
+        render plain: 'submitted'
+      else
+        render plain: 'failed'
+      end
     end
   end
 

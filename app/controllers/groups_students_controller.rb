@@ -6,11 +6,15 @@ class GroupsStudentsController < ApplicationController
   def show; end
 
   def create
-    @groups_student = GroupsStudent.new(groups_student_params)
-    if @groups_student.save && olddb_create_group_student(groups_student_params)
+    if GroupsStudent.find_by(groups_student_params)
       render plain: 'submitted'
     else
-      render plain: 'failed'
+      @groups_student = GroupsStudent.new(groups_student_params)
+      if @groups_student.save && olddb_create_group_student(groups_student_params)
+        render plain: 'submitted'
+      else
+        render plain: 'failed'
+      end
     end
   end
 

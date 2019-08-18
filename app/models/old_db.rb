@@ -490,6 +490,7 @@ class OldDb < ActiveRecord::Base
       synced_groups = Group.where(sync_id: OldChatRoom.where(status: 1).pluck(:id))
       OldChatRoom.each do |old_chat_room|
         next if old_chat_room.status != 1
+
         # next if old_chat_room.room_type != "group"
 
         group = synced_groups.select { |x| x.sync_id == old_chat_room.id }.first
@@ -566,7 +567,7 @@ class OldDb < ActiveRecord::Base
       end
 
       Group.where(sync_id: nil).each do |group|
-        old_group = OldChatRoom.new(room_type: "group", status: 1)
+        old_group = OldChatRoom.new(room_type: 'group', status: 1)
         if !old_group.save
           errors_text.append('[New OldDB Group] Sync failed on: ' + old_group.values.to_s)
           errors_text.append(old_group.errors.full_messages)
@@ -580,20 +581,32 @@ class OldDb < ActiveRecord::Base
           end
           group.students.each do |student|
             next if student.sync_id.blank?
-            old_group_member = OldChatRoomMember.new(status: 1, chat_room_id: old_group.id, user_id: student.sync_id)
-            if !old_group_member.save
-              errors_text.append('[New OldDB Group Member] Sync failed on: ' + old_group_member.values.to_s)
-              errors_text.append(old_group_member.errors.full_messages)
-              errors += 1
+
+            old_group_member = OldChatRoomMember[chat_room_id: old_group.id, user_id: student.sync_id]
+            if old_group_member.present?
+              old_group_member.update(status: 1)
+            else
+              old_group_member = OldChatRoomMember.new(status: 1, chat_room_id: old_group.id, user_id: student.sync_id)
+              unless old_group_member.save
+                errors_text.append('[New OldDB Group Member] Sync failed on: ' + old_group_member.values.to_s)
+                errors_text.append(old_group_member.errors.full_messages)
+                errors += 1
+              end
             end
           end
           group.supervisors.each do |supervisor|
             next if supervisor.sync_id.blank?
-            old_group_member = OldChatRoomMember.new(status: 1, chat_room_id: old_group.id, user_id: supervisor.sync_id)
-            if !old_group_member.save
-              errors_text.append('[New OldDB Group Member] Sync failed on: ' + old_group_member.values.to_s)
-              errors_text.append(old_group_member.errors.full_messages)
-              errors += 1
+
+            old_group_member = OldChatRoomMember[chat_room_id: old_group.id, user_id: supervisor.sync_id]
+            if old_group_member.present?
+              old_group_member.update(status: 1)
+            else
+              old_group_member = OldChatRoomMember.new(status: 1, chat_room_id: old_group.id, user_id: supervisor.sync_id)
+              unless old_group_member.save
+                errors_text.append('[New OldDB Group Member] Sync failed on: ' + old_group_member.values.to_s)
+                errors_text.append(old_group_member.errors.full_messages)
+                errors += 1
+              end
             end
           end
         end
@@ -601,23 +614,27 @@ class OldDb < ActiveRecord::Base
       synced_groups = Group.where(sync_id: OldChatRoom.where(status: 1).pluck(:id))
 
       # Update Group members according to old DB
+      puts('Updating Group Members...') unless Rails.env.test?
       OldChatRoomMember.all.each do |old_group_member|
         group = Group.find_by(sync_id: old_group_member.chat_room_id)
         student = Student.find_by(sync_id: old_group_member.user_id)
         supervisor = Supervisor.find_by(sync_id: old_group_member.user_id)
         next if group.blank?
+
         if student.present?
           next if GroupsStudent.find_by(group_id: group.id, student_id: student.id).present?
+
           groups_student = GroupsStudent.new(group_id: group.id, student_id: student.id)
-          if !groups_student.save
+          unless groups_student.save
             errors_text.append('[OldDB Group Member] Sync failed on: ' + groups_student.values.to_s)
             errors_text.append(groups_student.errors.full_messages)
             errors += 1
           end
         elsif supervisor.present?
           next if GroupsSupervisor.find_by(group_id: group.id, supervisor_id: supervisor.id).present?
+
           groups_supervisor = GroupsSupervisor.new(group_id: group.id, supervisor_id: supervisor.id)
-          if !groups_supervisor.save
+          unless groups_supervisor.save
             errors_text.append('[OldDB Group Member] Sync failed on: ' + groups_supervisor.values.to_s)
             errors_text.append(groups_supervisor.errors.full_messages)
             errors += 1
