@@ -53,7 +53,7 @@ class SupervisorsController < ApplicationController
   def update
     if request.patch?
       @supervisor = Supervisor.find(params[:id])
-      if @supervisor.update_attributes(supervisor_params)
+      if @supervisor.update(supervisor_params)
         @supervisor.sync_id ? olddb_supervisor_update(supervisor_params) : false
         flash[:success] = Array(flash[:success]).push('Supervisor updated.')
         redirect_to supervisors_url

@@ -57,7 +57,7 @@ class GroupsController < ApplicationController
   # PATCH/PUT /groups/1.json
   def update
     success = false
-    if @group.update_attributes(group_params)
+    if @group.update(group_params)
       @group.sync_id.present? ? olddb_group_update(group_params) : false
       success = true
     end

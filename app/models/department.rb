@@ -5,8 +5,8 @@ class Department < ApplicationRecord
 
   validates :name, presence: true, length: { maximum: 255 }
   validates :code, length: { maximum: 10 }
-  validates :name, uniqueness: { scope: :faculty, message: ": There is already a department in this faculty with the same name", allow_blank: true }
-  validates :code, uniqueness: { scope: :faculty, message: ": There is already a department in this faculty with the same code", allow_blank: true }
+  validates :name, uniqueness: { scope: :faculty, message: ": There is already a department in this faculty with the same name", allow_blank: true, case_sensitive: false }
+  validates :code, uniqueness: { scope: :faculty, message: ": There is already a department in this faculty with the same code", allow_blank: true, case_sensitive: false }
   has_many :students
   has_many :supervisors
   has_many :users

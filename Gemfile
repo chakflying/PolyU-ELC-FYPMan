@@ -6,7 +6,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.6.1'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2.1'
+gem 'rails', '~> 6.0'
 # Use MySQL as the database for Active Record
 gem 'mysql2', '~> 0.5.2'
 # postgresql added for Heroku compatibility
@@ -27,11 +27,11 @@ gem 'webpacker', '>= 4.0'
 # gem 'mini_racer', platforms: :ruby
 
 # Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails', '~> 4.2'
+gem 'coffee-rails', '~> 5.0'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5.2.0'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.5'
+gem 'jbuilder', '>= 2.9.1'
 # Use Redis adapter to run Action Cable in production
 gem 'redis', '>= 4.1.0'
 # Use ActiveModel has_secure_password
@@ -44,7 +44,7 @@ gem 'redis', '>= 4.1.0'
 # gem 'capistrano-rails', group: :development
 
 # Reduces boot times through caching; required in config/boot.rb
-gem 'bootsnap', '>= 1.3.2', require: false
+gem 'bootsnap', '>= 1.4.4', require: false
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -55,10 +55,10 @@ group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'listen', '>= 3.0.5', '< 3.2'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
+  gem 'better_errors'
+  gem 'binding_of_caller'
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
-  gem "better_errors"
-  gem "binding_of_caller"
   # Brakeman for security analysis
   gem 'brakeman'
 end
@@ -86,14 +86,14 @@ gem 'bcrypt'
 gem 'rack-attack'
 
 # Paper Trail for tracking changes to models
-gem 'paper_trail'
+gem 'paper_trail', '>= 10.3.1'
 gem 'paper_trail-association_tracking'
 # Delay Job for async actions
 gem 'daemons'
 gem 'delayed_job_active_record'
 gem 'delayed_job_recurring'
 # Sequel for connecting to the old database
-gem 'sequel'
+gem 'sequel', '~> 5.23'
 # Strip Spaces for form inputs
 gem 'auto_strip_attributes', '~> 2.5'
 # YAJL for better JSON performance

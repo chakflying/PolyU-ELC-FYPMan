@@ -57,7 +57,7 @@ class TodosController < ApplicationController
   def update
     @todo = Todo.find(params[:id])
     if request.patch?
-      if @todo.update_attributes(todo_params)
+      if @todo.update(todo_params)
         @todo.sync_id ? olddb_todo_update(todo_params, @todo.sync_id) : false
         flash[:success] = Array(flash[:success]).push('Todo item updated.')
         redirect_to '/todos'
