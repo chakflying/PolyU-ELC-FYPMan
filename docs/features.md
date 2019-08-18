@@ -1,4 +1,8 @@
-# Using Ajax Datatables
+# Specific Features
+
+## Using Ajax Datatables
+
+### Creating a new Ajax Datatable
 
 - Run `rails generate datatable *ModelName*`
 - Open the generated file, edit `view_columns` to define searchable columns, edit `data` to define how to process each row from a database query to display each row in the table, and edit `get_raw_records` to define how the model is queried. You can also add custom methods to help with data processing.

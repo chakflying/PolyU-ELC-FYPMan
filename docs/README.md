@@ -1,20 +1,18 @@
 ---
 home: true
 heroImage: http://www.bigdatamag.cn/u/cms/weekly/201711/21183624bk31.jpg
-heroText: Hero Title
-tagline: Hero subtitle
-actionText: Get Started →
-actionLink: /guide/
+heroText: PolyFYPMan
+tagline: FYP management website
+actionText: Dev Setup →
+actionLink: /dev-environment/
 features:
-- title: Simplicity First
-  details: Minimal setup with markdown-centered project structure helps you focus on writing.
-- title: Vue-Powered
-  details: Enjoy the dev experience of Vue + webpack, use Vue components in markdown, and develop custom themes with Vue.
-- title: Performant
-  details: VuePress generates pre-rendered static HTML for each page, and runs as an SPA once a page is loaded.
+- title: Groups
+  details: Manage groups of students and supervisors.
+- title: Assign
+  details: Manage relationship of assigned students and their FYP supervisor.
+- title: Todos
+  details: Manage todo items for departments.
 footer: AGPLv3 | Nelson Chan @2019
 ---
 
-# This is the index file of VuePress
-
-should put the intro of the docs here
+This is the documentation for the PolyFYPMan dev project. It hopes to include guide to development, project structure and Specific implementations.
