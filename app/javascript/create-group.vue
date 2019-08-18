@@ -195,4 +195,9 @@ export default {
 .vs__deselect {
   padding-top: 3px;
 }
+
+.gp-add-mem-item .v-select {
+  margin-left: 8px;
+  margin-right: 8px;
+}
 </style>
