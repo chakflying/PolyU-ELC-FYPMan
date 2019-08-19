@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
   before_action :session_expires
   after_action :store_location
   before_action :set_raven_context
-  before_action :reset_hsts
+  # before_action :reset_hsts
   # before_action :show_profiler
 
   def render_404
