@@ -31,8 +31,7 @@ Rails.application.config.content_security_policy do |policy|
     policy.connect_src :self, :https, 'http://localhost:3035', 'ws://localhost:3035'
     policy.worker_src :self, :blob
   else
-    policy.script_src :self, 'https://cdn.logrocket.io'
-    policy.script_src :self, 'https://kit.fontawesome.com'
+    policy.script_src :self, 'https://cdn.logrocket.io', 'https://kit.fontawesome.com'
     policy.connect_src :self, 'https://*.logrocket.io'
     policy.worker_src :self, :blob
   end
