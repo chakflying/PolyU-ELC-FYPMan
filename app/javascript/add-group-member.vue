@@ -1,5 +1,5 @@
 <template>
-  <div class="gp-add-mem-item" style="width:350px;margin:0.5em;">
+  <div class="gp-add-mem-item" style="width:350px;margin:0.3em 0.3em 0.1em 0.3em;">
     <div class="row justify-content-center">
       <div class="col-12" @click.stop="stopClick" v-if="student_showing">
         <v-select

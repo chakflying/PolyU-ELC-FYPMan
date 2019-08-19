@@ -199,5 +199,6 @@ export default {
 .gp-add-mem-item .v-select {
   margin-left: 8px;
   margin-right: 8px;
+  font-size: 85%;
 }
 </style>
