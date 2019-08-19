@@ -16,14 +16,14 @@ class User < ApplicationRecord
   delegate :faculty_id, to: :department, allow_nil: true
   delegate :university, to: :faculty, allow_nil: true
   delegate :university_id, to: :faculty, allow_nil: true
-  has_paper_trail on: [:create, :destroy, :update]
+  has_paper_trail on: %i[create destroy update]
 
   def self.digest(string)
     cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
                                                   BCrypt::Engine.cost
     BCrypt::Password.create(string, cost: cost)
   end
-  
+
   def create_reset_digest
     self.reset_token = User.new_token
     update_columns(reset_digest: User.digest(reset_token), reset_sent_at: Time.zone.now)

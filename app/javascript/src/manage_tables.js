@@ -166,6 +166,10 @@ document.addEventListener("turbolinks:load", function() {
         $(".da-nav").removeClass("active");
         $("#db_f_departments").addClass("active");
         break;
+      case "Group":
+        $(".da-nav").removeClass("active");
+        $("#db_f_groups").addClass("active");
+        break;
     }
   }
 });
@@ -264,6 +268,16 @@ $(document).on("click", "#db_f_departments", function() {
   $(".da-nav").removeClass("active");
   $("#db_f_departments").addClass("active");
 });
+
+$(document).on("click", "#db_f_groups", function() {
+  document.admin_activity_dataTable
+    .columns(1)
+    .search("Group")
+    .draw();
+  $(".da-nav").removeClass("active");
+  $("#db_f_groups").addClass("active");
+});
+
 
 $(document).on("click", ".dt-btn-rm", function() {
   var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
