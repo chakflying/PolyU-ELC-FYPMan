@@ -46,9 +46,10 @@ Rails.application.routes.draw do
   resources :todos
 
   scope '/admin' do
-    get    '/',                     to: 'admin#activities'
-    get    '/trails',               to: 'admin#activities'
-    get    '/sync_records',         to: 'admin#sync_records'
+    get    '/',                                       to: 'admin#activities'
+    get    '/trails',                                 to: 'admin#activities'
+    get    '/sync_records',                           to: 'admin#sync_records'
+    get    '/sync_records_delete_older_than',         to: 'admin#sync_records_delete_older_than'
     resources :departments
   end
   get '/departments_list_by_uni', to: 'departments#get_departments_list_by_uni'
