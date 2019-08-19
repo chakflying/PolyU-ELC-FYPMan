@@ -616,6 +616,7 @@ class OldDb < ActiveRecord::Base
       # Update Group members according to old DB
       puts('Updating Group Members...') unless Rails.env.test?
       OldChatRoomMember.all.each do |old_group_member|
+        next if old_group_member.status != 1
         group = Group.find_by(sync_id: old_group_member.chat_room_id)
         student = Student.find_by(sync_id: old_group_member.user_id)
         supervisor = Supervisor.find_by(sync_id: old_group_member.user_id)
