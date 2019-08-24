@@ -2,6 +2,8 @@ module.exports = {
   title: 'PolyFYPman Documentation',
   head: [
   ],
+  dest: './public/docs',
+  base: '/public/docs/',
   themeConfig: {
     docsDir: 'docs',
     nav: [
