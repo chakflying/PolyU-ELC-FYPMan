@@ -3,7 +3,7 @@ module.exports = {
   head: [
   ],
   dest: './public/docs',
-  base: '/public/docs/',
+  base: '/docs/',
   themeConfig: {
     docsDir: 'docs',
     nav: [
