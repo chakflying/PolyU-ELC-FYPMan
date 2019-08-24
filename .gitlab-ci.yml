@@ -19,3 +19,19 @@ staging:
     - sudo pkill -f "rake jobs:work"
     - RAILS_STAGING_TEST=true rails test
     - curl https://langcapadmin.edc.polyu.edu.hk -k
+
+build-docs:
+  type: deploy
+  environment:
+    name: dev-staging
+  only:
+    - deploy
+  tags:
+    - dev
+    - rails
+  script:
+    - cd /home/michaelchan/PolyFYPman/
+    - git pull
+    - bundle install
+    - yarn install
+    - yarn docs:build
