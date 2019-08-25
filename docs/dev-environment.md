@@ -40,3 +40,27 @@ gem 'passenger', ... group: :production
 ```
 
 Start `rails server` and you should see `puma` initializing.
+
+## Staging Server
+
+Staging server is located in [langcapadmin.edc.polyu.edu.hk](https://langcapadmin.edc.polyu.edu.hk/). The rails app here runs in production mode, and uses the same database names as the real production server. The requests are handled by Apache and passenger. Static assets (javascript, css) are served by apache only.
+
+### Gitlab CD
+
+The staging server has a `gitlab-runner` running, which will poll for pushs to the Gitlab repository, and automatically run build and deploy tasks defined in `.gitlab-ci.yml`. Currently the two tasks are updating the server on the pushed code, and building this doc. The `only:` setting define where that task will be run, useful when there is more than 1 runner. 
+
+![Runner Status Page](./Screenshot_2019-08-25Gitlabrunner.png)
+
+*The Gitlab configuration page for Runners*
+
+### Testing
+
+The staging server is configured to run tests every time there is a push. Therefore, the deploy task is configured to migrate the test databases independently, since the testing environment here is different from a local test environment.
+```
+RAILS_STAGING_TEST=true rails db:migrate RAILS_ENV=test
+```
+The checking for environment variable `RAILS_STAGING_TEST` is also in `database.yml`.
+
+### Apache integration
+
+The server currently uses `passenger`, which integrates with apache in handling requests. You can find the configuration options for it [here](https://www.phusionpassenger.com/library/install/apache/install/oss/rubygems_rvm/).
