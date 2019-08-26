@@ -35,7 +35,50 @@ but in Sequel the bracket syntax is used instead.
 OldUser[23]
 OldUser[net_id: test01@example.com]
 ```
+The Sequel ORM is used to manage the `directus` tables, while Active Record manages the Rails database tables.
+
+Basic custom error logging is also implemented. Most of the common error locations have error checks and will store the error text and increment an error counter. At the end of sync, the counter and error messages will be stored in a database entry, in the model `SyncRecords`. Statistics about the runtime is also stored to track performance.
+
+![Sync Records Page](./Screenshot_2019-08-26SyncRecordsPage.png)
+
+### Sync Process
+
+The process of Sync can be roughly divided into 3 steps: 
+- Delete Synced records which are deleted in the `directus` database
+- Update the Rails database base on each entry in the `directus` database
+- Add new records in the `directus` database for unsynced entries
+
+```ruby
+      University.where.not(sync_id: nil).where.not(sync_id: OldUniversity.where(status: 1).pluck(:id)).each(&:destroy)
+```
+This line picks out the synced entries in our database, and deletes them if the corresponding entry in the `directus` database is missing/removed.
+
+For Students, there is additional check of updating FYP Year if missing. Since Students and Supervisors are put in the same table in `directus`, additional check of `entry.role == '1'` is performed. The fact that role is a string type and not an integer type caused a lot of headaches.
+
+For specific models like `supervises` and `chat_rooms_members`, it is impractical to track them by ID, since they are not meaningful in a per-record basis. Hence they are simply synced by copying the data from `directus`. After finding that the specified student and/or supervisor exists in our database, the relation will be created, and ignored otherwise.
+
+Currently, this implementation requires loading students/supervisors repeatedly, causing slower performance during groups sync. Caching methods should be investigated to improve performance.
+
+```ruby
+OldChatRoomMember.all.each do |old_group_member|
+        next if old_group_member.status != 1
+        group = Group.find_by(sync_id: old_group_member.chat_room_id)
+        student = Student.find_by(sync_id: old_group_member.user_id)
+        supervisor = Supervisor.find_by(sync_id: old_group_member.user_id)
+        ...
+```
 
 ### Sync Trigger
 
 Sync is scheduled by `Delay_job` and its extension `Delayed::RecurringJob`, defined in the bottom of `old_db_init.rb`. The block of code schedules the Sync task according to the time interval defined. Once defined, a separate process need to be started to actually run the task.
+
+```ruby
+class OldDbSyncTask
+  include Delayed::RecurringJob
+  run_every 2.minute
+  queue 'slow_jobs'
+  def perform
+    OldDb.sync
+  end
+end
+```
