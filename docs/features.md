@@ -96,6 +96,22 @@ end
 
 ## Testing
 
-> If you found a bug, always write a test for it.
+> If you fixed a bug, always write a test for it.
 
 Rails provided a standard way of testing code. Controller testing test each controller action and view rendering. Integration testing can test user actions that will involve more than one controller/model, ensuring correct communication between views and controllers, and correct behavior as whole. System test can also be written, which is a full frontend emulation using an automated browser client to interact with the application. However, there is currently no system test written. Each type of testing is located in a seperate folder in side `/test/`. There is also a specific set of `olddb` tests, which test changes to either side of the databases and the sync action between them. Currently, most of the tests are not comprehensive, and code coverage is not high.
+
+## Vue Components
+
+Vue components are inserted into the static pages on a per-component basis. Components are defined in `app/javascript/xxx.vue`. The code to load these components is located in `app/javascript/packs/vue_xxx.js`. They are called packs because in the specific page that this component will be loaded, there will be a `javascript_pack_tag` which will load this pack, including the vue component, which is precompiled by webpack. Also, in the rails view, we define the data that will be presented to the vue component as props in json format. This data is passed down by the controller during rendering. Javascript will then read the data and store them as props during mounting the component in this location.
+
+```erb
+<%= content_tag :div,
+    id: 'todo',
+    data: {
+        items2: @todo_list,
+        is_admin: is_admin?,
+    }.to_json() do %>
+  ...
+<% end %>
+```
+The html in the do-end block is shown when the component is not mounted yet or unmounted. Currently it is a default spinner to indicate to the user that something is loading.
