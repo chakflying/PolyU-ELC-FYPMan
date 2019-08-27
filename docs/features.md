@@ -2,6 +2,17 @@
 
 ## Using Ajax Datatables
 
+Datatables from [datatables.net](https://datatables.net/) is a widely used jQuery plugin for contructing useful tables. Ajax Datatables from [ajax-datatables-rails](https://github.com/jbox-web/ajax-datatables-rails) is a wrapper for Datatables to achieve better integration between Rails and Datatables. In the initial project, a Vue component like [Vuetify](https://vuetifyjs.com/en/components/data-tables) was considered in replacing the increasingly obsolete jQuery plugin, but datatables have simpler initial configuration for ajax data loading, and provided good integration for Bootstrap, the UI elements styling currently used. Hence it is chosen for faster prototyping. However, as the complexity of the tables increased, and interactive elements like forms, buttons and undos were added, the code also got more complex and confusing. Some of the Buttons are defined in the `xxxdatatable.rb` file, undo actions are defined in jQuery .js, and additional vue form is also integrated in the `Groups` table. In the future, switching completely to a Vue table may provide better maintainability. 
+
+The procedure from a request to displaying data in the table is roughly like so:
+- The browser requests a page with Datatables in it.
+- The server quickly return the page, including an empty table with columns and ajax data source defined (see `*.html.erb` files in `/app/views/` for example)
+- Defined in a common js file, when the page is loaded, it will check if a table with specific id is present. If so, will initialize the corresponding dataTable object. (`app/javascript/src/manage_tables.js`)
+- When the dataTable object is initialized, it will call the previously defined ajax url to fetch data. This request will be handled by the Rails dataTables object. (`app/datatables/*_datatable.rb`)
+- The server processes the ajax request by getting data from database and and styling them, adding buttons and such to produce rows for display.
+- The rows data is then sent back to the browser, where it is loaded onto the table.
+- When the user switches to the next page or perform a search, a new ajax request is sent.
+
 ### Creating a new Ajax Datatable
 
 - Run `rails generate datatable *ModelName*`
@@ -82,3 +93,9 @@ class OldDbSyncTask
   end
 end
 ```
+
+## Testing
+
+> If you found a bug, always write a test for it.
+
+Rails provided a standard way of testing code. Controller testing test each controller action and view rendering. Integration testing can test user actions that will involve more than one controller/model, ensuring correct communication between views and controllers, and correct behavior as whole. System test can also be written, which is a full frontend emulation using an automated browser client to interact with the application. However, there is currently no system test written. Each type of testing is located in a seperate folder in side `/test/`. There is also a specific set of `olddb` tests, which test changes to either side of the databases and the sync action between them. Currently, most of the tests are not comprehensive, and code coverage is not high.
