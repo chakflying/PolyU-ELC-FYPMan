@@ -18,7 +18,7 @@
           </div>
         </div>
       </div>
-      <transition name="slide-fade">
+      <transition name="slide">
         <div class="timeline-description" v-show="expanded == true">{{ item.description }}</div>
       </transition>
     </div>
