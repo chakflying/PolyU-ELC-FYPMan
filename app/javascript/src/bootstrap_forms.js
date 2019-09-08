@@ -15,11 +15,6 @@ document.addEventListener("turbolinks:load", function() {
     );
   });
 
-  $(".datepicker").datepicker({
-    format: "dd MM, yyyy",
-    autoclose: true
-  });
-
   $("#validation_uni").on("change", function() {
     if ($("#dp_load")) {
       $("#dp_load").remove();

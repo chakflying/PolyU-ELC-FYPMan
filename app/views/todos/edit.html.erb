@@ -6,7 +6,7 @@
 <div class="container">
   <h4 class="display-4 aheading animated fadeInDown faster">Edit Todo Item</h4>
   <div class="row">
-    <div class="col-md-6 col-md-offset-3">
+    <div class="col-md-12 col-lg-6 col-lg-offset-3">
       <%= form_for(@todo, html: {class: "needs-validation", novalidate: true}) do |f| %>
         <%= render 'shared/error_messages', obj: @todo %>
         <div class="form-group">
@@ -15,16 +15,16 @@
           <div class="invalid-feedback">Please enter Todo title.</div>
         </div>
         <div class="form-group">
-          <%= f.label "Date", for: "validation_dt" %>
-          <div class="form-row" style="margin:0;">
-            <%= f.text_field :eta, class: 'form-control datepicker', id: "validation_dt", required: true, value: @todo.eta.in_time_zone("Hong Kong").strftime("%d %B, %Y") %>
+          <%= f.label "Date" %>
+          <div class="form-row" style="margin:0;line-height:2.3;">
+            <%= f.datetime_select :eta, {required: true, value: @todo.eta.in_time_zone("Hong Kong").strftime("%d %B, %Y %H:%M:%S"), datetime_separator: "&nbsp;&nbsp;-&nbsp;&nbsp;", time_separator: "&nbsp;&nbsp;:&nbsp;&nbsp;"}, {class: 'form-control col-2 custom-select mr-1 ml-1'} %>
             <div class="invalid-feedback">Please enter Todo date.</div>
           </div>
         </div>
           <%= f.label :department %>
           <% if is_admin? %>
           <div class="form-group" style="margin-bottom: 0.5em;">
-            <%= f.select :university_id, @universities_list, {prompt: "Select University..."}, {id: "validation_uni", class: "custom-select", required: true} %>
+            <%= f.select :university_id, @universities_list, {prompt: "Select University..."}, {id: "validation_uni", class: "custom-select"} %>
           </div>
           <div class="form-group">
             <%= f.select :department_id, @departments_list, {include_blank: true}, {id: "validation_dp", class: "custom-select", disabled: true} %>
