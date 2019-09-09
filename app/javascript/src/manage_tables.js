@@ -112,12 +112,19 @@ document.addEventListener("turbolinks:load", function() {
       order: [[0, "asc"]],
       stateSave: false,
       responsive: true,
-      columns: [{ data: "number" }, { data: "students" }, { data: "supervisors" }, { data: "dt_action" }],
-      columnDefs: [{ orderable: false, targets: -1 }, { responsivePriority: 1, targets: -1 }, { width: "10px", targets: 0 }],
+      columns: [{ data: "number" }, { data: "students" }, { data: "supervisors" }, { data: "sync_id" }, { data: "dt_action" }],
+      columnDefs: [{ orderable: false, targets: -1 }, { responsivePriority: 1, targets: -1 }, { width: "10px", targets: 0 }, { width: "10px", targets: -2 }],
       language: {
         emptyTable: "No groups found in this catogory."
       }
     });
+    if ($("#data").data("admin") === false) {
+      document.groups_dataTable.column(3).visible(false);
+      document.groups_dataTable.columns.adjust().draw();
+    } else {
+      document.groups_dataTable.column(3).visible(true);
+      document.groups_dataTable.columns.adjust().draw();
+    }
   } else if ($(".departments-table").length) {
     document.departments_dataTable = $(".departments-table").DataTable({
       stateSave: false,

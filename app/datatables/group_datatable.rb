@@ -8,6 +8,7 @@ class GroupDatatable < AjaxDatatablesRails::ActiveRecord
       number: { source: 'Group.number', cond: :eq },
       students: { source: 'Student.netID' },
       supervisors: { source: 'Supervisor.netID' },
+      sync_id: { source: 'Group.sync_id', cond: :eq },
       dt_action: { searchable: false }
     }
   end
@@ -18,6 +19,7 @@ class GroupDatatable < AjaxDatatablesRails::ActiveRecord
         number: record.number,
         students: students_list(record.students, record.id).html_safe,
         supervisors: supervisors_list(record.supervisors, record.id).html_safe,
+        sync_id: record.sync_id,
         dt_action: action_edit(record.id).html_safe + action_add_mem(record.id).html_safe,
         DT_RowId: record.id
       }
