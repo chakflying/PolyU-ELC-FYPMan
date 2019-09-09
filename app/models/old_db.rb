@@ -485,13 +485,11 @@ class OldDb < ActiveRecord::Base
 
       # Update Groups according to old DB
       puts('Updating Groups...') unless Rails.env.test?
-      Group.where.not(sync_id: nil).where.not(sync_id: OldChatRoom.where(status: 1).pluck(:id)).each(&:destroy)
+      Group.where.not(sync_id: nil).where.not(sync_id: OldChatRoom.where(status: 1, room_type: 'group').pluck(:id)).each(&:destroy)
 
       synced_groups = Group.where(sync_id: OldChatRoom.where(status: 1).pluck(:id))
       OldChatRoom.each do |old_chat_room|
-        next if old_chat_room.status != 1
-
-        # next if old_chat_room.room_type != "group"
+        next if old_chat_room.status != 1 || old_chat_room.room_type != 'group'
 
         group = synced_groups.select { |x| x.sync_id == old_chat_room.id }.first
         if group.present?

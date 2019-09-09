@@ -140,4 +140,12 @@ class OldDbSyncTest < ActionDispatch::IntegrationTest
       OldDb.sync
     end
   end
+
+  test 'OldDb group dont sync individual group' do
+    Timecop.travel 3.second.since
+    group = OldChatRoom.create(status: 1, room_type: "individual")
+    assert_difference 'Group.count', 0 do
+      OldDb.sync
+    end
+  end
 end
