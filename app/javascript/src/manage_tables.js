@@ -113,7 +113,14 @@ document.addEventListener("turbolinks:load", function() {
       stateSave: false,
       responsive: true,
       columns: [{ data: "number" }, { data: "students" }, { data: "supervisors" }, { data: "sync_id" }, { data: "dt_action" }],
-      columnDefs: [{ orderable: false, targets: -1 }, { responsivePriority: 1, targets: -1 }, { width: "10px", targets: 0 }, { width: "10px", targets: -2 }],
+      columnDefs: [
+        { orderable: false, targets: -1 },
+        { responsivePriority: 1, targets: -1 },
+        { width: "10px", targets: 0 },
+        { width: "45%", targets: 1 },
+        { width: "45%", targets: 2 },
+        { width: "10px", targets: -2 }
+      ],
       language: {
         emptyTable: "No groups found in this catogory."
       }
@@ -284,7 +291,6 @@ $(document).on("click", "#db_f_groups", function() {
   $(".da-nav").removeClass("active");
   $("#db_f_groups").addClass("active");
 });
-
 
 $(document).on("click", ".dt-btn-rm", function() {
   var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
