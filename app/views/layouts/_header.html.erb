@@ -29,6 +29,11 @@
       <% end %>
     </ul>
     <ul class="navbar-nav ml-auto">
+      <% if is_admin? && SyncRecord.last.present? %>
+        <li class="nav-item d-lg-none d-xl-flex">
+          <p class="nav-link disabled" style="margin-bottom:0;overflow:hidden;">Last Database Sync: <%= SyncRecord.last.ended_at.present? ? time_ago_in_words(SyncRecord.last.ended_at) : "Sync running" %></p>
+        </li>
+      <% end %>
       <% if logged_in? %>
         <li class="nav-item d-lg-none d-xl-flex">
           <p class="nav-link disabled" style="margin-bottom:0;overflow:hidden;">You are Logged in as <%= current_user.username %>.</p>
