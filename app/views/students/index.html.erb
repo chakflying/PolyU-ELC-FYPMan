@@ -22,7 +22,7 @@
         <%= f.text_field :name, class: "form-control", placeholder: "enter student name", 'aria-label': "New student name" %>
       </div>
       <div class="form-group col-md-4">
-        <%= f.email_field :netID, class: "form-control", placeholder: "enter student netID", required: true, 'aria-label': "New student netID" %>
+        <%= f.email_field :netID, class: "form-control", placeholder: "netID" + get_stu_netID_suffix, required: true, 'aria-label': "New student netID" %>
         <div class="invalid-feedback">Please enter student netID: netID@university</div>
       </div>
       <div class="form-group col-md-4">

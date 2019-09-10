@@ -13,4 +13,22 @@ module StudentsHelper
       [(Time.now.year + 5).to_s + '-' + (Time.now.year + 6).to_s, (Time.now.year + 5).to_s + '-' + (Time.now.year + 6).to_s]
     ]
   end
+  
+  def get_stu_netID_suffix
+    return "" if !logged_in?
+    case current_user.department.university.code
+    when "CUHK"
+      "@link.cuhk.edu.hk"
+    when "POLYU"
+      "@polyu.edu.hk"
+    when "CITYU"
+      "@cityu.edu.hk"
+    when "HKBU"
+      "@hkbu.edu.hk"
+    when "HKUST"
+      "@connect.ust.hk"
+    else
+      "@university"
+    end
+  end
 end
