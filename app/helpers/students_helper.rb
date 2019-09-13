@@ -26,7 +26,7 @@ module StudentsHelper
     when "HKBU"
       "@hkbu.edu.hk"
     when "HKUST"
-      "@connect.ust.hk"
+      "@ust.hk"
     else
       "@university"
     end
