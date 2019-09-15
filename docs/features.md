@@ -34,6 +34,16 @@ end
 
 Database Sync between the `directus` database and the rails one is primarily achieved with a `sync_id` column in each of the tables, tracking the corresponding entry in the other database. Some of the entries with a unique identifer (e.g. `netID`) also checks for both timestamps to update on the latest information. The database schema for `directus` is defined in `old_db_init.rb`, and the sync code is located in `old_db.rb`.
 
+It is worth mentioning that the sync function described below is only used to deal with manual modifications to the databases. For normal website operations and the REST api, a corresponding function to modify the directus database is already included and will be called after the operation on our database is completed without problems. These functions are located in the same controller as the normal action.
+
+app\controllers\groups_controller.rb
+```ruby
+  def olddb_group_create(params)
+    @old_group = OldChatRoom.create(status: 1, room_type: "group")
+    @old_group.id
+  end
+```
+
 ### Sync Implementation
 
 Rails uses Active Record for its default database ORM handling. When the project started, `rails 5.2` did not have full support for multiple database connection, and `directus` uses different names for timestamp entries which is not compatible with Active Record. Therefore, additional gem `Sequel` is used to connect to `directus`. Sequel has most of the same features of finding and updating records, but uses slightly different syntax. For example, in Active Record we find rows by
@@ -64,8 +74,18 @@ The process of Sync can be roughly divided into 3 steps:
 ```
 This line picks out the synced entries in our database, and deletes them if the corresponding entry in the `directus` database is missing/removed.
 
-For Students, there is additional check of updating FYP Year if missing. Since Students and Supervisors are put in the same table in `directus`, additional check of `entry.role == '1'` is performed. The fact that role is a string type and not an integer type caused a lot of headaches.
+For Students, there is additional check of updating FYP Year if missing. Since Students and Supervisors are put in the same table in `directus`, additional check of `entry.role == '1'` is performed. The fact that role is a string type and not an integer type caused a lot of headaches. If both records match, they they are updated according to the latest timestamp on one of them.
 
+Finally, if no corresponding record is found, a new student/supervisor is created in our database. The entry in directus is `touched` so that both will have the same timestamp for future sync check.
+
+```ruby
+  new_sup = Supervisor.new(netID: entry.net_id, name: entry.common_name, department_id: d_id, sync_id: entry.id)
+  unless new_sup.save && entry.touch
+    errors_text.append('[New Supervisor] Sync failed on: ' + new_sup.attributes.to_s)
+    errors_text.append(new_sup.errors.full_messages)
+    errors += 1
+  end
+```
 For specific models like `supervises` and `chat_rooms_members`, it is impractical to track them by ID, since they are not meaningful in a per-record basis. Hence they are simply synced by copying the data from `directus`. After finding that the specified student and/or supervisor exists in our database, the relation will be created, and ignored otherwise.
 
 Currently, this implementation requires loading students/supervisors repeatedly, causing slower performance during groups sync. Caching methods should be investigated to improve performance.
@@ -92,6 +112,12 @@ class OldDbSyncTask
     OldDb.sync
   end
 end
+```
+
+Normally, the separate process is a rails job worker, starting it with nohup so that it will survive after closing the terminal window. In long term, adding a cron job to periodically start the process will be more convenient.
+
+```bash
+nohup rake jobs:work > /dev/null 2>&1 &
 ```
 
 ## Testing

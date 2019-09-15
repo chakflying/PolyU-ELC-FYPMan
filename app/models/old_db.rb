@@ -496,61 +496,8 @@ class OldDb < ActiveRecord::Base
           next if (group.updated_at - old_chat_room.date_modified).abs < 1
 
           if old_chat_room.date_modified.blank? || group.updated_at > old_chat_room.date_modified
-            # Ours is newer
-            # puts("case 1") if Rails.env.test?
-
-            # group.students.each do |student|
-            #   next if student.sync_id.blank?
-            #   if OldChatRoomMember[chat_room_id: old_group.id, user_id: student.sync_id].present?
-            #     OldChatRoomMember[chat_room_id: old_group.id, user_id: student.sync_id].update(status: 1)
-            #     next
-            #   end
-            #   old_group_member = OldChatRoomMember.new(status: 1, chat_room_id: old_group.id, user_id: student.sync_id)
-            #   if !old_group_member.save
-            #     errors_text.append('[New OldDB Group Member] Sync failed on: ' + old_group_member.values.to_s)
-            #     errors_text.append(old_group_member.errors.full_messages)
-            #     errors += 1
-            #   end
-            # end
-            # group.supervisors.each do |supervisor|
-            #   next if supervisor.sync_id.blank?
-            #   if OldChatRoomMember[chat_room_id: old_group.id, user_id: supervisor.sync_id].present?
-            #     OldChatRoomMember[chat_room_id: old_group.id, user_id: supervisor.sync_id].update(status: 1)
-            #     next
-            #   end
-            #   old_group_member = OldChatRoomMember.new(status: 1, chat_room_id: old_group.id, user_id: supervisor.sync_id)
-            #   if !old_group_member.save
-            #     errors_text.append('[New OldDB Group Member] Sync failed on: ' + old_group_member.values.to_s)
-            #     errors_text.append(old_group_member.errors.full_messages)
-            #     errors += 1
-            #   end
-            # end
-
-            # unless old_chat_room.touch && group.touch
-            #   errors_text.append('[OldDB Todo] Sync failed on: ' + old_chat_room.values.to_s)
-            #   errors_text.append(old_chat_room.errors.full_messages)
-            #   errors += 1
-            # end
+            # Nothing to update for now
           else
-            # OldDb one is newer
-            # puts("case 2") if Rails.env.test?
-            # old_chat_room.chat_rooms_members.each do |member|
-            #   case OldUser[member.user_id].role
-            #   when "1"
-            #     next if GroupsStudent.find_by(student_id:,group_id:)
-            #   when "2"
-            #   end
-            # end
-
-            # if group.changed.blank?
-            #   group.touch && old_chat_room.touch
-            # else
-            #   unless group.save && old_chat_room.touch
-            #     errors_text.append('[Todo] Sync failed on: ' + group.attributes.to_s)
-            #     errors_text.append(group.errors.full_messages)
-            #     errors += 1
-            #   end
-            # end
           end
         else
           # Totally new
@@ -565,6 +512,8 @@ class OldDb < ActiveRecord::Base
       end
 
       Group.where(sync_id: nil).each do |group|
+        # New Group from our database
+        # puts("case 4") if Rails.env.development?
         old_group = OldChatRoom.new(room_type: 'group', status: 1)
         if !old_group.save
           errors_text.append('[New OldDB Group] Sync failed on: ' + old_group.values.to_s)

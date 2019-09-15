@@ -47,11 +47,19 @@ Staging server is located in [langcapadmin.edc.polyu.edu.hk](https://langcapadmi
 
 ### Gitlab CD
 
-The staging server has a `gitlab-runner` running, which will poll for pushs to the Gitlab repository, and automatically run build and deploy tasks defined in `.gitlab-ci.yml`. Currently the two tasks are updating the server on the pushed code, and building this doc. The `only:` setting define where that task will be run, useful when there is more than 1 runner. 
+The staging server has a `gitlab-runner` running, which will poll for pushs to the Gitlab repository in the `deploy` branch, and automatically run build and deploy tasks defined in `.gitlab-ci.yml`. Currently the two tasks are updating the server on the pushed code, and building this doc. The `only:` setting define where that task will be run, useful when there is more than 1 runner. 
 
 ![Runner Status Page](./Screenshot_2019-08-25Gitlabrunner.png)
 
 *The Gitlab configuration page for Runners*
+
+The runner is configured to run as the user `michaelchan`. The command used to start it is
+
+```bash
+setsid nohup gitlab-runner run --user michaelchan --working-directory /home/michaelchan/PolyFYPman/ > /dev/null 2>&1 &
+```
+
+One can refer to the `gitlab-runner` [documentation](https://docs.gitlab.com/runner/executors/shell.html) by GitLab for more information on configuration.
 
 ### Testing
 
