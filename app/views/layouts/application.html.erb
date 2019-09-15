@@ -10,9 +10,9 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= javascript_pack_tag    'app', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_pack_tag    'app', 'data-turbolinks-track': 'reload' %>
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload', defer: true %>
-    <link rel="preload" as="style" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/a11b321077.js"></script>
   </head>
   <body>
     <%= render 'layouts/header' %>
@@ -21,7 +21,7 @@
         <% next if !message_type.in?(['success', 'danger', 'warning', 'info']) %>
         <% message_list.each do |message| %>
           <div class="text-center site-alert alert alert-<%= message_type %> alert-dismissible fade show">
-            <%= message %>
+            <%= message.try(:html_safe) %>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -35,6 +35,5 @@
     <%= render 'layouts/footer' %>
     <%= debug(params) if Rails.env.development? && true %>
     <%= yield :page_packs %>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" crossorigin="anonymous">
   </body>
 </html>

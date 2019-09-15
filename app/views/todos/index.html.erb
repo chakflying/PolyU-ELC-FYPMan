@@ -5,7 +5,7 @@
 <% end %>
 
 <div class="container">
-  <h2 class="display-2 aheading animated fadeInDown faster">Todo List</h2>
+  <h4 class="display-4 aheading animated fadeInDown faster">Todo List</h4>
   <% if is_admin? %>
     <h5 class="display-5">You are viewing Todo items from all departments.</h5>
   <% else %>
@@ -33,7 +33,7 @@
             <div class="invalid-feedback">Please enter Todo title.</div>
           </div>
           <div class="form-group col-md-4" style="margin:0 0 1em 0;">
-            <input name="todo[eta]" class="form-control datepicker" placeholder="Pick a Date" required>
+            <input name="todo[eta]" class="form-control" id="addTodoDate" placeholder="Pick a Date" required>
             <div class="invalid-feedback">Please choose the Todo date.</div>
           </div>
         </div>
@@ -85,7 +85,16 @@
         is_admin: is_admin?,
     }.to_json() do %>
   <div class="d-flex justify-content-center">
-    <h4 style="margin-top:2em;color:lightgrey"><i class="fas fa-sync-alt fa-spin" style="font-size:80%;"></i>&nbsp;&nbsp;Loading Todo items...</h4>
+    <div class="spinner-grow text-primary" role="status">
+    </div>
+    <div class="spinner-grow text-secondary" role="status">
+    </div>
+    <div class="spinner-grow text-success" role="status">
+    </div>
+    <div class="spinner-grow text-danger" role="status">
+    </div>
+    <div class="spinner-grow text-warning" role="status">
+    </div>
   </div>
   <% end %>
 </div>

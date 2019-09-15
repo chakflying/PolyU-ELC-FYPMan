@@ -8,7 +8,9 @@ class StudentsOldTest < ActionDispatch::IntegrationTest
     @user2 = users(:two)
     @student = students(:one)
     @department = Department.find(16)
-    %i[users departments].each { |x| Old_DB.from(x).truncate }
+    Old_DB.run("SET FOREIGN_KEY_CHECKS=0;")
+    %i[chat_rooms chat_rooms_members users departments].each { |x| Old_DB.from(x).truncate }
+    Old_DB.run("SET FOREIGN_KEY_CHECKS=1;")
   end
 
   test 'Normal create and delete students' do

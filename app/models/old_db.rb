@@ -11,6 +11,7 @@ class OldDb < ActiveRecord::Base
 
   # Simple old database sync
   def self.sync
+    @record = SyncRecord.create(started_at: Time.now)
     errors = 0
     errors_text = []
     puts('') unless Rails.env.test?
@@ -66,6 +67,7 @@ class OldDb < ActiveRecord::Base
           end
         end
       end
+      synced_universities = University.where(sync_id: OldUniversity.where(status: 1).pluck(:id))
 
       # Update Faculties according to old DB
       puts('Updating Faculties...') unless Rails.env.test?
@@ -120,6 +122,7 @@ class OldDb < ActiveRecord::Base
           end
         end
       end
+      synced_faculties = Faculty.where(sync_id: OldFaculty.where(status: 1).pluck(:id))
 
 
       # Update Departments according to old DB
@@ -197,6 +200,7 @@ class OldDb < ActiveRecord::Base
           end
         end
       end
+      synced_departments = Department.where(sync_id: OldDepartment.where(status: 1).pluck(:id))
 
       # Remove Students according to old DB
       puts('Removing deleted students...') unless Rails.env.test?
@@ -371,6 +375,8 @@ class OldDb < ActiveRecord::Base
           end
         end
       end
+      synced_students = Student.where(sync_id: OldUser.where(status: 1, role: 1).pluck(:id))
+      synced_supervisors = Supervisor.where(sync_id: OldUser.where(status: 1, role: 2).pluck(:id))
 
       # Update Relations according to old DB
       puts('Updating Relations...') unless Rails.env.test?
@@ -417,9 +423,12 @@ class OldDb < ActiveRecord::Base
         if todo.present?
           next if (todo.updated_at - old_todo.date_modified).abs < 1
 
-          if old_todo.date_modified.blank? || todo.updated_at > old_todo.date_modified
+          if old_todo.scope != '1'
+            # Remove Todo unrelated to department
+            todo.destroy
+          elsif old_todo.date_modified.blank? || todo.updated_at > old_todo.date_modified
             # Ours is newer
-            # puts("case 1") if Rails.env.development?
+            # puts("case 1") if Rails.env.test?
             old_todo.title = todo.title
             old_todo.description = todo.description
             old_todo.issued_department = (todo.department.present? ? todo.department.sync_id : nil)
@@ -431,7 +440,7 @@ class OldDb < ActiveRecord::Base
             end
           else
             # OldDb one is newer
-            # puts("case 2") if Rails.env.development?
+            # puts("case 2") if Rails.env.test?
             todo.title = old_todo.title
             todo.description = old_todo.description
             todo.department_id = department_id
@@ -446,9 +455,9 @@ class OldDb < ActiveRecord::Base
               end
             end
           end
-        else
+        elsif old_todo.scope == '1'
           # Totally new
-          puts('case 3') if Rails.env.development?
+          # puts('case 3') if Rails.env.test?
           new_todo = Todo.new(title: old_todo.title, description: old_todo.description, department_id: department_id, eta: old_todo.time, sync_id: old_todo.id)
           unless new_todo.save && old_todo.touch
             errors_text.append('[Todo] Sync failed on: ' + new_todo.attributes.to_s)
@@ -473,11 +482,130 @@ class OldDb < ActiveRecord::Base
           end
         end
       end
+      synced_todos = Todo.where(sync_id: OldTodo.where(status: 1).pluck(:id))
 
-      puts('---------------------------------------------') unless Rails.env.test?
-      errors_text.each do |text|
-        puts(text) unless Rails.env.test?
+      # Update Groups according to old DB
+      puts('Updating Groups...') unless Rails.env.test?
+      Group.where.not(sync_id: nil).where.not(sync_id: OldChatRoom.where(status: 1, room_type: 'group').pluck(:id)).each(&:destroy)
+
+      synced_groups = Group.where(sync_id: OldChatRoom.where(status: 1).pluck(:id))
+      OldChatRoom.each do |old_chat_room|
+        next if old_chat_room.status != 1 || old_chat_room.room_type != 'group'
+
+        group = synced_groups.select { |x| x.sync_id == old_chat_room.id }.first
+        if group.present?
+          next if (group.updated_at - old_chat_room.date_modified).abs < 1
+
+          if old_chat_room.date_modified.blank? || group.updated_at > old_chat_room.date_modified
+            # Nothing to update for now
+          else
+          end
+        else
+          # Totally new
+          # puts('case 3') if Rails.env.test?
+          new_group = Group.new(sync_id: old_chat_room.id)
+          unless new_group.save && old_chat_room.touch
+            errors_text.append('[Group] Sync failed on: ' + new_group.attributes.to_s)
+            errors_text.append(new_group.errors.full_messages)
+            errors += 1
+          end
+        end
       end
+
+      Group.where(sync_id: nil).each do |group|
+        # New Group from our database
+        # puts("case 4") if Rails.env.development?
+        old_group = OldChatRoom.new(room_type: 'group', status: 1)
+        if !old_group.save
+          errors_text.append('[New OldDB Group] Sync failed on: ' + old_group.values.to_s)
+          errors_text.append(old_group.errors.full_messages)
+          errors += 1
+        else
+          group.sync_id = old_group.id
+          unless group.save
+            errors_text.append('[New OldDB Group] SyncID update failed on: ' + old_group.values.to_s)
+            errors_text.append(group.errors.full_messages)
+            errors += 1
+          end
+          group.students.each do |student|
+            next if student.sync_id.blank?
+
+            old_group_member = OldChatRoomMember[chat_room_id: old_group.id, user_id: student.sync_id]
+            if old_group_member.present?
+              old_group_member.update(status: 1)
+            else
+              old_group_member = OldChatRoomMember.new(status: 1, chat_room_id: old_group.id, user_id: student.sync_id)
+              unless old_group_member.save
+                errors_text.append('[New OldDB Group Member] Sync failed on: ' + old_group_member.values.to_s)
+                errors_text.append(old_group_member.errors.full_messages)
+                errors += 1
+              end
+            end
+          end
+          group.supervisors.each do |supervisor|
+            next if supervisor.sync_id.blank?
+
+            old_group_member = OldChatRoomMember[chat_room_id: old_group.id, user_id: supervisor.sync_id]
+            if old_group_member.present?
+              old_group_member.update(status: 1)
+            else
+              old_group_member = OldChatRoomMember.new(status: 1, chat_room_id: old_group.id, user_id: supervisor.sync_id)
+              unless old_group_member.save
+                errors_text.append('[New OldDB Group Member] Sync failed on: ' + old_group_member.values.to_s)
+                errors_text.append(old_group_member.errors.full_messages)
+                errors += 1
+              end
+            end
+          end
+        end
+      end
+      synced_groups = Group.where(sync_id: OldChatRoom.where(status: 1).pluck(:id))
+
+      # Update Group members according to old DB
+      puts('Updating Group Members...') unless Rails.env.test?
+      OldChatRoomMember.all.each do |old_group_member|
+        next if old_group_member.status != 1
+        group = Group.find_by(sync_id: old_group_member.chat_room_id)
+        student = Student.find_by(sync_id: old_group_member.user_id)
+        supervisor = Supervisor.find_by(sync_id: old_group_member.user_id)
+        next if group.blank?
+
+        if student.present?
+          next if GroupsStudent.find_by(group_id: group.id, student_id: student.id).present?
+
+          groups_student = GroupsStudent.new(group_id: group.id, student_id: student.id)
+          unless groups_student.save
+            errors_text.append('[OldDB Group Member] Sync failed on: ' + groups_student.values.to_s)
+            errors_text.append(groups_student.errors.full_messages)
+            errors += 1
+          end
+        elsif supervisor.present?
+          next if GroupsSupervisor.find_by(group_id: group.id, supervisor_id: supervisor.id).present?
+
+          groups_supervisor = GroupsSupervisor.new(group_id: group.id, supervisor_id: supervisor.id)
+          unless groups_supervisor.save
+            errors_text.append('[OldDB Group Member] Sync failed on: ' + groups_supervisor.values.to_s)
+            errors_text.append(groups_supervisor.errors.full_messages)
+            errors += 1
+          end
+        end
+      end
+
+      # Remove deleted group members
+      GroupsStudent.where(group_id: synced_groups.pluck(:id), student_id: synced_students.pluck(:id)).includes(:student, :group).each do |groups_student|
+        old_group_member = OldChatRoomMember[chat_room_id: groups_student.group.sync_id, user_id: groups_student.student.sync_id]
+        if old_group_member.blank? || old_group_member.status != 1
+          groups_student.destroy
+        end
+      end
+      GroupsSupervisor.where(group_id: synced_groups.pluck(:id), supervisor_id: synced_supervisors.pluck(:id)).includes(:supervisor, :group).each do |groups_supervisor|
+        old_group_member = OldChatRoomMember[chat_room_id: groups_supervisor.group.sync_id, user_id: groups_supervisor.supervisor.sync_id]
+        if old_group_member.blank? || old_group_member.status != 1
+          groups_supervisor.destroy
+        end
+      end
+
+      @record.update(num_errors: errors, errors_text: errors_text, ended_at: Time.now)
       raise format('OldDb sync failed with %d %s.', errors, 'error'.pluralize(errors)) if (errors > 0) && Rails.env.production?
 
       return format('Completed with %d %s.', errors, 'error'.pluralize(errors))

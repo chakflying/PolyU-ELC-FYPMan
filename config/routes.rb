@@ -2,6 +2,15 @@
 
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  resources :groups
+  post    '/create_group_and_add', to: 'groups#create_group_and_add'
+  post   '/groups_students',      to: 'groups_students#create'
+  patch  '/groups_students',      to: 'groups_students#update'
+  delete '/groups_students',      to: 'groups_students#destroy'
+  post   '/groups_supervisors',      to: 'groups_supervisors#create'
+  patch  '/groups_supervisors',      to: 'groups_supervisors#update'
+  delete '/groups_supervisors',      to: 'groups_supervisors#destroy'
+
   get 'password_resets/new'
   get 'password_resets/edit'
 
@@ -37,8 +46,10 @@ Rails.application.routes.draw do
   resources :todos
 
   scope '/admin' do
-    get    '/',                     to: 'admin#activities'
-    get    '/trails',               to: 'admin#activities'
+    get    '/',                                       to: 'admin#activities'
+    get    '/trails',                                 to: 'admin#activities'
+    get    '/sync_records',                           to: 'admin#sync_records'
+    get    '/sync_records_delete_older_than',         to: 'admin#sync_records_delete_older_than'
     resources :departments
   end
   get '/departments_list_by_uni', to: 'departments#get_departments_list_by_uni'

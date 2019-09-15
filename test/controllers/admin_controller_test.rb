@@ -21,12 +21,12 @@ class AdminControllerTest < ActionDispatch::IntegrationTest
   test 'should get Admin Database Activity' do
     login_as users(:two)
     get trails_url
-    assert_select 'h2', { count: 1, text: 'Database Activity' }, 'Wrong title or more than one h2 element'
+    assert_select 'h4', { count: 1, text: 'Database Activity' }, 'Wrong title or more than one h4 element'
   end
 
   test 'should get Admin Manage Users' do
     login_as users(:two)
     get users_url
-    assert_select 'h2', { count: 1, text: 'Manage Users' }, 'Wrong title or more than one h2 element'
+    assert_select 'h4', { count: 1, text: 'Manage Users' }, 'Wrong title or more than one h4 element'
   end
 end

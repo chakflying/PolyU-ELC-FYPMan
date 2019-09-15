@@ -32,7 +32,11 @@ export default {
       this.m_items = in_items;
       var now = Date.now();
       this.m_display_items = this.m_show_past
-        ? in_items.filter(item => Date.parse(item.eta) <= now).sort(function (a, b) {return new Date(b.eta) - new Date(a.eta);})
+        ? in_items
+            .filter(item => Date.parse(item.eta) <= now)
+            .sort(function(a, b) {
+              return new Date(b.eta) - new Date(a.eta);
+            })
         : in_items.filter(item => Date.parse(item.eta) >= now);
     },
     fetchItems: function() {
@@ -49,7 +53,8 @@ export default {
             items.map(obj => {
               obj.icon_class = "fas fa-book";
               obj.icon_status = obj.color;
-              obj.eta = obj.eta.replace(/\T(.*)/, "");
+              let dateETA = new Date(obj.eta);
+              obj.eta = dateETA.toLocaleDateString("zh-CN", { timeZone: "Asia/Hong_Kong" }) + " " + dateETA.toLocaleTimeString("en-US", { timeZone: "Asia/Hong_Kong", hour: "2-digit", minute: "2-digit" });
               obj.controls = [
                 {
                   method: "edit",
@@ -70,7 +75,7 @@ export default {
             return -1;
           }
         );
-        return response_status;
+      return response_status;
     }
   },
 
@@ -115,7 +120,7 @@ export default {
     > .timeline-panel {
       border-radius: 6px;
       border: 1px solid #d4d4d4;
-      box-shadow: -1px 1px 2px rgba(100, 100, 100, 0.4);
+      // box-shadow: -1px 1px 2px rgba(100, 100, 100, 0.4);
       margin-left: 80px;
       padding: 20px;
       position: relative;
@@ -176,7 +181,10 @@ export default {
       top: 16px;
       width: 50px;
       z-index: 1;
-      box-shadow: -3px 3px 5px rgba(50, 50, 50, 0.37);
+      box-shadow: 0 0.46875rem 2.1875rem rgba(90, 97, 105, 0.1),
+        0 0.9375rem 1.40625rem rgba(90, 97, 105, 0.1),
+        0 0.25rem 0.53125rem rgba(90, 97, 105, 0.12),
+        0 0.125rem 0.1875rem rgba(90, 97, 105, 0.1);
     }
 
     .timeline-badge + .timeline-panel {
@@ -293,15 +301,37 @@ export default {
   margin-right: 7px;
 }
 
-.slide-fade-enter-active {
-  transition: all 0.3s ease;
+.slide-enter-active {
+  -moz-transition-duration: 0.3s;
+  -webkit-transition-duration: 0.3s;
+  -o-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -moz-transition-timing-function: ease-in;
+  -webkit-transition-timing-function: ease-in;
+  -o-transition-timing-function: ease-in;
+  transition-timing-function: ease-in;
 }
-.slide-fade-leave-active {
-  transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
+
+.slide-leave-active {
+  -moz-transition-duration: 0.3s;
+  -webkit-transition-duration: 0.3s;
+  -o-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -moz-transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+  -webkit-transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+  -o-transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+  transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
 }
-.slide-fade-enter,
-.slide-fade-leave-to {
-  transform: translateX(20px);
-  opacity: 0;
+
+.slide-enter-to,
+.slide-leave {
+  max-height: 100px;
+  overflow: hidden;
+}
+
+.slide-enter,
+.slide-leave-to {
+  overflow: hidden;
+  max-height: 0;
 }
 </style>

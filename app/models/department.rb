@@ -5,15 +5,15 @@ class Department < ApplicationRecord
 
   validates :name, presence: true, length: { maximum: 255 }
   validates :code, length: { maximum: 10 }
-  validates :name, uniqueness: { scope: :faculty, message: ": There is already a department in this faculty with the same name", allow_blank: true }
-  validates :code, uniqueness: { scope: :faculty, message: ": There is already a department in this faculty with the same code", allow_blank: true }
+  validates :name, uniqueness: { scope: :faculty, message: ': There is already a department in this faculty with the same name', allow_blank: true, case_sensitive: false }
+  validates :code, uniqueness: { scope: :faculty, message: ': There is already a department in this faculty with the same code', allow_blank: true, case_sensitive: false }
   has_many :students
   has_many :supervisors
   has_many :users
   has_many :todos
   belongs_to :faculty, optional: true
   delegate :university, to: :faculty, allow_nil: true
-  has_paper_trail on: [:create, :destroy, :update]
+  has_paper_trail on: %i[create destroy update]
 
   def code=(val)
     write_attribute(:code, val.upcase) unless val.blank?

@@ -48,7 +48,7 @@ class DepartmentsController < ApplicationController
   def update
     if request.patch?
       @department = Department.find(params[:id])
-      if @department.update_attributes(department_params)
+      if @department.update(department_params)
         if @department.sync_id.present?
           olddb_department_update(department_params)
         else
@@ -84,18 +84,7 @@ class DepartmentsController < ApplicationController
   end
 
   def get_departments_list_by_uni
-    @departments_list = []
-    if params[:id].blank?
-      Department.all.each do |dep|
-        @departments_list.push([dep.name, dep.id])
-      end
-    else
-      University.find(params[:id]).faculties.includes(:departments).each do |fac|
-        fac.departments.each do |dep|
-          @departments_list.push([dep.name, dep.id])
-        end
-      end
-    end
+    @departments_list = get_departments_list(params[:id])
     render json: @departments_list
   end
 

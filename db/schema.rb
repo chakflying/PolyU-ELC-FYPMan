@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_12_131342) do
+ActiveRecord::Schema.define(version: 2019_08_07_172749) do
 
   create_table "delayed_jobs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.integer "priority", default: 0, null: false
@@ -40,13 +40,39 @@ ActiveRecord::Schema.define(version: 2019_04_12_131342) do
 
   create_table "faculties", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "name", null: false
-    t.string "code", limit: 8
+    t.string "code"
     t.integer "sync_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "university_id"
     t.index ["sync_id"], name: "index_faculties_on_sync_id"
     t.index ["university_id"], name: "index_faculties_on_university_id"
+  end
+
+  create_table "groups", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.integer "sync_id"
+    t.integer "number"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["sync_id"], name: "index_groups_on_sync_id"
+  end
+
+  create_table "groups_students", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.bigint "group_id"
+    t.bigint "student_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["group_id"], name: "index_groups_students_on_group_id"
+    t.index ["student_id"], name: "index_groups_students_on_student_id"
+  end
+
+  create_table "groups_supervisors", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.bigint "group_id"
+    t.bigint "supervisor_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["group_id"], name: "index_groups_supervisors_on_group_id"
+    t.index ["supervisor_id"], name: "index_groups_supervisors_on_supervisor_id"
   end
 
   create_table "students", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
@@ -81,6 +107,15 @@ ActiveRecord::Schema.define(version: 2019_04_12_131342) do
     t.index ["sync_id"], name: "index_supervisors_on_sync_id"
   end
 
+  create_table "sync_records", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.datetime "started_at"
+    t.datetime "ended_at"
+    t.integer "num_errors"
+    t.text "errors_text"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "todos", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "title", null: false
     t.text "description"
@@ -96,7 +131,7 @@ ActiveRecord::Schema.define(version: 2019_04_12_131342) do
 
   create_table "universities", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.string "name", null: false
-    t.string "code", limit: 8
+    t.string "code"
     t.integer "sync_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -139,4 +174,8 @@ ActiveRecord::Schema.define(version: 2019_04_12_131342) do
     t.index ["transaction_id"], name: "index_versions_on_transaction_id"
   end
 
+  add_foreign_key "groups_students", "groups"
+  add_foreign_key "groups_students", "students"
+  add_foreign_key "groups_supervisors", "groups"
+  add_foreign_key "groups_supervisors", "supervisors"
 end

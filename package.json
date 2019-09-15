@@ -2,21 +2,37 @@
   "name": "poly_fyp_man",
   "private": true,
   "dependencies": {
+    "@rails/actioncable": "^6.0.0",
+    "@rails/activestorage": "^6.0.0",
+    "@rails/ujs": "^6.0.0",
     "@rails/webpacker": "^4.0",
     "animate.css": "^3.7.0",
+    "bootstrap": "^4.3.1",
     "caniuse-lite": "^1.0",
     "css-loader": "^2.1",
+    "datatables.net-bs4": "^1.10.19",
+    "datatables.net-responsive-bs4": "^2.2.3",
+    "flatpickr": "^4.6.2",
+    "jquery": "^3.4.1",
     "logrocket": "^0.6.19",
+    "popper.js": "^1.15.0",
     "resolve-url-loader": "^3.0.1",
+    "shards-ui": "^3.0.0",
+    "turbolinks": "^5.2.0",
     "vue": "^2.6.8",
     "vue-loader": "^15.7.0",
     "vue-resource": "^1.5.1",
     "vue-select": "^3.0",
     "vue-template-compiler": "^2.6.8",
     "vue-turbolinks": "^2.0.4",
+    "vuepress": "^1.0.2",
     "webpack": "^4.29.6"
   },
   "devDependencies": {
     "webpack-dev-server": "^3.2.1"
+  },
+  "scripts": {
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs"
   }
 }

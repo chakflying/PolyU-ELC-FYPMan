@@ -3,7 +3,7 @@
   <meta name="turbolinks-cache-control" content="no-cache">
 <% end %>
 <div class="container">
-  <h2 class="display-2 aheading animated fadeInDown faster">Manage Supervisors</h2>
+  <h4 class="display-4 aheading animated fadeInDown faster">Manage Supervisors</h4>
   <% if is_admin? %>
     <h5 class="display-5">You are viewing all supervisors.</h5>
     <%= content_tag 'div', '', id: 'data', data: {admin: true} %>
@@ -13,7 +13,7 @@
   <% end %>
   <br>
   <div class="card">
-  <div class="card-header pb-2">Add new Supervisor:</div>
+  <div class="card-header pb-2 pt-2">Add new Supervisor:</div>
   <div class="card-body">
   <%= form_for(@supervisor, url: supervisors_path, html: {class: "needs-validation", novalidate: true}) do |f| %>
     <%= render 'shared/error_messages', obj: @supervisor %>
@@ -22,7 +22,7 @@
         <%= f.text_field :name, class: "form-control", placeholder: "enter supervisor name", 'aria-label': "New supervisor name" %>
       </div>
       <div class="form-group col-md-4">
-        <%= f.email_field :netID, class: "form-control", placeholder: "enter supervisor netID", required: true, 'aria-label': "New supervisor netID" %>
+        <%= f.email_field :netID, class: "form-control", placeholder: "netID" + get_sup_netID_suffix, required: true, 'aria-label': "New supervisor netID" %>
         <div class="invalid-feedback">Please enter supervisor netID: netID@university</div>
       </div>
     </div>

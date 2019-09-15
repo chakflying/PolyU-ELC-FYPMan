@@ -13,7 +13,8 @@ function loadVueTodo() {
   parsed_props.items2.map(obj => {
     obj.icon_class = "fas fa-book";
     obj.icon_status = obj.color;
-    obj.eta = obj.eta.replace(/\T(.*)/, "");
+    let dateETA = new Date(obj.eta);
+    obj.eta = dateETA.toLocaleDateString("zh-CN", { timeZone: "Asia/Hong_Kong" }) + " " + dateETA.toLocaleTimeString("en-US", { timeZone: "Asia/Hong_Kong", hour: "2-digit", minute: "2-digit" });
     obj.controls = [
       {
         method: "edit",

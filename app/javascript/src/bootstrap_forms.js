@@ -15,11 +15,6 @@ document.addEventListener("turbolinks:load", function() {
     );
   });
 
-  $(".datepicker").datepicker({
-    format: "dd MM, yyyy",
-    autoclose: true
-  });
-
   $("#validation_uni").on("change", function() {
     if ($("#dp_load")) {
       $("#dp_load").remove();
@@ -31,7 +26,10 @@ document.addEventListener("turbolinks:load", function() {
       .done(function(data) {
         let selectbox = $("#validation_dp");
         selectbox.empty();
-        var list = '<option value="" disabled selected hidden>Select Department...</option><option value=""></option>';
+        var list = '<option value="" disabled selected hidden>Select Department...</option>';
+        if (data.length == 0) {
+          list += '<option disabled value="">No departments found.</option>';
+        }
         for (var j = 0; j < data.length; j++) {
           list += "<option value='" + encodeURI(data[j][1]) + "'>" + data[j][0].replace(/['"<>]+/g, "") + "</option>";
         }

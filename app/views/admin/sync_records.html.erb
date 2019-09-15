@@ -1,0 +1,33 @@
+<% provide(:title, 'Sync Records') %>
+<% content_for :head do %>
+  <meta name="turbolinks-cache-control" content="no-cache">
+<% end %>
+<div class="container">
+  <h4 class="display-4 aheading animated fadeInDown faster">Sync Records</h4>
+  <div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="syncRecordsDeleteMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Delete Records older than...
+    </button>
+    <div class="dropdown-menu" aria-labelledby="syncRecordsDeleteMenuButton">
+      <a class="dropdown-item" href="/admin/sync_records_delete_older_than?days=1">1 day</a>
+      <a class="dropdown-item" href="/admin/sync_records_delete_older_than?days=30">1 month</a>
+      <a class="dropdown-item" href="/admin/sync_records_delete_older_than?days=90">3 months</a>
+      <a class="dropdown-item" href="/admin/sync_records_delete_older_than?days=365">1 year</a>
+    </div>
+  </div>
+  <br>
+  <table class="table admin-sync-records-table table-hover" style="font-size:14px; width:100%" data-source="<%= sync_records_path(format: :json) %>">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Started At</th>
+        <th scope="col">Ended At</th>
+        <th scope="col">Duration</th>
+        <th scope="col">Errors</th>
+        <th scope="col">Errors Discription</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+</div>

@@ -31,3 +31,11 @@ $(document).on("click", ".todo-toggle-past-btn", function() {
     .first();
   icon.toggleClass("far fas");
 });
+
+import flatpickr from "flatpickr";
+import "flatpickr/dist/flatpickr.css";
+import "flatpickr/dist/themes/airbnb.css";
+document.addEventListener("turbolinks:load", () => {
+  const el = document.getElementById("addTodoDate");
+  flatpickr(el, {enableTime: true,altInput: false,shorthandCurrentMonth: true});
+});

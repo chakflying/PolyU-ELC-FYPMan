@@ -16,17 +16,24 @@
               <%= link_to "Create New User", signup_path, class: "dropdown-item"  %>
               <%= link_to "Manage Departments", departments_path, class: "dropdown-item"  %>
               <%= link_to "Database Activities", trails_path, class: "dropdown-item"  %>
+              <%= link_to "Sync Records", sync_records_path, class: "dropdown-item"  %>
             </div>
           </li>
         <% end %>
         <li class="nav-item"><%= link_to "Students", students_path, class: "nav-link"  %></li>
         <li class="nav-item"><%= link_to "Supervisors", supervisors_path, class: "nav-link"  %></li>
         <li class="nav-item"><%= link_to "Assign", assign_path, class: "nav-link"  %></li>
+        <li class="nav-item"><%= link_to "Groups", groups_path, class: "nav-link"  %></li>
         <li class="nav-item"><%= link_to "Edit My Profile", edit_user_path(current_user), class: "nav-link" %></li>
         <li class="nav-item"><%= link_to "Todo List", todos_path, class: "nav-link"  %></li>
       <% end %>
     </ul>
     <ul class="navbar-nav ml-auto">
+      <% if is_admin? && SyncRecord.last.present? %>
+        <li class="nav-item d-lg-none d-xl-flex">
+          <p class="nav-link disabled" style="margin-bottom:0;overflow:hidden;">Last Database Sync: <%= SyncRecord.last.ended_at.present? ? time_ago_in_words(SyncRecord.last.ended_at) : "Sync running" %></p>
+        </li>
+      <% end %>
       <% if logged_in? %>
         <li class="nav-item d-lg-none d-xl-flex">
           <p class="nav-link disabled" style="margin-bottom:0;overflow:hidden;">You are Logged in as <%= current_user.username %>.</p>

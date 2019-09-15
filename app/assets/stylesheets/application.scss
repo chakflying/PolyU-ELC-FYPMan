@@ -11,9 +11,7 @@
  * It is generally better to create a new file per style scope.
  *
  *= require animate.css/animate.min
- *= require datatables
  *= require_tree .
- *= require shards
  *= require_self
  *
  */

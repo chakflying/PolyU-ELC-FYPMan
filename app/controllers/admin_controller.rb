@@ -24,6 +24,19 @@ class AdminController < ApplicationController
     end
   end
 
+  def sync_records
+    respond_to do |format|
+      format.html
+      format.json { render json: SyncRecordDatatable.new(params) }
+    end
+  end
+
+  def sync_records_delete_older_than
+    num = SyncRecord.where("created_at < ?", params[:days].to_i.days.ago).delete_all
+    flash[:info] = Array(flash[:info]).push("#{num} records deleted.")
+    redirect_to sync_records_url
+  end
+
   # Function to show all users. Living here instead of the users controller for now.
   def users
     @users = User.all.includes(:department)

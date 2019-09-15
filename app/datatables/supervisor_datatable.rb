@@ -9,7 +9,7 @@ class SupervisorDatatable < AjaxDatatablesRails::ActiveRecord
       name: { source: 'Supervisor.name' },
       netID: { source: 'Supervisor.netID' },
       department: { source: 'Department.code' },
-      students: { source: 'Student.name' },
+      students: { source: 'Student.netID' },
       dt_action: { searchable: false }
     }
   end

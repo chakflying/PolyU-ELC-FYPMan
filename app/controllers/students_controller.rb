@@ -58,7 +58,7 @@ class StudentsController < ApplicationController
   def update
     if request.patch?
       @student = Student.find(params[:id])
-      if @student.update_attributes(student_params)
+      if @student.update(student_params)
         @student.sync_id ? olddb_student_update(student_params) : false
         flash[:success] = Array(flash[:success]).push('Student updated.')
         redirect_to students_url

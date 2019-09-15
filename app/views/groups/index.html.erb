@@ -1,0 +1,59 @@
+<% provide(:title, 'Manage Groups') %>
+<% content_for :head do %>
+  <meta name="turbolinks-cache-control" content="no-cache">
+<% end %>
+<% content_for :page_packs do %>
+  <%= javascript_pack_tag 'vue_create_group', 'data-turbolinks-track': 'reload', defer: true %>
+  <%= stylesheet_pack_tag 'vue_create_group', 'data-turbolinks-track': 'reload' %>
+<% end %>
+
+<div class="container">
+  <h4 class="display-4 aheading animated fadeInDown faster">Manage Groups</h4>
+  <% if is_admin? %>
+    <h5 class="display-5">You are viewing all groups.</h5>
+    <%= content_tag 'div', '', id: 'data', data: {admin: true} %>
+  <% else %>
+    <h5 class="display-5">You are viewing groups from <%= current_user.department.name %>.</h5>
+    <%= content_tag 'div', '', id: 'data', data: {admin: false} %>
+  <% end %>
+  <br>
+  <div class="card">
+    <div class="card-header pb-2 pt-2">Create new Group:</div>
+    <div class="card-body">
+      <%= content_tag :div,
+      id: 'createGroup-form-vue',
+      data: {
+        students: @students,
+        supervisors: @supervisors,
+      }.to_json() do %>
+      <div class="d-flex justify-content-center">
+        <div class="spinner-grow text-primary" role="status">
+        </div>
+        <div class="spinner-grow text-secondary" role="status">
+        </div>
+        <div class="spinner-grow text-success" role="status">
+        </div>
+        <div class="spinner-grow text-danger" role="status">
+        </div>
+        <div class="spinner-grow text-warning" role="status">
+        </div>
+      </div>
+      <% end %>
+    </div>
+  </div>
+  <br>
+  <br>
+  <table class="table groups-table table-hover" data-source="<%= groups_path(format: :json) %>" style="font-size:14px; width:100%">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Students</th>
+        <th scope="col">Supervisors</th>
+        <th scope="col">SyncID</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+</div>
