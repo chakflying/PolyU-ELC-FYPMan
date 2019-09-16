@@ -7,6 +7,6 @@ module UniversitiesHelper
     University.all.each do |uni|
       @universities_list.push([uni.name, uni.id])
     end
-    @universities_list
+    @universities_list.sort_by{|i| i[0]}
   end
 end
