@@ -143,3 +143,21 @@ input {
 input.form-control.datepicker {
   background: whitesmoke !important;
 }
+
+@media only screen and (min-width: 768px) {
+  .landing-front-logo {
+    height: 20em;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .landing-front-logo {
+    height: 15em;
+  }
+}
+
+@media only screen and (max-width: 414px) {
+  .landing-front-logo {
+    height: 10em !important;
+  }
+}
