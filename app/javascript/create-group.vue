@@ -108,7 +108,7 @@ export default {
         .getAttribute("content");
       this.$http
         .post(
-          "/create_group_and_add",
+          document.root_postfix + "/create_group_and_add",
           {
             number: this.newGroupNumber,
             student_ids: this.student_ids,

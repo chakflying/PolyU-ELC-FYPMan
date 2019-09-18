@@ -16,8 +16,8 @@
       <button v-on:click="add_student_field()" class="btn btn-secondary">
         <i class="fas fa-plus" style="font-size:79%"></i>&nbsp;Add another student
       </button>
-      <br>
-      <br>
+      <br />
+      <br />
       <label>to supervisor(s):</label>
       <template v-for="supervisor_item in supervisor_fields">
         <div class="form-group" :key="'sup'+supervisor_item">
@@ -32,8 +32,8 @@
       <button v-on:click="add_supervisor_field()" class="btn btn-secondary">
         <i class="fas fa-plus" style="font-size:79%"></i>&nbsp;Add another supervisor
       </button>
-      <br>
-      <br>
+      <br />
+      <br />
       <button
         v-on:click="submit()"
         class="btn btn-primary"
@@ -84,7 +84,7 @@ export default {
         .getAttribute("content");
       this.$http
         .post(
-          "/assign",
+          document.root_postfix + "/assign",
           {
             supervisor_netID: this.supervisor_netID_response,
             student_netID: this.student_netID_response

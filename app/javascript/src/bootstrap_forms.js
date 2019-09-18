@@ -14,31 +14,31 @@ document.addEventListener("turbolinks:load", function() {
       false
     );
   });
+});
 
-  $("#validation_uni").on("change", function() {
-    if ($("#dp_load")) {
+$(document).on("change", "#validation_uni", function() {
+  if ($("#dp_load")) {
+    $("#dp_load").remove();
+  }
+  $("#validation_dp")
+    .parent()
+    .prepend('<span id="dp_load" style="right: 3em;position: absolute;padding-top: 7px;">&nbsp;<i class="fas fa-sync-alt fa-spin" style="font-size:80%;"></i></span>');
+  $.get(document.root_postfix + "/departments_list_by_uni", { id: this.value }, "json")
+    .done(function(data) {
+      let selectbox = $("#validation_dp");
+      selectbox.empty();
+      var list = '<option value="" disabled selected hidden>Select Department...</option>';
+      if (data.length == 0) {
+        list += '<option disabled value="">No departments found.</option>';
+      }
+      for (var j = 0; j < data.length; j++) {
+        list += "<option value='" + encodeURI(data[j][1]) + "'>" + data[j][0].replace(/['"<>]+/g, "") + "</option>";
+      }
+      selectbox.html(list);
       $("#dp_load").remove();
-    }
-    $("#validation_dp")
-      .parent()
-      .prepend('<span id="dp_load" style="right: 3em;position: absolute;padding-top: 7px;">&nbsp;<i class="fas fa-sync-alt fa-spin" style="font-size:80%;"></i></span>');
-    $.get("/departments_list_by_uni", { id: this.value }, "json")
-      .done(function(data) {
-        let selectbox = $("#validation_dp");
-        selectbox.empty();
-        var list = '<option value="" disabled selected hidden>Select Department...</option>';
-        if (data.length == 0) {
-          list += '<option disabled value="">No departments found.</option>';
-        }
-        for (var j = 0; j < data.length; j++) {
-          list += "<option value='" + encodeURI(data[j][1]) + "'>" + data[j][0].replace(/['"<>]+/g, "") + "</option>";
-        }
-        selectbox.html(list);
-        $("#dp_load").remove();
-      })
-      .fail(function() {
-        $("#dp_load").append("&nbsp;<small>check your internet connection.</small>");
-      });
-    $('#validation_dp').prop('disabled', false); 
-  });
+    })
+    .fail(function() {
+      $("#dp_load").append("&nbsp;<small>check your internet connection.</small>");
+    });
+  $("#validation_dp").prop("disabled", false);
 });

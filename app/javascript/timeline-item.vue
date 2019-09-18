@@ -48,7 +48,7 @@ export default {
         .getAttribute("content");
       if (confirm("Do you want to delete this Todo item?")) {
         this.$http
-          .delete("/todos/" + this.item.id, {
+          .delete(document.root_postfix + "/todos/" + this.item.id, {
             body: { id: this.item.id },
             headers: { "X-CSRF-Token": csrfToken }
           })
@@ -74,7 +74,7 @@ export default {
     },
 
     edit: function(event) {
-      Turbolinks.visit("/todos/" + this.item.id + "/edit");
+      Turbolinks.visit(document.root_postfix + "/todos/" + this.item.id + "/edit");
     }
   },
 

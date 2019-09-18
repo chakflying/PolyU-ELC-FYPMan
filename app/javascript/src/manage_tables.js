@@ -298,7 +298,7 @@ $(document).on("click", ".dt-btn-rm", function() {
   $(this).html('<i class="fas fa-sync-alt fa-spin"></i>');
 
   $.ajax({
-    url: "/unassign",
+    url: document.root_postfix + "/unassign",
     type: "POST",
     context: this,
     headers: { "X-CSRF-Token": csrfToken },
@@ -352,7 +352,7 @@ $(document).on("click", ".dt-btn-gp-rm-stu", function() {
   $(this).html('<i class="fas fa-sync-alt fa-spin"></i>');
 
   $.ajax({
-    url: "/groups_students",
+    url: document.root_postfix + "/groups_students",
     type: "DELETE",
     context: this,
     headers: { "X-CSRF-Token": csrfToken },
@@ -408,7 +408,7 @@ $(document).on("click", ".dt-btn-gp-rm-sup", function() {
   $(this).html('<i class="fas fa-sync-alt fa-spin"></i>');
 
   $.ajax({
-    url: "/groups_supervisors",
+    url: document.root_postfix + "/groups_supervisors",
     type: "DELETE",
     context: this,
     headers: { "X-CSRF-Token": csrfToken },
@@ -464,7 +464,7 @@ $(document).on("click", ".dt-btn-rmundo", function() {
   $(this).html('<i class="fas fa-sync-alt fa-spin"></i>');
 
   $.ajax({
-    url: "/ajaxassign",
+    url: document.root_postfix + "/ajaxassign",
     type: "POST",
     context: this,
     headers: { "X-CSRF-Token": csrfToken },
@@ -511,7 +511,7 @@ $(document).on("click", ".dt-btn-gp-rm-stu-undo", function() {
   $(this).html('<i class="fas fa-sync-alt fa-spin"></i>');
 
   $.ajax({
-    url: "/groups_students",
+    url: document.root_postfix + "/groups_students",
     type: "POST",
     context: this,
     headers: { "X-CSRF-Token": csrfToken },
@@ -555,7 +555,7 @@ $(document).on("click", ".dt-btn-gp-rm-sup-undo", function() {
   $(this).html('<i class="fas fa-sync-alt fa-spin"></i>');
 
   $.ajax({
-    url: "/groups_supervisors",
+    url: document.root_postfix + "/groups_supervisors",
     type: "POST",
     context: this,
     headers: { "X-CSRF-Token": csrfToken },
@@ -599,7 +599,7 @@ $(document).on("click", ".dt-btn-gp-rm", function() {
   $(this).html('<i class="fas fa-sync-alt fa-spin"></i>');
 
   $.ajax({
-    url: "/groups/" + this.dataset.id,
+    url: document.root_postfix + "/groups/" + this.dataset.id,
     type: "DELETE",
     context: this,
     headers: { "X-CSRF-Token": csrfToken },

@@ -54,7 +54,7 @@ export default {
         .getAttribute("content");
       this.$http
         .post(
-          "/groups_students",
+          document.root_postfix + "/groups_students",
           {
             group_id: this.$props.group_id,
             student_id: this.student_id
@@ -87,7 +87,7 @@ export default {
         .getAttribute("content");
       this.$http
         .post(
-          "/groups_supervisors",
+          document.root_postfix + "/groups_supervisors",
           {
             group_id: this.$props.group_id,
             supervisor_id: this.supervisor_id

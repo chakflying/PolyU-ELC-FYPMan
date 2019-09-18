@@ -38,3 +38,8 @@ LogRocket.init("tv4tfc/polyufypman-staging", {
     }
   }
 });
+
+document.addEventListener("turbolinks:load", function () {
+  document.root_postfix = "/fypweb2";
+  document.root_postfix = '';
+});

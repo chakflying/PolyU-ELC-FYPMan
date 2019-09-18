@@ -44,7 +44,7 @@ export default {
         .querySelector('meta[name="csrf-token"]')
         .getAttribute("content");
       let response_status = this.$http
-        .get("/todos", {}, { headers: { "X-CSRF-Token": csrfToken } })
+        .get(document.root_postfix + "/todos", {}, { headers: { "X-CSRF-Token": csrfToken } })
         .then(
           response => {
             // get status
