@@ -16,6 +16,9 @@ module PolyFYPman
 
     config.time_zone = 'Hong Kong'
 
+    # Use custom error pages
+    config.exceptions_app = self.routes
+
     # Sentry Config
     config.filter_parameters << :password
     Raven.configure do |config|

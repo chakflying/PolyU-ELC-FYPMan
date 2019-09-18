@@ -57,6 +57,6 @@ Rails.application.routes.draw do
   get '/not_found', to: 'errors#show', code: 404
 
   %w[404 422 500 503].each do |code|
-    get code, to: 'errors#show', code: code
+    match code, to: 'errors#show', code: code, via: :all
   end
 end

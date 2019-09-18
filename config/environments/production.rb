@@ -119,8 +119,5 @@ Rails.application.configure do
   Old_DB.extension(:connection_validator)
   Old_DB.pool.connection_validation_timeout = 300
 
-  # Use custom error pages
-  config.exceptions_app = routes
-
   config.session_expires_after = 3.hours
 end
