@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class DepartmentsController < ApplicationController
-  before_action :authenticate_admin_404!
+  before_action :authenticate_admin_404!, only: %i[index create edit update destroy]
 
   def index
     @departments = Department.all.includes(:faculty).references(:faculty)
