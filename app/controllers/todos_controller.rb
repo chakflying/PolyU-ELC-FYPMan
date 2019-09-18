@@ -60,7 +60,7 @@ class TodosController < ApplicationController
       if @todo.update(todo_params)
         @todo.sync_id ? olddb_todo_update(todo_params, @todo.sync_id) : false
         flash[:success] = Array(flash[:success]).push('Todo item updated.')
-        redirect_to '/todos'
+        redirect_to todos_url
       else
         if request.params[:todo][:eta].blank?
           flash.now[:danger] = Array(flash.now[:danger]).push('Todo date cannot be empty. Please set date.')

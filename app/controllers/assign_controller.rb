@@ -117,7 +117,7 @@ class AssignController < ApplicationController
 
       flash[:success] = Array(flash[:success]).push('All students assigned successfully.')
       flash.delete(:assign_lists)
-      redirect_to '/batch_assign'
+      redirect_to batch_assign_url
     end
   end
 
