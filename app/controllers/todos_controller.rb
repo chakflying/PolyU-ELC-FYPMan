@@ -107,6 +107,6 @@ class TodosController < ApplicationController
     @old_todo = OldTodo[sync_id]
     return if @old_todo.blank?
 
-    @old_todo.update(status: 2)
+    @old_todo.update(status: 0)
   end
 end

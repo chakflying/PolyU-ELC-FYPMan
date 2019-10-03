@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class GroupsSupervisorsController < ApplicationController
+  # GroupsSupervisorsController mainly serves as the API for handling adding and removing supervisors in groups,
+  # and the corresponding actions in Old DB.
   before_action :authenticate_user!
 
   def show; end
@@ -55,7 +57,7 @@ class GroupsSupervisorsController < ApplicationController
     return if Group.find(params[:group_id]).sync_id.blank? || Supervisor.find(params[:supervisor_id]).sync_id.blank?
 
     @old_group_member = OldChatRoomMember[chat_room_id: Group.find(params[:group_id]).sync_id, user_id: Supervisor.find(params[:supervisor_id]).sync_id]
-    @old_group_member.update(status: 2) if @old_group_member.present?
+    @old_group_member.update(status: 0) if @old_group_member.present?
   end
 
   private

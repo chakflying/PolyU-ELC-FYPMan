@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
 class SupervisorsController < ApplicationController
+  # SupervisorsController handles various actions in the supervisors page, batch importing supervisors, and
+  # the corresponding actions in Old DB.
   before_action :authenticate_user!
+
   def index
     @departments_list = get_departments_list if is_admin?
     @universities_list = get_universities_list if is_admin?
@@ -183,7 +186,7 @@ class SupervisorsController < ApplicationController
     @old_supervisor = OldUser[sync_id]
     return if @old_supervisor.blank?
 
-    @old_supervisor.update(status: 2)
+    @old_supervisor.update(status: 0)
   end
 
   def olddb_supervisor_removeStudent(stu_netID, sup_netID)

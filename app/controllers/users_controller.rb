@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
+  # UserController handles various actions concerning users of this site, and functions used for access control.
   before_action :authenticate_user!, only: %i[edit update destroy]
   before_action :correct_user!, only: %i[edit update destroy]
   before_action :authenticate_admin_404!, only: %i[new create destroy]

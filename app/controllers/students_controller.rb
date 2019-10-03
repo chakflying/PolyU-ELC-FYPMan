@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
 class StudentsController < ApplicationController
+  # StudentsController handles various actions of the students page, batch importing students, and
+  # the corresponding actions in Old DB.
   before_action :authenticate_user!
+
   def index
     @departments_list = get_departments_list if is_admin?
     @universities_list = get_universities_list if is_admin?
@@ -193,7 +196,7 @@ class StudentsController < ApplicationController
     @old_student = OldUser[sync_id]
     return if @old_student.blank?
 
-    @old_student.update(status: 2)
+    @old_student.update(status: 0)
   end
 
   def olddb_student_removeSupervisor(stu_netID, sup_netID)

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class SessionsController < ApplicationController
+  # SessionsController handles login and logout related actions.
   def new; end
 
   def create

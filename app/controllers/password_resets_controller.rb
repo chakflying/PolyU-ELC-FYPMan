@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class PasswordResetsController < ApplicationController
+  # PasswordResetsController handles various actions for creating and sending password reset instructions.
   before_action :get_user,   only: %i[edit update]
   before_action :valid_user, only: %i[edit update]
   before_action :check_expiration, only: %i[edit update]

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ErrorsController < ApplicationController
+  # ErrorsController is used to show custom error pages.
+
   def show
     status_code = params[:code] || '500'
     case status_code

@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
 class AssignController < ApplicationController
+  # AssignController handles various actions in the assign page and the corresponding actions in Old DB.
   before_action :authenticate_user!
 
-  # Assign Function with the relevant existence checks. Parameters tailored for vue component with variable number of students submitted.
+  # Assign Function with the relevant existence checks. Parameters tailored for the vue component
+  # with variable number of students and supervisors submitted.
   def assign
     # Pass data to Vue frontend
     if is_admin?
@@ -35,7 +37,7 @@ class AssignController < ApplicationController
         sup_ids.each do |sup_id|
           sup = Supervisor.find_by(netID: sup_id)
           if stu.supervisors.find_by(netID: sup_id)
-            flash[:info] = Array(flash[:info]).push('Student ' + stu_id + ' already assigned to '+ sup_id +'.')
+            flash[:info] = Array(flash[:info]).push('Student ' + stu_id + ' already assigned to ' + sup_id + '.')
           else
             stu.supervisors << sup
             olddb_assign(stu_id, sup_id)
@@ -47,9 +49,10 @@ class AssignController < ApplicationController
     end
   end
 
+  # Currently used in the Undo button of the Assign table after user clicking undo.
   def ajaxassign
-    sup_netid = CGI::unescape(request.params[:supervisor_netID])
-    stu_netid = CGI::unescape(request.params[:student_netID])
+    sup_netid = CGI.unescape(request.params[:supervisor_netID])
+    stu_netid = CGI.unescape(request.params[:student_netID])
     stu = Student.find_by(netID: stu_netid)
     sup = Supervisor.find_by(netID: sup_netid)
     if !stu || !sup
@@ -64,8 +67,8 @@ class AssignController < ApplicationController
 
   # Ajax Function to unassign student/supervisor.
   def unassign
-    sup_netid = CGI::unescape(request.params[:supervisor_netID])
-    stu_netid = CGI::unescape(request.params[:student_netID])
+    sup_netid = CGI.unescape(request.params[:supervisor_netID])
+    stu_netid = CGI.unescape(request.params[:student_netID])
     stu = Student.find_by(netID: stu_netid)
     sup = Supervisor.find_by(netID: sup_netid)
     if !stu || !sup
@@ -138,7 +141,7 @@ class AssignController < ApplicationController
     @old_supervisor = OldUser.first(net_id: sup_netID)
     if @old_student && @old_supervisor
       if @old_rel = OldRelation.first(student_net_id: @old_student.id, supervisor_net_id: @old_supervisor.id)
-        @old_rel.update(status: 2)
+        @old_rel.update(status: 0)
       end
     end
   end

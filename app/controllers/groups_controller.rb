@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class GroupsController < ApplicationController
+  # GroupsController handles the various actions in the groups page, the ajax create form in the groups page,
+  # and the corresponding actions in Old DB.
   before_action :authenticate_user!
   before_action :set_group, only: %i[show edit update destroy]
 
@@ -132,7 +134,7 @@ class GroupsController < ApplicationController
     @old_group = OldChatRoom[sync_id]
     return if @old_group.blank?
 
-    @old_group.update(status: 2)
+    @old_group.update(status: 0)
   end
 
   def olddb_group_add_member(chat_room_id:, user_id:)
@@ -147,7 +149,7 @@ class GroupsController < ApplicationController
   def olddb_group_remove_member(chat_room_id:, user_id:)
     @old_group_member = OldChatRoomMember[chat_room_id: chat_room_id, user_id: user_id]
     if @old_group_member.present?
-      @old_group_member.update(status: 2)
+      @old_group_member.update(status: 0)
     end    
   end
 

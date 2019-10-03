@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class DepartmentsController < ApplicationController
+  # DepartmentsController handles various actions used by the admin for managing departments, the ajax function of getting
+  # departments list, and the corresponding actions in Old DB.
   before_action :authenticate_admin_404!, only: %i[index create edit update destroy]
 
   def index
@@ -104,6 +106,6 @@ class DepartmentsController < ApplicationController
     @old_department = OldDepartment[sync_id]
     return if @old_department.blank?
 
-    @old_department.update(status: 2)
+    @old_department.update(status: 0)
   end
 end
