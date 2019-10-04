@@ -43,6 +43,6 @@ class AssignOldTest < ActionDispatch::IntegrationTest
       post unassign_path, params: { student_netID: 'stupid01', supervisor_netID: 'stupid02' }
     end
 
-    assert_equal 2, OldRelation[student_net_id: OldUser[net_id: 'stupid01'].id].status
+    assert_equal 0, OldRelation[student_net_id: OldUser[net_id: 'stupid01'].id].status
   end
 end

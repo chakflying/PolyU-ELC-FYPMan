@@ -49,6 +49,6 @@ class GroupsOldTest < ActionDispatch::IntegrationTest
     end
 
     delete groups_students_path, params: { groups_student: { group_id: Group.find_by(number: 33).id, student_id: Student.first.id } }
-    assert_equal 2, OldChatRoomMember[chat_room_id: Group.find_by(number: 33).sync_id, user_id: Student.first.sync_id].status
+    assert_equal 0, OldChatRoomMember[chat_room_id: Group.find_by(number: 33).sync_id, user_id: Student.first.sync_id].status
   end
 end

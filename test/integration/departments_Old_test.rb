@@ -57,6 +57,6 @@ class DepartmentOldTest < ActionDispatch::IntegrationTest
       follow_redirect! while redirect?
     end
 
-    assert_equal 2, OldDepartment.last.status
+    assert_equal 0, OldDepartment.last.status
   end
 end

@@ -37,6 +37,6 @@ class StudentsOldTest < ActionDispatch::IntegrationTest
       follow_redirect! while redirect?
     end
 
-    assert_equal 2, OldUser[net_id: 'stupid01'].status
+    assert_equal 0, OldUser[net_id: 'stupid01'].status
   end
 end

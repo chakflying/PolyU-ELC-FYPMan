@@ -29,7 +29,7 @@ class TodosOldTest < ActionDispatch::IntegrationTest
       follow_redirect! while redirect?
     end
 
-    assert_equal 2, OldTodo[title: 'Stupid You'].status
+    assert_equal 0, OldTodo[title: 'Stupid You'].status
   end
 
   test 'Create and delete non department todos' do
@@ -51,6 +51,6 @@ class TodosOldTest < ActionDispatch::IntegrationTest
       follow_redirect! while redirect?
     end
 
-    assert_equal 2, OldTodo[title: 'Stupid Everyone'].status
+    assert_equal 0, OldTodo[title: 'Stupid Everyone'].status
   end
 end
