@@ -56,8 +56,10 @@ The staging server has a `gitlab-runner` running, which will poll for pushs to t
 The runner is configured to run as the user `michaelchan`. The command used to start it is
 
 ```bash
-setsid nohup gitlab-runner run --user michaelchan --working-directory /home/michaelchan/PolyFYPman/ > /dev/null 2>&1 &
+sudo /usr/local/bin/gitlab-runner run --working-directory /home/michaelchan/ --config /etc/gitlab-runner/config.toml --service gitlab-runner --syslog=true --user michaelchan
 ```
+
+The config file stored the token registered from the Gitlab CI/CD management page, and various settings like build directory.
 
 One can refer to the `gitlab-runner` [documentation](https://docs.gitlab.com/runner/executors/shell.html) by GitLab for more information on configuration.
 
