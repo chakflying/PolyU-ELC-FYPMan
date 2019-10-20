@@ -8,7 +8,7 @@ class GroupsOldTest < ActionDispatch::IntegrationTest
     @user2 = users(:two)
     @student = students(:one)
     @supervisor = supervisors(:one)
-    @department = Department.find(16)
+    @department = departments(:one)
     Old_DB.run('SET FOREIGN_KEY_CHECKS=0;')
     %i[chat_rooms chat_rooms_members users departments].each { |x| Old_DB.from(x).truncate }
     Old_DB.run('SET FOREIGN_KEY_CHECKS=1;')

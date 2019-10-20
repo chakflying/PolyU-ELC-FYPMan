@@ -17,7 +17,7 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
                                          email: 'user@example.com',
                                          password: 'password',
                                          password_confirmation: 'password',
-                                         department_id: 16 } }
+                                         department_id: departments(:one).id } }
     end
     follow_redirect!
     assert_select 'h4', { count: 1, text: 'User Profile' }, 'Wrong title or more than one h4 element after Signed up'

@@ -12,6 +12,6 @@ class UsersEditProfileTest < ActionDispatch::IntegrationTest
     login_as users(:one)
     assert is_logged_in?
 
-    assert_raise(ActionController::RoutingError) { get edit_user_path(2) }
+    assert_raise(ActionController::RoutingError) { get edit_user_path(users(:two).id) }
   end
 end

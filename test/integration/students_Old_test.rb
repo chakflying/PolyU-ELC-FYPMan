@@ -6,8 +6,7 @@ class StudentsOldTest < ActionDispatch::IntegrationTest
   def setup
     @user = users(:one)
     @user2 = users(:two)
-    @student = students(:one)
-    @department = Department.find(16)
+    @department = departments(:one)
     Old_DB.run("SET FOREIGN_KEY_CHECKS=0;")
     %i[chat_rooms chat_rooms_members users departments].each { |x| Old_DB.from(x).truncate }
     Old_DB.run("SET FOREIGN_KEY_CHECKS=1;")
@@ -24,12 +23,12 @@ class StudentsOldTest < ActionDispatch::IntegrationTest
 
     get students_path
     assert_difference 'OldUser.count', 1 do
-      post students_path, params: { student: { name: 'Stupid Me', netID: 'stupid01', fyp_year: '2018-2019', department_id: 16 } }
+      post students_path, params: { student: { name: 'Stupid Me', netID: 'stupid01', fyp_year: '2018-2019', department_id: @department.id } }
       follow_redirect! while redirect?
     end
 
-    @student = Student.last
-    patch student_path(@student), params: { student: { name: 'Stupid You', netID: 'stupid01', fyp_year: '2018-2019', department_id: 16 } }
+    @student = Student.find_by(name: 'Stupid Me')
+    patch student_path(@student), params: { student: { name: 'Stupid You', netID: 'stupid01', fyp_year: '2018-2019', department_id: @department.id } }
     assert_equal 'Stupid You', OldUser.last.common_name
 
     assert_difference 'OldUser.count', 0 do
@@ -37,6 +36,6 @@ class StudentsOldTest < ActionDispatch::IntegrationTest
       follow_redirect! while redirect?
     end
 
-    assert_equal 0, OldUser[net_id: 'stupid01'].status
+    assert_equal 0, OldUser[common_name: 'Stupid You'].status
   end
 end

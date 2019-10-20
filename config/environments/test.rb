@@ -54,4 +54,7 @@ Rails.application.configure do
   end
 
   config.session_expires_after = 5.minutes
+
+  # Disable Rack-Attack for correct tests
+  Rack::Attack.enabled = false
 end

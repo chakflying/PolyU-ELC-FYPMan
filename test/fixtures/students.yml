@@ -1,15 +1,13 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  id: 1
   name: John Doe
   netID: johndoe01
-  department_id: 16
+  department: one
   fyp_year: 2018-2019
 
 two:
-  id: 2
   name: Tipsy Timmy
   netID: ttimmy01
-  department_id: 16
+  department: one
   fyp_year: 2018-2019

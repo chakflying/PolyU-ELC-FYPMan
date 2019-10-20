@@ -1,11 +1,9 @@
 one:
-  id: 16
   name: Department of Industrial and Systems Engineering
   code: ISE
   faculty: one
 
 two:
-  id: 13
   name: Department of Computing
   code: COMP
   faculty: one

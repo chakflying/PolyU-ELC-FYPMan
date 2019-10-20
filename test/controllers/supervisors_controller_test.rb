@@ -27,7 +27,7 @@ class SupervisorsControllerTest < ActionDispatch::IntegrationTest
 
   test 'should get edit supervisor' do
     login_as users(:one)
-    get edit_supervisor_path(1)
+    get edit_supervisor_path(supervisors(:one))
     assert_select 'h4', { count: 1, text: 'Edit Supervisor' }, 'Wrong title or more than one h4 element'
   end
 

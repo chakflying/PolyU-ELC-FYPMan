@@ -13,24 +13,24 @@ class OldDbSyncTest < ActionDispatch::IntegrationTest
 
   test 'OldDb student modified' do
     Timecop.travel 3.second.since
-    john = OldUser[1]
+    john = OldUser[students(:one).sync_id]
     john.common_name = 'John Dee'
     john.save
 
     OldDb.sync
 
-    assert_equal 'John Dee', Student.find(1).name
+    assert_equal 'John Dee', Student.find(students(:one).id).name
   end
 
   test 'NewDb student modified' do
     Timecop.travel 3.second.since
-    john = Student.find(1)
+    john = Student.find(students(:one).id)
     john.name = 'John Derp'
     john.save
 
     OldDb.sync
 
-    assert_equal 'John Derp', OldUser[1].common_name
+    assert_equal 'John Derp', OldUser[john.sync_id].common_name
   end
 
   test 'NewDb supervisor modified' do

@@ -21,7 +21,7 @@ class StudentsController < ApplicationController
   end
 
   def create
-    if !params[:student][:netID].include?("@")
+    if params[:student][:netID].present? && !params[:student][:netID].include?("@")
       params[:student][:netID] += get_stu_netID_suffix()
     end
     @student = Student.new(student_params)
@@ -63,6 +63,9 @@ class StudentsController < ApplicationController
 
   def update
     if request.patch?
+      if params[:student][:netID].present? && !params[:student][:netID].include?("@")
+        params[:student][:netID] += get_stu_netID_suffix()
+      end
       @student = Student.find(params[:id])
       if @student.update(student_params)
         @student.sync_id ? olddb_student_update(student_params) : false

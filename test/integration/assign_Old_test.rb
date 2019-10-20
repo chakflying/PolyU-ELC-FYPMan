@@ -6,7 +6,7 @@ class AssignOldTest < ActionDispatch::IntegrationTest
   def setup
     @user = users(:one)
     @user2 = users(:two)
-    @department = Department.find(16)
+    @department = departments(:one)
     Old_DB.run("SET FOREIGN_KEY_CHECKS=0;")
     %i[chat_rooms chat_rooms_members users departments supervises].each { |x| Old_DB.from(x).truncate }
     Old_DB.run("SET FOREIGN_KEY_CHECKS=1;")
@@ -23,26 +23,26 @@ class AssignOldTest < ActionDispatch::IntegrationTest
 
     get supervisors_path
     assert_difference 'OldUser.count', 1 do
-      post supervisors_path, params: { supervisor: { name: 'Stupid Me', netID: 'stupid02', department_id: 16 } }
+      post supervisors_path, params: { supervisor: { name: 'Stupid Me', netID: 'stupid02', department_id: @department.id } }
       follow_redirect! while redirect?
     end
-    @supervisor = Supervisor.last
+    @supervisor = Supervisor.find_by(name: 'Stupid Me')
     get students_path
     assert_difference 'OldUser.count', 1 do
-      post students_path, params: { student: { name: 'Stupid You', netID: 'stupid01', fyp_year: '2018-2019', department_id: 16 } }
+      post students_path, params: { student: { name: 'Stupid You', netID: 'stupid01', fyp_year: '2018-2019', department_id: @department.id } }
       follow_redirect! while redirect?
     end
-    @student = Student.last
+    @student = Student.find_by(name: 'Stupid You')
 
     get assign_path
     assert_difference 'OldRelation.count', 1 do
-      post assign_path, params: { student_netID: ['stupid01'], supervisor_netID: ['stupid02'] }
+      post assign_path, params: { student_netID: [@student.netID], supervisor_netID: [@supervisor.netID] }
     end
 
     assert_difference 'OldRelation.count', 0 do
-      post unassign_path, params: { student_netID: 'stupid01', supervisor_netID: 'stupid02' }
+      post unassign_path, params: { student_netID: @student.netID, supervisor_netID: @supervisor.netID }
     end
 
-    assert_equal 0, OldRelation[student_net_id: OldUser[net_id: 'stupid01'].id].status
+    assert_equal 0, OldRelation[student_net_id: OldUser[@student.sync_id].id].status
   end
 end

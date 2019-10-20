@@ -37,7 +37,7 @@ class StudentsControllerTest < ActionDispatch::IntegrationTest
 
   test 'should get edit student' do
     login_as users(:one)
-    get edit_student_path(1)
+    get edit_student_path(students(:one))
     assert_select 'h4', { count: 1, text: 'Edit Student' }, 'Wrong title or more than one h4 element'
   end
 

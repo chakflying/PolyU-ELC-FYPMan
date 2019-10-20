@@ -20,7 +20,7 @@ class SupervisorsController < ApplicationController
   end
 
   def create
-    if !params[:supervisor][:netID].include?("@")
+    if params[:supervisor][:netID].present? && !params[:supervisor][:netID].include?("@")
       params[:supervisor][:netID] += get_sup_netID_suffix()
     end
     @supervisor = Supervisor.new(supervisor_params)
@@ -58,6 +58,9 @@ class SupervisorsController < ApplicationController
 
   def update
     if request.patch?
+      if params[:supervisor][:netID].present? && !params[:supervisor][:netID].include?("@")
+        params[:supervisor][:netID] += get_sup_netID_suffix()
+      end
       @supervisor = Supervisor.find(params[:id])
       if @supervisor.update(supervisor_params)
         @supervisor.sync_id ? olddb_supervisor_update(supervisor_params) : false

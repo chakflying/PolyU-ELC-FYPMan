@@ -18,6 +18,6 @@ class ActiveSupport::TestCase
   end
 
   def login_as(user)
-    post login_path, params: { session: { username: user.email, password: 'password' } }
+    post login_path, params: { session: { username: user.email, password: 'password', commit: 'Log In' } }
   end
 end
