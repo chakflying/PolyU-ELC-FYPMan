@@ -20,6 +20,9 @@ class SupervisorsController < ApplicationController
   end
 
   def create
+    if !params[:supervisor][:netID].include?("@")
+      params[:supervisor][:netID] += get_sup_netID_suffix()
+    end
     @supervisor = Supervisor.new(supervisor_params)
     if Supervisor.find_by(netID: params[:supervisor][:netID])
       flash.now[:danger] = Array(flash.now[:danger]).push('Supervisor with this netID already exist.')

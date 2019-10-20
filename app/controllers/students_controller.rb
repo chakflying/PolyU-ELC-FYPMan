@@ -21,6 +21,9 @@ class StudentsController < ApplicationController
   end
 
   def create
+    if !params[:student][:netID].include?("@")
+      params[:student][:netID] += get_stu_netID_suffix()
+    end
     @student = Student.new(student_params)
     if Student.find_by(netID: params[:student][:netID])
       flash.now[:danger] = Array(flash.now[:danger]).push('Student with this netID already exist.')

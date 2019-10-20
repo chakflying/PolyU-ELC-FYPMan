@@ -22,8 +22,8 @@
         <%= f.text_field :name, class: "form-control", placeholder: "enter supervisor name", 'aria-label': "New supervisor name" %>
       </div>
       <div class="form-group col-md-4">
-        <%= f.email_field :netID, class: "form-control", placeholder: "netID" + get_sup_netID_suffix, required: true, 'aria-label': "New supervisor netID" %>
-        <div class="invalid-feedback">Please enter supervisor netID: netID@university</div>
+        <%= f.text_field :netID, class: "form-control", placeholder: "netID", required: true, 'aria-label': "New supervisor netID" %>
+        <div class="invalid-feedback">Please enter supervisor netID.</div>
       </div>
     </div>
     <% if is_admin? %>
