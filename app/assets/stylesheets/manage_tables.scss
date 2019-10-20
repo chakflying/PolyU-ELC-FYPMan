@@ -1,3 +1,24 @@
+@media only screen and (max-width: 414px) {
+  .table {
+    font-size: 0.5em;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .table {
+    font-size: 0.7em;
+  }
+}
+
+.table {
+  font-size: 0.8em;
+  width: 100% !important;
+}
+
+.table div {
+  align-items: center;
+}
+
 table.dataTable > tbody > tr.child ul.dtr-details {
   display: block !important;
 }
@@ -71,4 +92,16 @@ table.dataTable td:first-child::before {
 .dt-gp-mem-row {
   margin-top: 0.4em;
   margin-bottom: 0.4em;
+}
+
+.dt-btn-gp-rm-stu {
+  width: 38px;
+  padding-left: 7px;
+  padding-right: 7px;
+}
+
+.dt-btn-gp-rm-sup {
+  width: 38px;
+  padding-left: 7px;
+  padding-right: 7px;
 }
